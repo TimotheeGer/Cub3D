@@ -6,307 +6,75 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/26 16:03:25 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/01 15:32:20 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../cub3D.h"
 
-int     ft_quit(void)
+int     ft_quit(int a, char *str)
 {
+    if (a == 0)
+        ft_putstr(str);
     exit(0);
 }
 
-int     ft_checkpara(char *str, char c)
+int     ft_checkargu(char *arg)
 {
     int i;
+    int j;
 
-    i = 0;
-    while (str[i])
+    i = ft_strlen(arg) - 4;
+    j = 0;
+
+    if (arg[i] == '.')
     {
-        if (str[i] == c)
+        if ((ft_strncmp(&arg[i], ".cub", 4) == 0))
             return (1);
-        i++;
     }
     return (0);
 }
 
-int     ft_checkparatextu(char *str, char *indic)
+void    ft_checkpara_isok(t_para *par)
 {
-    if (ft_strnstr(str, indic, ft_strlen(str)))
-        return (1);
-    else
-        return (0);
+    if (par->index.R != 1)
+        ft_quit(0, "Missing resolution or too much resolution.\n");
+    if (par->index.NO != 1)
+        ft_quit(0, "Missing ./path_NO or too much ./path_NO.\n");
+    if (par->index.SO != 1)
+        ft_quit(0, "Missing ./path_SO or too much ./path_SO.\n");
+    if (par->index.WE != 1)
+        ft_quit(0, "Missing ./path_WE or too much ./path_WE.\n");
+    if (par->index.EA != 1)
+        ft_quit(0, "Missing ./path_EA or too much ./path_EA.\n");
+    if (par->index.SP != 1)
+        ft_quit(0, "Missing ./path_SP or too much ./path_SP.\n");
+    if (par->index.F != 1)
+        ft_quit(0, "Missing RGB floor or too much RGB floor.\n");
+    if (par->index.C != 1)
+        ft_quit(0, "Missing RGB ceil or too much RGB ceil.\n");
+    if (par->indexmap != 1)
+        ft_quit(0, "Missing Map.\n");
 }
 
-void    ft_get_R(t_para *par, char *line)
+int     main(int ac, char **av)
 {
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'R')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 2)
-        ft_quit();
-    else
-    {
-        par->Rx = ft_atoi(strs[0]);
-        par->Ry = ft_atoi(strs[1]);
-    }
-    if (par->Rx < 0 || par->Ry < 0)
-        ft_quit();
-}
-
-void    ft_get_F(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'F')
-            strs = ft_split(&line[i], ',');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 3)
-        ft_quit();
-    else
-    {
-        par->F[0] = ft_atoi(strs[0]);
-        par->F[1] = ft_atoi(strs[1]);
-        par->F[2] = ft_atoi(strs[2]);
-    }
-    i = 0;
-    while (i++ < 3)
-        if (!(par->F[i] <= 255 || par->F[i] >= 0))
-            ft_quit();
-}
-
-void    ft_get_C(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'C')
-            strs = ft_split(&line[i], ',');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 3)
-        ft_quit();
-    else
-    {
-        par->C[0] = ft_atoi(strs[0]);
-        par->C[1] = ft_atoi(strs[1]);
-        par->C[2] = ft_atoi(strs[2]);
-    }
-    i = 0;
-    while (i++ < 3)
-        if (!(par->C[i] <= 255 || par->C[i] >= 0))
-            ft_quit();
-}
-
-void    ft_get_NO(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'N' && line[i++] == 'O')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 1)
-        ft_quit();
-    else
-        par->textNO.path = ft_strdup(strs[0]);
-}
-
-void    ft_get_SO(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'S' && line[i++] == 'O')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 1)
-        ft_quit();
-    else
-        par->textSO.path = ft_strdup(strs[0]);
-}
-
-void    ft_get_WE(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'W' && line[i++] == 'E')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 1)
-        ft_quit();
-    else
-        par->textWE.path = ft_strdup(strs[0]);
-}
-
-void    ft_get_EA(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'E' && line[i++] == 'A')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 1)
-        ft_quit();
-    else
-        par->textEA.path = ft_strdup(strs[0]);
-}
-
-void    ft_get_S(t_para *par, char *line)
-{
-    int i;
-    char **strs;
-
-    i = 0;
-    while (line[i])
-    {
-        if (line[i++] == 'S')
-            strs = ft_split(&line[i], ' ');
-        i++;
-    }
-    i = 0;
-    while (strs[i] != NULL)
-        i++;
-    if (i != 1)
-        ft_quit();
-    else
-        par->textSp.path = ft_strdup(strs[0]);
-}
-
-int     ft_countlst(t_list *lst)
-{
-    int i;
-    
-    i = 0;
-    while (lst)
-    {
-        if (ft_checkpara(lst->content, '1'))
-        {
-            lst = lst->next;
-            i++;
-        }
-        else
-            return (i);
-    }
-    return (i);
-}
-
-void    ft_get_MAP(t_para *par, t_list *lst)
-{
-    int i;
-    
-    i = 0;
-    if (!(par->map = malloc(sizeof(char*) * ft_countlst(lst) + 1)))
-        return ;
-    while (lst)
-    {
-        if (ft_checkpara(lst->content, '1'))
-        {
-            par->map[i] = ft_strdup(lst->content);
-            i++;
-        }
-        lst = lst->next;
-    }
-    par->map[i] = NULL; 
-}
-
-void    ft_get_allpara(t_para *par, t_list **lst)
-{
-    t_list *temp;
-    temp = *lst;
-    while (temp != NULL)
-    {
-        if (ft_checkpara(temp->content, 'R'))
-            ft_get_R(par, temp->content);
-        else if (ft_checkparatextu(temp->content, "NO"))
-            ft_get_NO(par, temp->content);
-        else if (ft_checkparatextu(temp->content, "SO"))
-            ft_get_SO(par, temp->content);
-        else if (ft_checkparatextu(temp->content, "WE"))
-            ft_get_WE(par, temp->content);
-        else if (ft_checkparatextu(temp->content, "EA"))
-            ft_get_EA(par, temp->content);
-        else if (ft_checkpara(temp->content, 'S'))
-            ft_get_S(par, temp->content);        
-        else if (ft_checkpara(temp->content, 'F'))
-            ft_get_F(par, temp->content);
-        else if (ft_checkpara(temp->content, 'C'))
-            ft_get_C(par, temp->content);
-        else if (ft_checkpara(temp->content, '1') && par->indexmap == 0)
-        {
-            par->indexmap = 1;
-            ft_get_MAP(par, temp);
-        }
-        temp = temp->next;
-    }
-    int i = 0;
-}
-
-int     main()
-{
+    (void)ac;
     t_para  par;
+    t_perso perso;
     t_list  *lst;
     char *line;
     int fd = 0;
-    fd = open("map.cub", O_RDONLY);
+    if ((ft_checkargu(av[1])) == 1)
+        fd = open(av[1], O_RDONLY);
+    else
+        ft_quit(1, NULL);
+    if (fd != 3)
+        ft_quit(0, NULL);
     line = NULL;
     lst = NULL;
     ft_memset(&par, 0, sizeof(t_para));
+    ft_memset(&perso, 0, sizeof(t_perso));
     while (get_next_line(fd, &line))
     {
         ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
@@ -315,7 +83,61 @@ int     main()
     ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
     //free(line);
     ft_get_allpara(&par, &lst);
+    ft_checkpara_isok(&par);
+    ft_mapisok(&par, &perso);
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //testprint//////////////////////////////////////////////////////////////////////
+    ft_putstr("map OK ;)\n");
     printf("R = [%d] [%d]\n", par.Rx, par.Ry);
     printf("F = [%d] [%d] [%d]\n", par.F[0], par.F[1], par.F[2]);
     printf("C = [%d] [%d] [%d]\n", par.C[0], par.C[1], par.C[2]);
@@ -330,12 +152,22 @@ int     main()
         printf("map = %s\n", par.map[i]);
         i++;
     }
-    // t_list *temp;
-    // temp = lst;
-    // while (temp->next != NULL)
-    // {
-    //     temp = temp->next;
-    //     printf("content = %s\n", temp->content);
-    // }
+    printf("indexR = %d\n", par.index.R);
+    printf("indexNO = %d\n", par.index.NO);
+    printf("indexSO = %d\n", par.index.SO);
+    printf("indexWE = %d\n", par.index.WE);
+    printf("indexEA = %d\n", par.index.EA);
+    printf("indexSP = %d\n", par.index.SP);
+    printf("indexF = %d\n", par.index.F);
+    printf("indexC = %d\n", par.index.C);
+    printf("Vue = %c\n", perso.vue);
+    printf("pos_y = %d\n", perso.pos_y);
+    printf("pos_x = %d\n", perso.pos_x);
+    while (par.sprite)
+    {
+        printf("sprite sp_y = %d\n", par.sprite->sp_y);
+        printf("sprite sp_x = %d\n", par.sprite->sp_x);
+        par.sprite = par.sprite->next;
+    }
     return 0;
 }

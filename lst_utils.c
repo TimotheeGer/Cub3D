@@ -6,11 +6,42 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:12:01 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/25 12:13:16 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/01 14:19:02 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../cub3D.h"
+
+void	ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new)
+{
+	t_lstsp *temp;
+
+	if (!alst || !new)
+		return ;
+	if (*alst)
+	{
+		temp = *alst;
+		while (temp->next != NULL)
+		{
+			temp = temp->next;
+		}
+		temp->next = new;
+	}
+	else
+		*alst = new;
+}
+
+t_lstsp     *ft_newsprite(int x, int y)
+{
+    t_lstsp *newsprite;
+    
+    if (!(newsprite = malloc(sizeof(t_lstsp))))
+        return (NULL);
+    newsprite->sp_y = y;
+    newsprite->sp_x = x;
+    newsprite->next = NULL;
+    return (newsprite);
+}
 
 void	ft_lstadd_back(t_list **alst, t_list *new)
 {

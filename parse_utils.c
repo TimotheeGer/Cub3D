@@ -5,121 +5,80 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/03/24 14:49:00 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/26 12:57:44 by tigerber         ###   ########.fr       */
+/*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
+/*   Updated: 2021/04/01 14:45:32 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../cub3D.h"
 
-void	ft_putchar(char c)
+int     ft_countlst(t_list *lst)
 {
-	write (1, &c, 1);
+    int i;
+    
+    i = 0;
+    while (lst)
+    {
+        if (ft_checkpara(lst->content, '1'))
+        {
+            lst = lst->next;
+            i++;
+        }
+        else
+            return (i);
+    }
+    return (i);
 }
 
-void	ft_putstr(char *str)
+int     ft_checkpara(char *str, char c)
 {
-	int i;
-	
-	i = 0;
-	while (str[i])
-	{
-		ft_putchar(str[i]);
-		i++;
-	}	
+    int i;
+
+    i = 0;
+    while (str[i])
+    {
+        if (str[i] == c)
+            return (1);
+        i++;
+    }
+    return (0);
 }
 
-int			ft_isdigit(char c)
+int     ft_checkparatextu(char *str, char *indic)
 {
-	int i = 0;
-	
-	if (c >= '0' && c <= '9')
-		return (1);
-	else
-		return (0);	
+    if (ft_strnstr(str, indic, ft_strlen(str)))
+        return (1);
+    else
+        return (0);
 }
 
-int	ft_atoi(char *str)
+void    ft_get_allpara(t_para *par, t_list **lst)
 {
-	int i;
-	int res;
-	int neg;
-
-	i = 0;
-	res = 0;
-	neg = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-	{
-		i++;
-	}
-	if (str[i] == '-')
-	{
-		neg = -1;
-	}
-	if (str[i] == '-' || str[i] == '+')
-		i++;
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		res = res * 10;
-		res = res + (str[i] - 48);
-		i++;
-	}
-	return (res * neg);
-}
-
-char	*ft_strdup(const char *s1)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	if (!(str = malloc(sizeof(char) * ft_strlen((char*)s1) + 1)))
-	{
-		return (NULL);
-	}
-	while (s1[i] != '\0')
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-void	*ft_memset(void *s, int c, size_t n)
-{
-	int		i;
-	char	*str;
-
-	i = 0;
-	str = (char*)s;
-	while (i < (int)n)
-	{
-		str[i] = c;
-		i++;
-	}
-	return (s);
-}
-
-int		ft_strnstr(const char *haystack, const char *needle, size_t len)
-{
-	size_t		i;
-	size_t		j;
-
-	i = 0;
-	j = 0;
-	if (needle[j] == '\0')
-		return (0);
-	while (haystack[i] != '\0' && i < len)
-	{
-		j = 0;
-		while ((needle[j] == haystack[i + j]) && i + j < len)
-		{
-			if (needle[j + 1] == '\0')
-				return (1);
-			j++;
-		}
-		i++;
-	}
-	return (0);
+    t_list *temp;
+    temp = *lst;
+    while (temp != NULL)
+    {
+        if (ft_checkpara(temp->content, 'R'))
+            ft_get_R(par, temp->content);
+        else if (ft_checkparatextu(temp->content, "NO"))
+            ft_get_NO(par, temp->content);
+        else if (ft_checkparatextu(temp->content, "SO"))
+            ft_get_SO(par, temp->content);
+        else if (ft_checkparatextu(temp->content, "WE"))
+            ft_get_WE(par, temp->content);
+        else if (ft_checkparatextu(temp->content, "EA"))
+            ft_get_EA(par, temp->content);
+        else if (ft_checkpara(temp->content, 'S'))
+            ft_get_S(par, temp->content);        
+        else if (ft_checkpara(temp->content, 'F'))
+            ft_get_F(par, temp->content);
+        else if (ft_checkpara(temp->content, 'C'))
+            ft_get_C(par, temp->content);
+        else if (ft_checkpara(temp->content, '1') && par->indexmap == 0)
+        {
+            par->indexmap = 1;
+            ft_get_MAP(par, temp);
+        }
+        temp = temp->next;
+    }
 }

@@ -6,11 +6,11 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 11:36:57 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/25 14:55:30 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/03/31 14:05:00 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../cub3D.h"
 
 size_t		ft_strlen(char *s)
 {

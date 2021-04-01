@@ -6,11 +6,11 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 15:19:10 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/24 15:19:29 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/03/31 14:04:56 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3D.h"
+#include "../cub3D.h"
 
 static int	countword(char const *str, char c)
 {
