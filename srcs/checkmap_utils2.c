@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:32:51 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:59:31 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/08 16:50:36 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		ft_control0(t_para *par, int len, t_perso *perso)
 
 	y = 1;
 	x = 1;
-	while (par->map[y] && y < len)
+	while (par->map[y] && y < len -1  && par->map[y][x])
 	{
 		while (par->map[y][x])
 		{
@@ -46,12 +46,12 @@ void		ft_control0(t_para *par, int len, t_perso *perso)
 					ft_indexplus(par->map[y][x], perso, y, x);
 					par->map[y][x] = '0';
 				}
-				if (par->map[y][x] == '2')
+				else if (par->map[y][x] == '2')
 					ft_lstadd_backsprite(&par->sprite, ft_newsprite(x, y));
 			}
 			x++;
 		}
-		x = 0;
+		x = 1;
 		y++;
 	}
 }

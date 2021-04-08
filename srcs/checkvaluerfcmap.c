@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   checkvalueRFCmap.c                                 :+:      :+:    :+:   */
+/*   checkvaluerfcmap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:13:31 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/08 16:32:42 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void		ft_checkerror_para(char **strs, int a, char c)
 	int i;
 
 	i = 0;
+	if (strs == NULL)
+		ft_quit(0, "test\n");
 	while (strs[i] != NULL)
 	{
 		ft_checkisdigit(strs[i]);
@@ -39,11 +41,12 @@ void		ft_get_r(t_para *par, char *line)
 	char	**strs;
 
 	i = 0;
+	strs = NULL;
 	par->index.R++;
 	while (line[i])
 	{
 		if (line[i] == 'R')
-			strs = ft_split_charset(&line[i + 1], " ");
+			strs = ft_split(&line[i + 1], ' ');
 		i++;
 	}
 	ft_checkerror_para(strs, 2, 'R');
@@ -59,11 +62,12 @@ void		ft_get_f(t_para *par, char *line)
 	char	**strs;
 
 	i = 0;
+	strs = NULL;
 	par->index.F++;
 	while (line[i])
 	{
-		if (line[i++] == 'F')
-			strs = ft_split_charset(&line[i], " ,");
+		if (line[i] == 'F')
+			strs = ft_split(&line[i + 1], ',');
 		i++;
 	}
 	ft_checkerror_para(strs, 3, 'F');
@@ -85,11 +89,12 @@ void		ft_get_c(t_para *par, char *line)
 	char	**strs;
 
 	i = 0;
+	strs = NULL;
 	par->index.C++;
 	while (line[i])
 	{
-		if (line[i++] == 'C')
-			strs = ft_split_charset(&line[i], " ,");
+		if (line[i] == 'C')
+			strs = ft_split(&line[i + 1], ',');
 		i++;
 	}
 	ft_checkerror_para(strs, 3, 'C');

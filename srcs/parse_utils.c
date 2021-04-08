@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:55:42 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/08 16:35:41 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	ft_get_allpara(t_para *par, t_list *lst)
 		else if (ft_checkpara(lst->content, 'F'))
 			ft_get_f(par, lst->content);
 		else if (ft_checkpara(lst->content, 'C'))
-			ft_get_f(par, lst->content);
+			ft_get_c(par, lst->content);
 		else if (ft_checkpara(lst->content, '1') && par->indexmap == 0)
 		{
 			par->indexmap = 1;

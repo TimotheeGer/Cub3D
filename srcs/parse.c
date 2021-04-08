@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:54:30 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/08 16:21:43 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int		ft_quit(int a, char *str)
 {
 	if (a == 0)
-		write(2, &str, ft_strlen(str));
+		write(2, str, ft_strlen(str));
 	exit(0);
 }
 
