@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3D.h"
+#include "cub3D.h"
 
 void		ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new)
 {

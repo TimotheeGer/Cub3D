@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub3D.h"
+#include "cub3D.h"
 
 int		ft_quit(int a, char *str)
 {
@@ -22,10 +22,8 @@ int		ft_quit(int a, char *str)
 int		ft_checkargu(char *arg)
 {
 	int i;
-	int j;
 
 	i = ft_strlen(arg) - 4;
-	j = 0;
 	if (arg[i] == '.')
 	{
 		if ((ft_strncmp(&arg[i], ".cub", 4) == 0))

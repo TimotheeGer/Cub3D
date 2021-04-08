@@ -12,8 +12,7 @@
 
 # ifndef _CUB3D_
 # define _CUB3D_
-# include "libft/includes/libft.h"
-# include <libc.h>
+# include "../libft/includes/libft.h"
 
 # include <stdlib.h>
 # include <unistd.h>

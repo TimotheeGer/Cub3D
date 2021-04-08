@@ -33,10 +33,8 @@ char		*ft_newrest(char *str)
 {
 	char	*dest;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	if (ft_tempavbs(str))
 	{
 		while (str && str[i] != '\n' && str[i] != '\0')

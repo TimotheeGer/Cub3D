@@ -6,13 +6,14 @@
 #    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/04/06 14:44:36 by tigerber         ###   ########.fr        #
+#    Updated: 2021/04/08 12:14:50 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-SRC =	./srcs/parse.c \
+SRC =	./srcs/test.c \
+		./srcs/parse.c \
 		./srcs/parse_utils.c \
 		./srcs/lst_utils.c \
 		./srcs/checkvaluerfcmap.c \
