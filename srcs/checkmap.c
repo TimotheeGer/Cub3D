@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 11:43:58 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:58:58 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/09 13:29:47 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,21 @@ void		ft_firstchar_is_one(char **map)
 
 	y = 0;
 	x = 0;
+	if (map == NULL)
+		ft_quit(0, "test.\n") ;
 	while (map[y])
 	{
-		while (map[y][x] == ' ')
+		while (map[y][x] == ' ' && map[y][x])
 			x++;
-		if (map[y][x] != '1')
+		if (map[y][x] != '1' && map[y][x])
 			ft_quit(0, "Missing 1 in map.\n");
 		while (ft_checkisnwse201(map[y][x]))
 			x++;
-		if (map[y][x] != '\0')
+		if (map[y][x] != '\0' && map[y][x])
 			ft_quit(0, "Missing 1 in map.\n");
 		while (map[y][x] == ' ' || map[y][x] == '\0')
 			x--;
-		if (map[y][x] != '1')
+		if (map[y][x] != '1' && map[y][x])
 			ft_quit(0, "Missing 1 in map.\n");
 		y++;
 		x = 0;
@@ -80,7 +82,8 @@ void		ft_checkaround(char **map, int y, int x, char c)
 void		ft_mapisok(t_para *par, t_perso *perso)
 {
 	int i;
-
+	
+	i = 0;
 	i = ft_countline_map(par->map);
 	ft_firstline_av_one(par->map[0]);
 	ft_firstline_av_one(par->map[i - 1]);

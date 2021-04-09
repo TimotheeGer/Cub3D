@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/08 15:58:40 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/09 15:04:28 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ int     get_opposite(int color)
 //     printf("trgb3 = %x\n", trgb);
     
 //     return (0);
-// }

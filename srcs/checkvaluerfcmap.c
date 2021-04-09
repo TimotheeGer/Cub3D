@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/08 16:32:42 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:15:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		ft_checkerror_para(char **strs, int a, char c)
 	}
 	if (i != a)
 	{
+		ft_free_tab(strs);
 		if (c == 'R')
 			ft_quit(0, "Erreur too much data for R.\n");
 		if (c == 'F')
@@ -52,6 +53,7 @@ void		ft_get_r(t_para *par, char *line)
 	ft_checkerror_para(strs, 2, 'R');
 	par->Rx = ft_atoi(strs[0]);
 	par->Ry = ft_atoi(strs[1]);
+	ft_free_tab(strs);
 	if (par->Rx <= 0 || par->Ry <= 0)
 		ft_quit(0, "Error too large or negative resolution.\n");
 }
@@ -74,6 +76,7 @@ void		ft_get_f(t_para *par, char *line)
 	par->F[0] = ft_atoi(strs[0]);
 	par->F[1] = ft_atoi(strs[1]);
 	par->F[2] = ft_atoi(strs[2]);
+	ft_free_tab(strs);
 	i = 0;
 	while (i < 3)
 	{
@@ -101,6 +104,7 @@ void		ft_get_c(t_para *par, char *line)
 	par->C[0] = ft_atoi(strs[0]);
 	par->C[1] = ft_atoi(strs[1]);
 	par->C[2] = ft_atoi(strs[2]);
+	ft_free_tab(strs);
 	i = 0;
 	while (i < 3)
 	{
@@ -115,7 +119,7 @@ void		ft_get_map(t_para *par, t_list *lst)
 	int	i;
 
 	i = 0;
-	if (!(par->map = malloc(sizeof(char*) * ft_countlst(lst) + 1)))
+	if (!(par->map = (char **)malloc(sizeof(char*) * (ft_countlst(lst) + 1))))
 		return ;
 	while (lst)
 	{

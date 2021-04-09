@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/08 16:21:43 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:49:48 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,8 @@ int				main(int ac, char **av)
 	t_perso		perso;
 	t_list		*lst;
 	char		*line;
-
+	
+	
 	int fd = 0;
 	if ((ft_checkargu(av[1])) == 1)
 		fd = open(av[1], O_RDONLY);
@@ -107,17 +108,22 @@ int				main(int ac, char **av)
 	if (fd != 3)
 		ft_quit(0, NULL);
 	line = NULL;
-	lst = NULL;
+	lst = NULL;;
+	par.map = NULL;
 	ft_memset(&par, 0, sizeof(t_para));
 	ft_memset(&perso, 0, sizeof(t_perso));
 	while (get_next_line(fd, &line))
 	{
 		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+		free(line);
 	}
 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+	free(line);
 	ft_get_allpara(&par, lst);
 	ft_checkpara_isok(&par);
 	ft_mapisok(&par, &perso);
+	ft_lstclear(&lst, free);
+	//ft_lstclear_sp(&par, free);
 	//ft_putstr("map OK ;)\n");
 	ft_print_test(&par, &perso);
 	return (0);

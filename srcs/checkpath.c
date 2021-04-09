@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:44:00 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/06 14:06:56 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/09 16:32:21 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		ft_get_no(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_NO.\n");
 	else
 		par->textNO.path = ft_strdup(strs[0]);
+	ft_free_tab(strs);
 }
 
 void		ft_get_so(t_para *par, char *line)
@@ -54,6 +55,7 @@ void		ft_get_so(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_SO.\n");
 	else
 		par->textSO.path = ft_strdup(strs[0]);
+	ft_free_tab(strs);
 }
 
 void		ft_get_we(t_para *par, char *line)
@@ -76,6 +78,7 @@ void		ft_get_we(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_WE.\n");
 	else
 		par->textWE.path = ft_strdup(strs[0]);
+	ft_free_tab(strs);
 }
 
 void		ft_get_ea(t_para *par, char *line)
@@ -98,6 +101,7 @@ void		ft_get_ea(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_EA.\n");
 	else
 		par->textEA.path = ft_strdup(strs[0]);
+	ft_free_tab(strs);
 }
 
 void		ft_get_s(t_para *par, char *line)
@@ -120,4 +124,5 @@ void		ft_get_s(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_S.\n");
 	else
 		par->textSp.path = ft_strdup(strs[0]);
+	ft_free_tab(strs);
 }
