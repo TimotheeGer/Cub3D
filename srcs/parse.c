@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 16:49:48 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/12 15:22:18 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,14 @@ int				main(int ac, char **av)
 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
 	free(line);
 	ft_get_allpara(&par, lst);
+	ft_lstclear(&lst, free);
+	
 	ft_checkpara_isok(&par);
 	ft_mapisok(&par, &perso);
-	ft_lstclear(&lst, free);
-	//ft_lstclear_sp(&par, free);
+	free_struct(&par);
+	
+	ft_lstclear_sp(&par, free);
 	//ft_putstr("map OK ;)\n");
-	ft_print_test(&par, &perso);
+	//ft_print_test(&par, &perso);
 	return (0);
 }

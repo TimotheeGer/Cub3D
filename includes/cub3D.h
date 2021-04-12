@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 16:39:35 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/12 14:52:54 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ typedef struct      s_par
 {
     int       Rx; //Resoution [0]axe x [1]axe y
     int       Ry; //Resoution [0]axe x [1]axe y
-    t_tex     textNO; // structure des textures NORD
     t_tex     textEA; // structure des textures EAST
+    t_tex     textNO; // structure des textures NORD
     t_tex     textSO; // structure des textures SOUTH
     t_tex     textWE; // structure des textures WEST
     t_tex     textSp; // structure des textures SPRITE
@@ -77,6 +77,7 @@ typedef struct      s_par
 }                    t_para;
 
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
+void        free_struct(t_para *par);
 void	    ft_lstclear_sp(t_para *par, void (*del)(void*));
 void	    ft_free_tab(char **strs);
 void        ft_checkisdigit(char *str);
