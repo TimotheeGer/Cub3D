@@ -1,10 +1,10 @@
-R 1080    901                                 
+R 1080    500                      
 NO ./path_to_the_north_texture
-SO ./path_to_the_south_texture    
+SO ./path_to_the_south_texture
 WE ./path_to_the_west_texture  
 EA ./path_to_the_east_texture
 S ./path_to_the_sprite_textur      
-F 255, 250, 45                                                                          
+F 255, 250, 45 5                                                                         
 C 125, 120, 2                                             
     
 

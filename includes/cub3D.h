@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:19:08 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:51:59 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,20 +81,20 @@ typedef struct      s_par
 void        free_struct(t_para *par);
 void	    ft_lstclear_sp(t_para *par);
 void	    ft_free_tab(char **strs);
-void        ft_checkisdigit(char *str);
+void        ft_checkisdigit(char *str, t_para *par);
 void        ft_indexplus(char c, t_perso *perso, int y, int x);
 void        ft_control0(t_para *par, int len, t_perso *perso); 
 int         ft_checkisnwse201(char c);
 int         ft_checkis0news2(char c);
 int         ft_checkisnews(char c);
 int         ft_countline_map(char **map);
-void        ft_checkpos(t_perso *perso);
+void        ft_checkpos(t_perso *perso, t_para *par);
 t_lstsp     *ft_newsprite(int x, int y);
 void	    ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new);
-void        ft_checkaround(char **map, int y, int x, char c);
+void        ft_checkaround(char **map, int y, int x, char c, t_para *par);
 void        ft_get_allpara(t_para *par, t_list *lst);
 void        ft_mapisok(t_para *par, t_perso *perso);
-int         ft_quit(int a, char *str);
+int         ft_quit(int a, char *str, t_para *par);
 int         ft_checkpara(char *str, char c);
 int         ft_countlst(t_list *lst);
 void        ft_get_no(t_para *par, char *line);

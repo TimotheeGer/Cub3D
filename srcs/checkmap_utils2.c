@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:32:51 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 15:19:02 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:44:52 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		ft_control0(t_para *par, int len, t_perso *perso)
 		{
 			if (ft_checkis0news2(par->map[y][x]))
 			{
-				ft_checkaround(par->map, y, x, par->map[y][x]);
+				ft_checkaround(par->map, y, x, par->map[y][x], par);
 				if (ft_checkisnews(par->map[y][x]))
 				{
 					ft_indexplus(par->map[y][x], perso, y, x);

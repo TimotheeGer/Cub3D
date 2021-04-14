@@ -6,33 +6,33 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:18:18 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:50:44 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-void		ft_checkerror_para(char **strs, int a, char c)
+void		ft_checkerror_para(char **strs, int a, char c, t_para *par)
 {
 	int i;
 
 	i = 0;
 	if (strs == NULL)
-		ft_quit(0, "test\n");
+		ft_quit(0, "test\n", par);
 	while (strs[i] != NULL)
 	{
-		ft_checkisdigit(strs[i]);
+		ft_checkisdigit(strs[i], par);
 		i++;
 	}
 	if (i != a)
 	{
 		ft_free_tab(strs);
 		if (c == 'R')
-			ft_quit(0, "Erreur too much data for R.\n");
+			ft_quit(0, "Erreur too much data for R.\n", par);
 		if (c == 'F')
-			ft_quit(0, "Erreur too much data for F.\n");
+			ft_quit(0, "Erreur too much data for F.\n", par);
 		if (c == 'C')
-			ft_quit(0, "Erreur too much data for C.\n");
+			ft_quit(0, "Erreur too much data for C.\n", par);
 	}
 }
 
@@ -50,12 +50,12 @@ void		ft_get_r(t_para *par, char *line)
 			strs = ft_split(&line[i + 1], ' ');
 		i++;
 	}
-	ft_checkerror_para(strs, 2, 'R');
+	ft_checkerror_para(strs, 2, 'R', par);
 	par->Rx = ft_atoi(strs[0]);
 	par->Ry = ft_atoi(strs[1]);
 	ft_free_tab(strs);
 	if (par->Rx <= 0 || par->Ry <= 0)
-		ft_quit(0, "Error too large or negative resolution.\n");
+		ft_quit(0, "Error too large or negative resolution.\n", par);
 }
 
 void		ft_get_f(t_para *par, char *line)
@@ -72,7 +72,7 @@ void		ft_get_f(t_para *par, char *line)
 			strs = ft_split_charset(&line[i + 1], ", ");
 		i++;
 	}
-	ft_checkerror_para(strs, 3, 'F');
+	ft_checkerror_para(strs, 3, 'F', par);
 	par->F[0] = ft_atoi(strs[0]);
 	par->F[1] = ft_atoi(strs[1]);
 	par->F[2] = ft_atoi(strs[2]);
@@ -81,7 +81,7 @@ void		ft_get_f(t_para *par, char *line)
 	while (i < 3)
 	{
 		if (!(par->F[i] <= 255 && par->F[i] >= 0))
-			ft_quit(0, "Error RGB(F).\n");
+			ft_quit(0, "Error RGB(F).\n", par);
 		i++;
 	}
 }
@@ -100,7 +100,7 @@ void		ft_get_c(t_para *par, char *line)
 			strs = ft_split_charset(&line[i + 1], ", ");
 		i++;
 	}
-	ft_checkerror_para(strs, 3, 'C');
+	ft_checkerror_para(strs, 3, 'C', par);
 	par->C[0] = ft_atoi(strs[0]);
 	par->C[1] = ft_atoi(strs[1]);
 	par->C[2] = ft_atoi(strs[2]);
@@ -109,7 +109,7 @@ void		ft_get_c(t_para *par, char *line)
 	while (i < 3)
 	{
 		if (!(par->C[i] <= 255 && par->C[i] >= 0))
-			ft_quit(0, "Error RGB(C).\n");
+			ft_quit(0, "Error RGB(C).\n", par);
 		i++;
 	}
 }

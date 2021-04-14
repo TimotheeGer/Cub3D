@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 16:03:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:38:00 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_countlst(t_list *lst)
 	return (i);
 }
 
-void	ft_checkisdigit(char *str)
+void	ft_checkisdigit(char *str, t_para *par)
 {
 	int i;
 
@@ -40,7 +40,7 @@ void	ft_checkisdigit(char *str)
 	while (str[i])
 	{
 		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ')
-			ft_quit(0, "Error there are alphabetic characters in the data.\n");
+			ft_quit(0, "Error there are alphabetic characters in the data.\n", par);
 		i++;
 	}
 }

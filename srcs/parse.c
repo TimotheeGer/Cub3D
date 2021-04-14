@@ -6,16 +6,19 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:18:00 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 16:02:05 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_quit(int a, char *str)
+int		ft_quit(int a, char *str, t_para *par)
 {
 	if (a == 0)
 		write(2, str, ft_strlen(str));
+	ft_lstclear(&par->lst_begin, free);
+	free_struct(par);
+	ft_lstclear_sp(par);
 	exit(0);
 }
 
@@ -35,23 +38,23 @@ int		ft_checkargu(char *arg)
 void	ft_checkpara_isok(t_para *par)
 {
 	if (par->index.R != 1)
-		ft_quit(0, "Missing resolution or too much resolution.\n");
+		ft_quit(0, "Missing resolution or too much resolution.\n", par);
 	if (par->index.NO != 1)
-		ft_quit(0, "Missing ./path_NO or too much ./path_NO.\n");
+		ft_quit(0, "Missing ./path_NO or too much ./path_NO.\n", par);
 	if (par->index.SO != 1)
-		ft_quit(0, "Missing ./path_SO or too much ./path_SO.\n");
+		ft_quit(0, "Missing ./path_SO or too much ./path_SO.\n", par);
 	if (par->index.WE != 1)
-		ft_quit(0, "Missing ./path_WE or too much ./path_WE.\n");
+		ft_quit(0, "Missing ./path_WE or too much ./path_WE.\n", par);
 	if (par->index.EA != 1)
-		ft_quit(0, "Missing ./path_EA or too much ./path_EA.\n");
+		ft_quit(0, "Missing ./path_EA or too much ./path_EA.\n", par);
 	if (par->index.SP != 1)
-		ft_quit(0, "Missing ./path_SP or too much ./path_SP.\n");
+		ft_quit(0, "Missing ./path_SP or too much ./path_SP.\n", par);
 	if (par->index.F != 1)
-		ft_quit(0, "Missing RGB floor or too much RGB floor.\n");
+		ft_quit(0, "Missing RGB floor or too much RGB floor.\n", par);
 	if (par->index.C != 1)
-		ft_quit(0, "Missing RGB ceil or too much RGB ceil.\n");
+		ft_quit(0, "Missing RGB ceil or too much RGB ceil.\n", par);
 	if (par->indexmap != 1)
-		ft_quit(0, "Missing Map.\n");
+		ft_quit(0, "Missing Map.\n", par);
 }
 
 void	ft_print_test(t_para *par, t_perso *perso)
@@ -59,6 +62,7 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	int i;
 
 	i = 0;
+	printf("R = [%d] [%d]\n", par->Rx, par->Ry);
 	printf("R = [%d] [%d]\n", par->Rx, par->Ry);
 	printf("F = [%d] [%d] [%d]\n", par->F[0], par->F[1], par->F[2]);
 	printf("C = [%d] [%d] [%d]\n", par->C[0], par->C[1], par->C[2]);
@@ -104,9 +108,9 @@ int				main(int ac, char **av)
 	if ((ft_checkargu(av[1])) == 1)
 		fd = open(av[1], O_RDONLY);
 	else
-		ft_quit(1, NULL);
+		ft_quit(1, NULL, NULL);
 	if (fd != 3)
-		ft_quit(0, NULL);
+		ft_quit(0, NULL, NULL);
 	line = NULL;
 	lst = NULL;;
 	par.map = NULL;
@@ -119,15 +123,13 @@ int				main(int ac, char **av)
 	}
 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
 	free(line);
+	par.lst_begin = lst;
 	ft_get_allpara(&par, lst);
-	ft_lstclear(&lst, free);
-	
+	ft_lstclear(&par.lst_begin, free);
+	ft_print_test(&par, &perso);
 	ft_checkpara_isok(&par);
 	ft_mapisok(&par, &perso);
 	free_struct(&par);
-	
 	ft_lstclear_sp(&par);
-	//ft_putstr("map OK ;)\n");
-	//ft_print_test(&par, &perso);
 	return (0);
 }

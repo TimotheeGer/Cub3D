@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:30:04 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 13:33:39 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:44:22 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int		ft_countline_map(char **map)
 	return (i);
 }
 
-void	ft_checkpos(t_perso *perso)
+void	ft_checkpos(t_perso *perso, t_para *par)
 {
 	int i;
 
 	i = 0;
 	i = perso->indexNO + perso->indexEA + perso->indexSO + perso->indexWE;
 	if (i != 1)
-		ft_quit(0, "Error missing or more than one character in the map.\n");
+		ft_quit(0, "Error missing or more than one character in the map.\n", par);
 }
