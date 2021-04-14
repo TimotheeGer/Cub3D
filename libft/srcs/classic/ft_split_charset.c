@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 11:27:43 by ldrieu            #+#    #+#             */
-/*   Updated: 2021/04/06 15:00:23 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:15:30 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*strsub(char *str, int start, int size)
 	int		i;
 
 	i = 0;
-	if (!(newstr = (char *)malloc(sizeof(char) * size + 1)))
+	if (!(newstr = (char *)malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	while (i < size)
 	{
@@ -103,7 +103,7 @@ char	**ft_split_charset(char *str, char *charset)
 	if (str == NULL)
 		return (NULL);
 	words = count_words(str, charset);
-	if (!(split = (char **)malloc(sizeof(char *) * words + 1)))
+	if (!(split = (char **)malloc(sizeof(char *) * (words + 1))))
 		return (NULL);
 	while (words > 0)
 	{

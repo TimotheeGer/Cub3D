@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:12:01 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/12 15:32:27 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:13:27 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,17 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	*lst = NULL;
 }
 
-void	ft_lstclear_sp(t_para *par, void (*del)(void*))
+void	ft_lstclear_sp(t_para *par)
 {
-	t_para *temp;
+	t_para temp;
 
 	while (par->sprite != NULL)
 	{
-		temp->sprite = par->sprite;
-		del(temp->sprite->sp_x);
-		del(temp->sprite->sp_y);
-		par->sprite = temp->sprite->next;
-		free(temp->sprite);
+		temp.sprite = par->sprite;
+		par->sprite = temp.sprite->next;
+		free(temp.sprite);
 	}
-	*par->sprite = NULL;
+	par->sprite = NULL;
 }
 
 void		ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new)

@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 16:15:08 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:18:18 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void		ft_get_f(t_para *par, char *line)
 	while (line[i])
 	{
 		if (line[i] == 'F')
-			strs = ft_split(&line[i + 1], ',');
+			strs = ft_split_charset(&line[i + 1], ", ");
 		i++;
 	}
 	ft_checkerror_para(strs, 3, 'F');
@@ -97,7 +97,7 @@ void		ft_get_c(t_para *par, char *line)
 	while (line[i])
 	{
 		if (line[i] == 'C')
-			strs = ft_split(&line[i + 1], ',');
+			strs = ft_split_charset(&line[i + 1], ", ");
 		i++;
 	}
 	ft_checkerror_para(strs, 3, 'C');

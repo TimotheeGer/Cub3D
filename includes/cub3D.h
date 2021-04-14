@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/12 14:52:54 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/14 15:19:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ typedef struct      s_par
     int       indexmap;
     t_index   index;
     t_lstsp   *sprite;
+    t_list    *lst_begin;
 }                    t_para;
 
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
 void        free_struct(t_para *par);
-void	    ft_lstclear_sp(t_para *par, void (*del)(void*));
+void	    ft_lstclear_sp(t_para *par);
 void	    ft_free_tab(char **strs);
 void        ft_checkisdigit(char *str);
 void        ft_indexplus(char c, t_perso *perso, int y, int x);
