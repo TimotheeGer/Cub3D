@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkvaluerfcmap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:50:44 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:08:11 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ void		ft_checkerror_para(char **strs, int a, char c, t_para *par)
 {
 	int i;
 
-	i = 0;
+	i = 1;
 	if (strs == NULL)
-		ft_quit(0, "test\n", par);
+		ft_quit(0, "Erreur no data.\n", par);
 	while (strs[i] != NULL)
 	{
-		ft_checkisdigit(strs[i], par);
+		ft_checkisdigit(strs[i], par, strs);
 		i++;
 	}
 	if (i != a)
@@ -38,21 +38,19 @@ void		ft_checkerror_para(char **strs, int a, char c, t_para *par)
 
 void		ft_get_r(t_para *par, char *line)
 {
-	int		i;
 	char	**strs;
 
-	i = 0;
 	strs = NULL;
 	par->index.R++;
-	while (line[i])
+	strs = ft_split(line, ' ');
+	if ((ft_strncmp(strs[0], "R", 2)))
 	{
-		if (line[i] == 'R')
-			strs = ft_split(&line[i + 1], ' ');
-		i++;
-	}
-	ft_checkerror_para(strs, 2, 'R', par);
-	par->Rx = ft_atoi(strs[0]);
-	par->Ry = ft_atoi(strs[1]);
+		ft_free_tab(strs);
+		ft_quit(0, "Error no indic R.\n", par);
+	}	
+	ft_checkerror_para(strs, 3, 'R', par);
+	par->Rx = ft_atoi(strs[1]);
+	par->Ry = ft_atoi(strs[2]);
 	ft_free_tab(strs);
 	if (par->Rx <= 0 || par->Ry <= 0)
 		ft_quit(0, "Error too large or negative resolution.\n", par);
@@ -60,24 +58,23 @@ void		ft_get_r(t_para *par, char *line)
 
 void		ft_get_f(t_para *par, char *line)
 {
-	int		i;
 	char	**strs;
+	int 	i;
 
 	i = 0;
 	strs = NULL;
 	par->index.F++;
-	while (line[i])
+	strs = ft_split_charset(line, ", ");
+	if ((ft_strncmp(strs[0], "F", 2)))
 	{
-		if (line[i] == 'F')
-			strs = ft_split_charset(&line[i + 1], ", ");
-		i++;
-	}
-	ft_checkerror_para(strs, 3, 'F', par);
-	par->F[0] = ft_atoi(strs[0]);
-	par->F[1] = ft_atoi(strs[1]);
-	par->F[2] = ft_atoi(strs[2]);
+		ft_free_tab(strs);
+		ft_quit(0, "Error no indic F.\n", par);
+	}	
+	ft_checkerror_para(strs, 4, 'F', par);
+	par->F[0] = ft_atoi(strs[1]);
+	par->F[1] = ft_atoi(strs[2]);
+	par->F[2] = ft_atoi(strs[3]);
 	ft_free_tab(strs);
-	i = 0;
 	while (i < 3)
 	{
 		if (!(par->F[i] <= 255 && par->F[i] >= 0))
@@ -88,24 +85,23 @@ void		ft_get_f(t_para *par, char *line)
 
 void		ft_get_c(t_para *par, char *line)
 {
-	int		i;
 	char	**strs;
+	int		i;
 
 	i = 0;
 	strs = NULL;
 	par->index.C++;
-	while (line[i])
+	strs = ft_split_charset(line, ", ");
+	if ((ft_strncmp(strs[0], "C", 2)))
 	{
-		if (line[i] == 'C')
-			strs = ft_split_charset(&line[i + 1], ", ");
-		i++;
-	}
-	ft_checkerror_para(strs, 3, 'C', par);
-	par->C[0] = ft_atoi(strs[0]);
-	par->C[1] = ft_atoi(strs[1]);
-	par->C[2] = ft_atoi(strs[2]);
+		ft_free_tab(strs);
+		ft_quit(0, "Error no indic C.\n", par);
+	}	
+	ft_checkerror_para(strs, 4, 'C', par);
+	par->C[0] = ft_atoi(strs[1]);
+	par->C[1] = ft_atoi(strs[2]);
+	par->C[2] = ft_atoi(strs[3]);
 	ft_free_tab(strs);
-	i = 0;
 	while (i < 3)
 	{
 		if (!(par->C[i] <= 255 && par->C[i] >= 0))

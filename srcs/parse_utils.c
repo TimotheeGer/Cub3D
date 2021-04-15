@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:38:00 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 16:10:04 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		ft_countlst(t_list *lst)
 	return (i);
 }
 
-void	ft_checkisdigit(char *str, t_para *par)
+void	ft_checkisdigit(char *str, t_para *par, char **strs)
 {
 	int i;
 
@@ -40,7 +40,10 @@ void	ft_checkisdigit(char *str, t_para *par)
 	while (str[i])
 	{
 		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ')
+		{
+			ft_free_tab(strs);
 			ft_quit(0, "Error there are alphabetic characters in the data.\n", par);
+		}
 		i++;
 	}
 }

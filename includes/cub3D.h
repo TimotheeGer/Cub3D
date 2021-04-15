@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3D.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:51:59 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:51:14 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,64 +24,65 @@
 //liste chainer pour sprite
 typedef struct       s_lstsprite 
 {
-    int                 sp_x;
-    int                 sp_y;
-    struct s_lstsprite  *next;
+	int                 sp_x;
+	int                 sp_y;
+	struct s_lstsprite  *next;
 }                   t_lstsp; // liste sprite
 
 typedef struct      s_index
 {
-    int     R;
-    int     NO;
-    int     SO;
-    int     WE;
-    int     EA;
-    int     SP;
-    int     F;
-    int     C;
+	int     R;
+	int     NO;
+	int     SO;
+	int     WE;
+	int     EA;
+	int     SP;
+	int     F;
+	int     C;
 }                   t_index;
 
 typedef struct      s_texture
 {
-    char    *path; // ./path_to_the_texture 
+	char    *path; // ./path_to_the_texture 
 }                   t_tex;
 
 typedef struct      s_player
 {
-    char     vue; //vue du perso NO EA SO WE
-    int      pos_x; //axe x
-    int      pos_y; //axe y
-    int      indexNO; // index on off des vue une seul vue autoriser
-    int      indexSO; // -1 off // 1 on 
-    int      indexWE;
-    int      indexEA;
-    int      indexSP;
+	char     vue; //vue du perso NO EA SO WE
+	int      pos_x; //axe x
+	int      pos_y; //axe y
+	int      indexNO; // index on off des vue une seul vue autoriser
+	int      indexSO; // -1 off // 1 on 
+	int      indexWE;
+	int      indexEA;
+	int      indexSP;
 }                   t_perso;
 
 
 typedef struct      s_par
 {
-    int       Rx; //Resoution [0]axe x [1]axe y
-    int       Ry; //Resoution [0]axe x [1]axe y
-    t_tex     textEA; // structure des textures EAST
-    t_tex     textNO; // structure des textures NORD
-    t_tex     textSO; // structure des textures SOUTH
-    t_tex     textWE; // structure des textures WEST
-    t_tex     textSp; // structure des textures SPRITE
-    int       F[3]; //[0]R [1]G [2]B
-    int       C[3]; //[0]R [1]G [2]B //255 max
-    char      **map;
-    int       indexmap;
-    t_index   index;
-    t_lstsp   *sprite;
-    t_list    *lst_begin;
+	int       Rx; //Resoution [0]axe x [1]axe y
+	int       Ry; //Resoution [0]axe x [1]axe y
+	t_tex     textEA; // structure des textures EAST
+	t_tex     textNO; // structure des textures NORD
+	t_tex     textSO; // structure des textures SOUTH
+	t_tex     textWE; // structure des textures WEST
+	t_tex     textSp; // structure des textures SPRITE
+	int       F[3]; //[0]R [1]G [2]B
+	int       C[3]; //[0]R [1]G [2]B //255 max
+	char      **map;
+	int       indexmap;
+	t_index   index;
+	t_lstsp   *sprite;
+	t_list    *lst_begin;
+	t_lstsp	  *sp_begin;
 }                    t_para;
 
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
 void        free_struct(t_para *par);
-void	    ft_lstclear_sp(t_para *par);
+void	    ft_lstclear_sp(t_lstsp *par);
 void	    ft_free_tab(char **strs);
-void        ft_checkisdigit(char *str, t_para *par);
+void        ft_checkisdigit(char *str, t_para *par, char **strs);
 void        ft_indexplus(char c, t_perso *perso, int y, int x);
 void        ft_control0(t_para *par, int len, t_perso *perso); 
 int         ft_checkisnwse201(char c);

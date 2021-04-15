@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:12:01 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:13:27 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:59:54 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,17 @@ void	ft_lstclear(t_list **lst, void (*del)(void*))
 	*lst = NULL;
 }
 
-void	ft_lstclear_sp(t_para *par)
+void	ft_lstclear_sp(t_lstsp *sp_begin)
 {
 	t_para temp;
 
-	while (par->sprite != NULL)
+	while (sp_begin != NULL)
 	{
-		temp.sprite = par->sprite;
-		par->sprite = temp.sprite->next;
+		temp.sprite = sp_begin;
+		sp_begin = temp.sprite->next;
 		free(temp.sprite);
 	}
-	par->sprite = NULL;
+	sp_begin = NULL;
 }
 
 void		ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new)

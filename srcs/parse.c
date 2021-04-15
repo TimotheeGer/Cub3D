@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 16:02:05 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:57:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_quit(int a, char *str, t_para *par)
 		write(2, str, ft_strlen(str));
 	ft_lstclear(&par->lst_begin, free);
 	free_struct(par);
-	ft_lstclear_sp(par);
+	ft_lstclear_sp(par->sp_begin);
 	exit(0);
 }
 
@@ -126,10 +126,10 @@ int				main(int ac, char **av)
 	par.lst_begin = lst;
 	ft_get_allpara(&par, lst);
 	ft_lstclear(&par.lst_begin, free);
-	ft_print_test(&par, &perso);
 	ft_checkpara_isok(&par);
 	ft_mapisok(&par, &perso);
+	ft_print_test(&par, &perso);
 	free_struct(&par);
-	ft_lstclear_sp(&par);
+	ft_lstclear_sp(par.sp_begin);
 	return (0);
 }

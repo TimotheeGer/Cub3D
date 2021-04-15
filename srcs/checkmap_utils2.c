@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkmap_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:32:51 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/14 15:44:52 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/15 15:48:48 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,5 @@ void		ft_control0(t_para *par, int len, t_perso *perso)
 		x = 1;
 		y++;
 	}
+	par->sp_begin = par->sprite;
 }
