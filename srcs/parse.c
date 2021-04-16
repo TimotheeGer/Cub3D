@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 15:57:08 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/16 14:59:57 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	int i;
 
 	i = 0;
-	printf("R = [%d] [%d]\n", par->Rx, par->Ry);
 	printf("R = [%d] [%d]\n", par->Rx, par->Ry);
 	printf("F = [%d] [%d] [%d]\n", par->F[0], par->F[1], par->F[2]);
 	printf("C = [%d] [%d] [%d]\n", par->C[0], par->C[1], par->C[2]);

@@ -6,12 +6,12 @@
 /*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:44:00 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 16:11:31 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/16 13:52:04 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-//*************fix par->index.NO != 1*************
+
 void		ft_get_no(t_para *par, char *line)
 {
 	int		i;
@@ -19,6 +19,8 @@ void		ft_get_no(t_para *par, char *line)
 
 	i = 0;
 	par->index.NO++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
 	if ((ft_strncmp(strs[0], "NO", 3)) || par->index.NO != 1)
 	{
@@ -45,9 +47,12 @@ void		ft_get_so(t_para *par, char *line)
 	strs = NULL;
 	i = 0;
 	par->index.SO++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
-	if ((ft_strncmp(strs[0], "SO", 3)))
+	if ((ft_strncmp(strs[0], "SO", 3)) || par->index.SO != 1)
 	{
+		printf("strs[0] = %s\n", strs[0]);
 		ft_free_tab(strs);
 		ft_quit(0, "Error ./path_SO.\n", par);
 	}	
@@ -62,7 +67,7 @@ void		ft_get_so(t_para *par, char *line)
 		par->textSO.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }
-//fix problem de split en dessous
+
 void		ft_get_we(t_para *par, char *line)
 {
 	int		i;
@@ -70,8 +75,10 @@ void		ft_get_we(t_para *par, char *line)
 
 	i = 0;
 	par->index.WE++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
-	if ((ft_strncmp(strs[0], "WE", 3)))
+	if ((ft_strncmp(strs[0], "WE", 3)) || par->index.WE != 1)
 	{
 		ft_free_tab(strs);
 		ft_quit(0, "Error ./path_WE.\n", par);
@@ -95,8 +102,10 @@ void		ft_get_ea(t_para *par, char *line)
 
 	i = 0;
 	par->index.EA++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
-	if ((ft_strncmp(strs[0], "EA", 3)))
+	if ((ft_strncmp(strs[0], "EA", 3)) || par->index.EA != 1)
 	{
 		ft_free_tab(strs);
 		ft_quit(0, "Error ./path_EA.\n", par);
@@ -120,8 +129,10 @@ void		ft_get_s(t_para *par, char *line)
 
 	i = 0;
 	par->index.SP++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
-	if ((ft_strncmp(strs[0], "S", 2)))
+	if ((ft_strncmp(strs[0], "S", 2)) || par->index.SP != 1)
 	{
 		ft_free_tab(strs);
 		ft_quit(0, "Error ./path_NO.\n", par);

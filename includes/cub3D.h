@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 15:51:14 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/16 14:53:57 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,11 @@ typedef struct      s_par
 	t_lstsp   *sprite;
 	t_list    *lst_begin;
 	t_lstsp	  *sp_begin;
+	int		  map_open;
 }                    t_para;
 
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
+int			ft_line_av_one(char *line, char c);
 void        free_struct(t_para *par);
 void	    ft_lstclear_sp(t_lstsp *par);
 void	    ft_free_tab(char **strs);
@@ -92,7 +94,7 @@ int         ft_countline_map(char **map);
 void        ft_checkpos(t_perso *perso, t_para *par);
 t_lstsp     *ft_newsprite(int x, int y);
 void	    ft_lstadd_backsprite(t_lstsp **alst, t_lstsp *new);
-void        ft_checkaround(char **map, int y, int x, char c, t_para *par);
+void        ft_checkaround(char **map, int y, int x, t_para *par);
 void        ft_get_allpara(t_para *par, t_list *lst);
 void        ft_mapisok(t_para *par, t_perso *perso);
 int         ft_quit(int a, char *str, t_para *par);

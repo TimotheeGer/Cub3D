@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 16:08:11 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/16 16:57:11 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ void		ft_get_r(t_para *par, char *line)
 
 	strs = NULL;
 	par->index.R++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split(line, ' ');
 	if ((ft_strncmp(strs[0], "R", 2)))
 	{
@@ -64,6 +66,8 @@ void		ft_get_f(t_para *par, char *line)
 	i = 0;
 	strs = NULL;
 	par->index.F++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split_charset(line, ", ");
 	if ((ft_strncmp(strs[0], "F", 2)))
 	{
@@ -91,6 +95,8 @@ void		ft_get_c(t_para *par, char *line)
 	i = 0;
 	strs = NULL;
 	par->index.C++;
+	if (par->indexmap == 1)
+		ft_quit(0, "map location errors.\n", par);
 	strs = ft_split_charset(line, ", ");
 	if ((ft_strncmp(strs[0], "C", 2)))
 	{
@@ -110,11 +116,37 @@ void		ft_get_c(t_para *par, char *line)
 	}
 }
 
+int		ft_check_char(char *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] != c)
+			return(1);
+		i++;
+	}
+	return (0);
+}
+
+void		ft_check_rest_lst(t_para *par, t_list *lst)
+{
+	while (lst)
+	{
+		if (ft_check_char(lst->content, ' '))
+			ft_quit(0, "error to much data after map.\n", par);
+		else
+			lst = lst->next;
+	}
+}
+
 void		ft_get_map(t_para *par, t_list *lst)
 {
 	int	i;
 
 	i = 0;
+	par->indexmap++;
 	if (!(par->map = (char **)malloc(sizeof(char*) * (ft_countlst(lst) + 1))))
 		return ;
 	while (lst)
@@ -123,6 +155,12 @@ void		ft_get_map(t_para *par, t_list *lst)
 		{
 			par->map[i] = ft_strdup(lst->content);
 			i++;
+		}
+		else
+		{
+			par->map[i] = NULL;
+			ft_check_rest_lst(par, lst);
+			return ;
 		}
 		lst = lst->next;
 	}

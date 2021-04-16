@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 16:10:04 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/16 16:58:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,43 @@ int		ft_checkpara(char *str, char c)
 	int i;
 
 	i = 0;
-	while (str[i])
-	{
-		if (str[i] == c)
-			return (1);
+	while (str[i] == ' ')
 		i++;
-	}
+	if (str[i] == c)
+		return (1);
 	return (0);
 }
 
 int		ft_checkparatextu(char *str, char *indic)
 {
-	if (ft_strnstr(str, indic, ft_strlen(str)))
+	int i;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if (str[i] == indic[0] && str[i + 1] == indic[1])
 		return (1);
-	else
+	return (0);
+}
+
+int		check_line_valid(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] == ' ')
+		i++;
+	if ((str[i] == '\0') || (str[i] == 'N' && str[i + 1] == 'O')
+		|| (str[i] == 'S' && str[i + 1] == 'O')
+		|| (str[i] == 'W' && str[i + 1] == 'E')
+		|| (str[i] == 'E' && str[i + 1] == 'A')
+		|| (str[i] == 'R')
+		|| (str[i] == 'S')
+		|| (str[i] == 'F')
+		|| (str[i] == 'C')
+		|| (str[i] == '1'))
 		return (0);
+	return (1);
 }
 
 void	ft_get_allpara(t_para *par, t_list *lst)
@@ -91,10 +113,9 @@ void	ft_get_allpara(t_para *par, t_list *lst)
 		else if (ft_checkpara(lst->content, 'C'))
 			ft_get_c(par, lst->content);
 		else if (ft_checkpara(lst->content, '1') && par->indexmap == 0)
-		{
-			par->indexmap = 1;
 			ft_get_map(par, lst);
-		}
+		else if (check_line_valid(lst->content))
+			ft_quit(0, "Error invalid data.\n", par);
 		lst = lst->next;
 	}
 }
