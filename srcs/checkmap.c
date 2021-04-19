@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkmap.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 11:43:58 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 16:59:30 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/19 14:05:33 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void		ft_firstchar_is_one(char **map, t_para *par)
 		while (map[y][x] == ' ' && map[y][x])
 			x++;
 		if (map[y][x] != '1' && map[y][x])	
-			ft_quit(0, "Missing 1 in map one.\n", par);
+			ft_quit(0, "Error Map.\n", par);
 		while (ft_checkisnwse201(map[y][x]))
 			x++;
 		if (map[y][x] != '\0' && map[y][x])
-			ft_quit(0, "Missing 1 in map one.\n", par);
+			ft_quit(0, "Error Map.\n", par);
 		while (map[y][x] == ' ' || map[y][x] == '\0')
 			x--;
 		if (map[y][x] != '1' && map[y][x])
-			ft_quit(0, "Missing 1 in map one.\n", par);
+			ft_quit(0, "Error Map.\n", par);
 		y++;
 		x = 0;
 	}

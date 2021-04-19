@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 14:59:57 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:59:01 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,41 +94,41 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	}
 }
 
-int				main(int ac, char **av)
-{
-	(void)ac;
-	t_para		par;
-	t_perso		perso;
-	t_list		*lst;
-	char		*line;
+// int				main(int ac, char **av)
+// {
+// 	(void)ac;
+// 	t_para		par;
+// 	t_perso		perso;
+// 	t_list		*lst;
+// 	char		*line;
 	
 	
-	int fd = 0;
-	if ((ft_checkargu(av[1])) == 1)
-		fd = open(av[1], O_RDONLY);
-	else
-		ft_quit(1, NULL, NULL);
-	if (fd != 3)
-		ft_quit(0, NULL, NULL);
-	line = NULL;
-	lst = NULL;;
-	par.map = NULL;
-	ft_memset(&par, 0, sizeof(t_para));
-	ft_memset(&perso, 0, sizeof(t_perso));
-	while (get_next_line(fd, &line))
-	{
-		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
-		free(line);
-	}
-	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
-	free(line);
-	par.lst_begin = lst;
-	ft_get_allpara(&par, lst);
-	ft_lstclear(&par.lst_begin, free);
-	ft_checkpara_isok(&par);
-	ft_mapisok(&par, &perso);
-	ft_print_test(&par, &perso);
-	free_struct(&par);
-	ft_lstclear_sp(par.sp_begin);
-	return (0);
-}
+// 	int fd = 0;
+// 	if ((ft_checkargu(av[1])) == 1)
+// 		fd = open(av[1], O_RDONLY);
+// 	else
+// 		ft_quit(1, NULL, NULL);
+// 	if (fd != 3)
+// 		ft_quit(0, NULL, NULL);
+// 	line = NULL;
+// 	lst = NULL;;
+// 	par.map = NULL;
+// 	ft_memset(&par, 0, sizeof(t_para));
+// 	ft_memset(&perso, 0, sizeof(t_perso));
+// 	while (get_next_line(fd, &line))
+// 	{
+// 		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+// 		free(line);
+// 	}
+// 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+// 	free(line);
+// 	par.lst_begin = lst;
+// 	ft_get_allpara(&par, lst);
+// 	ft_lstclear(&par.lst_begin, free);
+// 	ft_checkpara_isok(&par);
+// 	ft_mapisok(&par, &perso);
+// 	ft_print_test(&par, &perso);
+// 	free_struct(&par);
+// 	ft_lstclear_sp(par.sp_begin);
+// 	return (0);
+// }

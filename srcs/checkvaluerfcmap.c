@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkvaluerfcmap.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 16:57:11 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/19 15:52:47 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int		ft_check_char(char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] != c)
+		if (str[i] != c && str[i] != '\t')
 			return(1);
 		i++;
 	}
@@ -135,7 +135,7 @@ void		ft_check_rest_lst(t_para *par, t_list *lst)
 	while (lst)
 	{
 		if (ft_check_char(lst->content, ' '))
-			ft_quit(0, "error to much data after map.\n", par);
+			ft_quit(0, "error map9.\n", par);
 		else
 			lst = lst->next;
 	}

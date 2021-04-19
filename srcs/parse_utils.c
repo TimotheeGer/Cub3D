@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 16:58:08 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/19 16:02:25 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,14 @@ void	ft_checkisdigit(char *str, t_para *par, char **strs)
 	int i;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	while (str[i])
 	{
-		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ')
+		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ' && str[i] != '\t')
 		{
 			ft_free_tab(strs);
-			ft_quit(0, "Error there are alphabetic characters in the data.\n", par);
+			ft_quit(0, "Error there are alphabetic characters.\n", par);
 		}
 		i++;
 	}
@@ -53,7 +53,7 @@ int		ft_checkpara(char *str, char c)
 	int i;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == c)
 		return (1);
@@ -65,7 +65,7 @@ int		ft_checkparatextu(char *str, char *indic)
 	int i;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if (str[i] == indic[0] && str[i + 1] == indic[1])
 		return (1);
@@ -77,7 +77,7 @@ int		check_line_valid(char *str)
 	int i;
 
 	i = 0;
-	while (str[i] == ' ')
+	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	if ((str[i] == '\0') || (str[i] == 'N' && str[i + 1] == 'O')
 		|| (str[i] == 'S' && str[i + 1] == 'O')

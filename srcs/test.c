@@ -6,11 +6,11 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/09 15:04:28 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/19 16:31:47 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//#include "cub3D.h"
+#include "mlx.h"
 #include <stdio.h>
 
 int		create_trgb(int t, int r, int g, int b)
@@ -40,51 +40,52 @@ int		get_b(int trgb)
 
 int     add_shade(double distance, int color)
 {
-    int r;
-    int g;
-    int b;
-    
-    r = (get_r(color) >> 16) * distance;
-    g = (get_g(color) >> 8) * distance;
-    b = (get_b(color)) * distance;
-    
-    color = r << 16 | g << 8 | b;
-    return (color);
+	int r;
+	int g;
+	int b;
+	
+	r = (get_r(color) >> 16) * distance;
+	g = (get_g(color) >> 8) * distance;
+	b = (get_b(color)) * distance;
+	
+	color = r << 16 | g << 8 | b;
+	return (color);
 }
 
 int     get_opposite(int color)
 {
-    int r;
-    int g;
-    int b;
-    
-    r = 255 - (get_r(color) >> 16);
-    g = 255 - (get_g(color) >> 8);
-    b = 255 - (get_b(color));
+	int r;
+	int g;
+	int b;
+	
+	r = 255 - (get_r(color) >> 16);
+	g = 255 - (get_g(color) >> 8);
+	b = 255 - (get_b(color));
 
-    color = r << 16 | g << 8 | b;
-    return (color);
+	color = r << 16 | g << 8 | b;
+	return (color);
 }
 
-// int     main()
-// {
-//     int trgb;
-//     int trgb2;
-//     int r;
+typedef struct	s_data
+{
+	
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	
+}				t_data;
 
-//     trgb = 0;
-//     r = 0;
-//     trgb2 = 0;
+int     main(void)
+{
+	void	*mlx;
+	t_data	img;
 
-//     printf("trgb1 = %x\n", trgb);
-    
-//     trgb = create_trgb(1, 1, 1, 1);
- 
-//     printf("trgb2 = %x\n", trgb);
-    
-//     trgb = get_opposite(trgb);
-//     //trgb = add_shade(0.5, trgb);
-    
-//     printf("trgb3 = %x\n", trgb);
-    
-//     return (0);
+	mlx = NULL;
+	mlx = mlx_init();
+	img.img = mlx_new_image(mlx, 1920, 1080);
+	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
+									&img.endian);
+	return (0);
+}
