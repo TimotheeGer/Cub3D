@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/19 15:59:01 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/20 15:55:12 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	ft_print_test(t_para *par, t_perso *perso)
 // 		fd = open(av[1], O_RDONLY);
 // 	else
 // 		ft_quit(1, NULL, NULL);
-// 	if (fd != 3)
+// 	if (fd == -1)
 // 		ft_quit(0, NULL, NULL);
 // 	line = NULL;
 // 	lst = NULL;;
