@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/21 16:47:18 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/23 14:54:18 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,52 +104,85 @@ int		key_hook(int keycode, t_data *img)
 	return (0);
 }
 
-
-int		mouse_hook(int button, int x, int y, t_data *img)
+int		move_mouse(int button, int x, int y, t_data *img)
 {
+	(void)button;
+	(void)img;
+	printf("%d, %d\n", x, y);
+	return (0);
+}
+
+int		mouse_hook(int button, int y, int x, t_data *img)
+{
+	(void)button;
+	(void)y;
+	(void)x;
 	//mlx_mouse_hook(img.win, mouse_hook, &img);
-	
-	if (x || y)
-	{
-		printf("button = %d\n", button);
-		printf("x y = %d,%d\n", x, y);
-	}
+	//printf("button = %d\n", button);
+	// if (x)
+	// 	printf("enter\n");
+	// if (!x)
+	// 	printf("out\n");
 	(void)img;
 	return (0);
 }
-#include <stdlib.h>
-int		close(int keycode, t_data *img)
+
+int		ft_print(int keycode, t_data *img)
 {
 	(void)img;
+	if (keycode)
+		printf("test\n");
+	return (0);
+}
+
+#include <stdlib.h>
+
+int		close(int keycode, t_data *img)
+{
 	(void)keycode;
 	//if (keycode == 65307)
 	//{
 		mlx_destroy_window(img->mlx, img->win);
-		free(img->img);
-		free(img->addr);
-		free(img->mlx);
-		free(img->win);
 		exit(0);
 	//}
 	return (0);
-
-}
+}	
 
 #include <string.h>
+
+int		render_next_frame(t_data *img)
+{
+	int x = 100;
+	int y = 100;
+	
+	img->win = mlx_new_window(img->mlx, 1920, 1080, "hello world!");
+	img->img = mlx_new_image(img->mlx, 1920, 1080);
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel,
+	 							&img->line_length, &img->endian);
+	while (x < 200)
+	{
+		my_mlx_pixel_put(img, x, y, img->color);
+		x++;
+	}
+	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	return (0);
+}
+
 int     main(void)
 {
 	t_data	img;
-	img.color = 0;
+	img.color = create_trgb(0, 125, 125, 0);
 	img.mlx = mlx_init();
-	img.win = mlx_new_window(img.mlx, 1920, 1080, "hello world!");
-	img.img = mlx_new_image(img.mlx, 1920, 1080);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
-	 							&img.line_length, &img.endian);
-	
+	// img.win = mlx_new_window(img.mlx, 1920, 1080, "hello world!");
+	// img.img = mlx_new_image(img.mlx, 1920, 1080);
+	// img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel,
+	//  							&img.line_length, &img.endian);
+	mlx_loop_hook(img.mlx, render_next_frame, &img);
 	//mlx_key_hook(img.win, key_hook, &img);
-	// mlx_mouse_hook(img.win, mouse_hook, &img);
-	mlx_hook(img.win, 33, 0, close, &img);
-	mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
+	//mlx_mouse_hook(img.win, mouse_hook, &img);
+	//mlx_hook(img.win, 6, 1L<<6, move_mouse, &img);
+	//mlx_hook(img.win, 2, 1L<<0, ft_print, &img);
+	//mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
 	mlx_loop(img.mlx);
 	return (0);
 }
