@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/29 15:46:59 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/04/30 14:47:27 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 #define mapWidth 24
 #define mapHeight 24
@@ -48,7 +49,20 @@ int		worldMap[mapWidth][mapHeight] =
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-typedef struct	s_data
+int mapX = 8, mapY = 8, mapS = 64;
+int map[] =
+{
+	1,1,1,1,1,1,1,1,
+	1,0,1,0,0,0,0,1,
+	1,0,1,0,0,0,0,1,
+	1,0,1,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,1,0,1,
+	1,0,0,0,0,0,0,1,
+	1,1,1,1,1,1,1,1,
+};
+
+typedef struct	s_img
 {
 	
 	void	*img;
@@ -56,11 +70,28 @@ typedef struct	s_data
 	int		bits_per_pixel;
 	int		line_length;
 	int		endian;
+	int		color;
+	int		color2;
+	
+}				t_img;
+
+typedef struct	s_data
+{
+	
+	// void	*img;
+	// char	*addr;
+	// int		bits_per_pixel;
+	// int		line_length;
+	// int		endian;
+	t_img   player;
+	t_img   background;
 	int 	i;
 	int		j;
-	int		y;
-	int		x;
+	float	y;
+	float	x;
+	int     refresh;
 	int		color;
+	int		color2;
 	void	*mlx;
 	void	*win;
 	
@@ -129,7 +160,7 @@ int     get_opposite(int color)
 
 //###############################################################################
 
-void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
+void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
 {
 	char *dst;
 
@@ -141,6 +172,7 @@ void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
 
 int		key_hook(int keycode, t_data *img)
 {
+	img->refresh = 1;
 	if (keycode == 'a')
 		img->x-=5;
 	if (keycode == 'd')
@@ -169,12 +201,7 @@ int		mouse_hook(int button, int y, int x, t_data *img)
 	(void)button;
 	(void)y;
 	(void)x;
-	//mlx_mouse_hook(img.win, mouse_hook, &img);
 	//printf("button = %d\n", button);
-	// if (x)
-	// 	printf("enter\n");
-	// if (!x)
-	// 	printf("out\n");
 	(void)img;
 	return (0);
 }
@@ -192,67 +219,101 @@ int		close(int keycode, t_data *img)
 	return (0);
 }	
 
-
 //##############################################################################
 
-void	size_pixel(t_data *img, int x, int y, int size)
+void	fill_img(t_img img, int c, int start, int stop)
 {
-	int xx = x;
-	int yy = y;
-	
-	while (yy < y + size)
-	{
-		while (xx < x + size)
-		{
-			my_mlx_pixel_put(img, xx, yy, 0x00FF00);
-			xx++;
-		}
-		xx = x;
-		yy++;
-	}
+	int *bytes;
+	int *end;
+
+	end = (void *)img.addr + stop * img.line_length;
+	bytes = (int *)((void*)img.addr + start * img.line_length);
+	while (bytes < end)
+		*bytes++ = c;
+}
+
+void	drawPlayer(t_data *img)
+{
+	fill_img(img->player, 0x70BE3F3B, 0, 50);
+	// int x = 0;
+	// int y = 0;
+	// while (y < 50)
+	// {
+	// 	while (x < 50)
+	// 	{
+			
+	// 		// my_mlx_pixel_put(&img->player, x, y, 0xBE3F3B00);
+	// 		x++;
+	// 	}
+	// 	x = 0;
+	// 	y++;
+	// }
 
 }
 
-// void	clearaddr(t_data *img)
+void	full_screen_grey(t_img *img)
+{
+	int x = 0;
+	int y = 0;
+	
+	while (y < screenHeight)
+	{
+		while (x < screenWidth)
+		{
+			my_mlx_pixel_put(img, x, y, 0x0000FF);
+			x++;
+		}
+		x = 0;
+		y++;
+	}
+	
+}
+
+// void	drawMap(t_data *img)
 // {
-// 	int i = 0;
-// 	while (img->addr[i] != '\0')
-// 	{
-// 		img->addr = 0;
-// 		i++;
-// 	}
+// 	img->color2 = 
 // }
+
+//##############################################################################
 
 int		render_next_frame(t_data *img)
 {
-	img->img = mlx_new_image(img->mlx, screenWidth, screenHeight);
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
-	size_pixel(img, img->x, img->y, 8);
-	mlx_put_image_to_window(img->mlx, img->win, img->img, 0, 0);
+	if (img->refresh) {
+		//full_screen_grey(img);
+	mlx_clear_window(img->mlx, img->win);
+	mlx_put_image_to_window(img->mlx, img->win, img->background.img, 0, 0);
+	mlx_put_image_to_window(img->mlx, img->win, img->player.img, img->x, img->y);
+	}
+	img->refresh = 0;
 	return (0);
 }
 
 //##############################################################################
 
-void	init(t_data *img)
+void	ft_init(t_data *img)
 {
 	img->x = 300;
 	img->y = 300;
 	img->color = create_trgb(0, 255, 255, 0);
+	drawPlayer(img);
+
 }
 
 int		main(void)
 {
 	t_data img;
-	
 	img.mlx = mlx_init();
- 	img.win = mlx_new_window(img.mlx, screenWidth, screenHeight, "***Cub3D***");
-	img.img = mlx_new_image(img.mlx, screenWidth, screenHeight);
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	init(&img);
-	mlx_hook(img.win, 3, 1L<<0, key_hook, &img);
+	img.win = mlx_new_window(img.mlx, screenWidth, screenHeight, "***Cub3D***");
+	img.background.img = mlx_new_image(img.mlx, screenWidth, screenHeight);
+	img.background.addr = mlx_get_data_addr(img.background.img, &img.background.bits_per_pixel, &img.background.line_length, &img.background.endian);
+	full_screen_grey(&img.background);
+	mlx_put_image_to_window(img.mlx, img.win, img.background.img, 0, 0);
+	img.player.img = mlx_new_image(img.mlx, 50, 50);
+	img.player.addr = mlx_get_data_addr(img.player.img, &img.player.bits_per_pixel, &img.player.line_length, &img.player.endian);
+	ft_init(&img);
+	img.refresh = 1;
+	mlx_hook(img.win, 2, 1L<<0, key_hook, &img);
 	mlx_loop_hook(img.mlx, render_next_frame, &img);
-	// mlx_put_image_to_window(img.mlx, img.win, img.img, 0, 0);
 	mlx_loop(img.mlx);
 }
 
