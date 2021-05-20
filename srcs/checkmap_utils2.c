@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkmap_utils2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:32:51 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 14:51:48 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/20 16:18:26 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			ft_line_av_one(char *line, char c)
 	return (0);
 }
 
-void		ft_indexplus(char c, t_perso *perso, int y, int x)
+void		ft_indexplus(char c, t_perso *perso, int x, int y)
 {
 	perso->vue = c;
 	perso->pos_y = y;

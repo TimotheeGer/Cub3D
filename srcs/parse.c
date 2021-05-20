@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/20 15:55:12 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/20 16:14:12 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,41 +94,74 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	}
 }
 
-// int				main(int ac, char **av)
+//###############################################################################
+
+// void	ft_init(t_data *data)
 // {
-// 	(void)ac;
-// 	t_para		par;
-// 	t_perso		perso;
-// 	t_list		*lst;
-// 	char		*line;
-	
-	
-// 	int fd = 0;
-// 	if ((ft_checkargu(av[1])) == 1)
-// 		fd = open(av[1], O_RDONLY);
-// 	else
-// 		ft_quit(1, NULL, NULL);
-// 	if (fd == -1)
-// 		ft_quit(0, NULL, NULL);
-// 	line = NULL;
-// 	lst = NULL;;
-// 	par.map = NULL;
-// 	ft_memset(&par, 0, sizeof(t_para));
-// 	ft_memset(&perso, 0, sizeof(t_perso));
-// 	while (get_next_line(fd, &line))
+// 	if (data->refresh == 0)
 // 	{
-// 		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
-// 		free(line);
+// 		data->dx = -1, data->dy = 0;
+// 		data->x = 11, data->y = 26;
+// 		data->color = create_trgb(0, 255, 255, 0);
+// 		data->planeX = 0, data->planeY = 0.66;
 // 	}
-// 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
-// 	free(line);
-// 	par.lst_begin = lst;
-// 	ft_get_allpara(&par, lst);
-// 	ft_lstclear(&par.lst_begin, free);
-// 	ft_checkpara_isok(&par);
-// 	ft_mapisok(&par, &perso);
-// 	ft_print_test(&par, &perso);
-// 	free_struct(&par);
-// 	ft_lstclear_sp(par.sp_begin);
+// 	//drawPlayer(img);
+// }
+
+// //###############################################################################
+
+// int		render_next_frame(t_data *data)
+// {
+// 	if (data->refresh)
+// 	{
+// 		data->background.img = mlx_new_image(data->mlx, 1080, 920);
+// 		data->background.addr = mlx_get_data_addr(data->background.img, &data->background.bits_per_pixel, &data->background.line_length, &data->background.endian);
+// 		full_screen_grey(&data->background);
+// 		raycaster(data);
+// 		mlx_put_image_to_window(data->mlx, data->win, data->background.img, 0, 0);
+// 		mlx_destroy_image(data->mlx, data->background.img);
+// 	}
+// 	data->refresh = 0;
 // 	return (0);
 // }
+
+//###############################################################################
+
+int				main(int ac, char **av)
+{
+	(void)ac;
+	t_data		data;
+	//t_perso		perso;
+	t_list		*lst;
+	char		*line;
+	
+	
+	int fd = 0;
+	if ((ft_checkargu(av[1])) == 1)
+		fd = open(av[1], O_RDONLY);
+	else
+		ft_quit(1, NULL, NULL);
+	if (fd == -1)
+		ft_quit(0, NULL, NULL);
+	line = NULL;
+	lst = NULL;;
+	data.par.map = NULL;
+	ft_memset(&data, 0, sizeof(t_data));
+	while (get_next_line(fd, &line))
+	{
+		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+		free(line);
+	}
+	ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
+	free(line);
+	data.par.lst_begin = lst;
+	ft_get_allpara(&data.par, lst);
+	ft_lstclear(&data.par.lst_begin, free);
+	ft_checkpara_isok(&data.par);
+	ft_mapisok(&data.par, &data.perso);
+	ft_print_test(&data.par, &data.perso);
+	ft_ray(&data);
+	free_struct(&data.par);
+	ft_lstclear_sp(data.par.sp_begin);
+	return (0);
+}

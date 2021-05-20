@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+         #
+#    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/04/15 14:57:09 by tigerber         ###   ########.fr        #
+#    Updated: 2021/05/17 13:15:36 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC =	./srcs/test.c \
 		./srcs/checkmap.c \
 		./srcs/checkmap_utils.c \
 		./srcs/checkmap_utils2.c \
+		./srcs/cub3d2.c
 
 OBJS=		${SRC:.c=.o}
 HEAD=		-I includes -I libft/includes -I mlx

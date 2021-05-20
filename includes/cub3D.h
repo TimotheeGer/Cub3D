@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/19 14:21:24 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/20 17:28:06 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,46 @@ typedef struct      s_par
 	int		  map_open;
 }                    t_para;
 
+typedef struct	s_img
+{
+	
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		color;
+	int		color2;
+	int		colormap1;
+
+}				t_img;
+
+typedef struct	s_data
+{
+	t_perso perso;
+	t_para	par;
+	t_img   player;
+	t_img   background;
+	int 	i;
+	int		j;
+	float	y;
+	float	x;
+	float	dx;
+	float	dy;
+	float	planeX;
+	float	planeY;
+	float	a;
+	int     refresh;
+	int		color;
+	int		color2;
+	int		color3;
+	int		colorF;
+	int		colorC;
+	int		colormap2;
+	void	*mlx;
+	void	*win;
+	
+}				t_data;
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
 int			ft_line_av_one(char *line, char c);
 void        free_struct(t_para *par);
@@ -113,5 +153,14 @@ void        ft_get_map(t_para *par, t_list *lst);
 void	    ft_lstadd_back(t_list **alst, t_list *new);
 t_list	    *ft_lstnew(void *content);
 void	    ft_lstiter(t_list *lst, void (*f)(void *));
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+int			create_trgb(int t, int r, int g, int b);
+void		drawverticalline(t_data *data, int x, int y, int y2, int color);
+void    	raycaster(t_data *img);
+int			key_hook2(int keycode, t_data *img);
+void		ft_ray(t_data *data);
+void		full_screen_grey(t_data *data);
+void		ft_init(t_data *data);
+int     add_shade(double distance, int color);
 
 # endif
