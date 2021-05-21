@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/20 17:28:06 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/21 17:41:15 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ t_list	    *ft_lstnew(void *content);
 void	    ft_lstiter(t_list *lst, void (*f)(void *));
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int			create_trgb(int t, int r, int g, int b);
-void		drawverticalline(t_data *data, int x, int y, int y2, int color);
+void	drawverticalline(t_data *data, int x, int drawstart, int drawend, int color);
 void    	raycaster(t_data *img);
 int			key_hook2(int keycode, t_data *img);
 void		ft_ray(t_data *data);

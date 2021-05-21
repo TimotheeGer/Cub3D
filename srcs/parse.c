@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/20 16:14:12 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/21 18:14:18 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,14 +135,15 @@ int				main(int ac, char **av)
 	t_list		*lst;
 	char		*line;
 	
-	
+	(void)av;
 	int fd = 0;
-	if ((ft_checkargu(av[1])) == 1)
-		fd = open(av[1], O_RDONLY);
-	else
-		ft_quit(1, NULL, NULL);
-	if (fd == -1)
-		ft_quit(0, NULL, NULL);
+	// if ((ft_checkargu(av[1])) == 1)
+	// 	fd = open(av[1], O_RDONLY);
+	// else
+	// 	ft_quit(1, NULL, NULL);
+	// if (fd == -1)
+	// 	ft_quit(0, NULL, NULL);
+	fd = open("srcs/map.cub", O_RDONLY);
 	line = NULL;
 	lst = NULL;;
 	data.par.map = NULL;

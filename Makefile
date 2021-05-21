@@ -6,7 +6,7 @@
 #    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/05/17 13:15:36 by tigerber         ###   ########.fr        #
+#    Updated: 2021/05/21 13:05:42 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC =	./srcs/test.c \
 		./srcs/checkmap.c \
 		./srcs/checkmap_utils.c \
 		./srcs/checkmap_utils2.c \
-		./srcs/cub3d2.c
+		./srcs/cub3d2.c \
+		./srcs/drawRay3D.c
 
 OBJS=		${SRC:.c=.o}
 HEAD=		-I includes -I libft/includes -I mlx
