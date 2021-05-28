@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/21 18:14:18 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:30:12 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ void	ft_print_test(t_para *par, t_perso *perso)
 // }
 
 //###############################################################################
+
+// void			ft_get_text(t_data *data)
+// {
+// 	mlx_xpm_file_to_image();
+//     mlx_get_data_addr
+// }
 
 int				main(int ac, char **av)
 {

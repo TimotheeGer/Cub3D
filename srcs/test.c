@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/21 18:05:53 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:18:21 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,13 @@ void	ft_vue(t_data *data)
 void	ft_init(t_data *data)
 {
 		printf("data posx = %d\n", data->perso.pos_x);
-		// ft_vue(data);
-		data->dx = -1, data->dy = 0;
+		ft_vue(data);
+		data->mapS = 5;
+		//data->dx = -1, data->dy = 0;
 		data->x = data->perso.pos_x + 0.5, data->y = data->perso.pos_y + 0.5;
 		data->colorF = create_trgb(0, data->par.F[0], data->par.F[1], data->par.F[2]);
 		data->colorC = create_trgb(0, data->par.C[0], data->par.C[1], data->par.C[2]);
-		data->planeX = 0, data->planeY = 0.66;
+		//data->planeX = 0, data->planeY = 0.66;
 }
 
 //###############################################################################
@@ -149,10 +150,24 @@ int		render_next_frame(t_data *data)
 	{
 		full_screen_grey(data);
 		raycaster(data);
+		drawMap(data);
+		drawPlayer2d(data, 1);
 		mlx_put_image_to_window(data->mlx, data->win, data->background.img, 0, 0);
 	}
 	data->refresh = 0;
 	return (0);
+}
+
+//###############################################################################
+
+void			ft_get_text(t_data *data)
+{
+	data->par.textNO.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textNO.path, 
+								&data->par.textNO.widthtex, &data->par.textNO.heigthtex);
+    data->par.textNO.addrtex = mlx_get_data_addr(data->par.textNO.imgtex, 
+								&data->par.textNO.bits_per_pixeltex, &data->par.textNO.line_lengthtex,
+								&data->par.textNO.endiantex);
+
 }
 
 //###############################################################################
@@ -166,6 +181,7 @@ void		ft_ray(t_data *data)
 	data->background.addr = mlx_get_data_addr(data->background.img, &data->background.bits_per_pixel, &data->background.line_length, &data->background.endian);
 	data->win = mlx_new_window(data->mlx, data->par.Rx, data->par.Ry, "***Cub3D***");
 	ft_init(data);
+	ft_get_text(data);
 	data->refresh = 1;
 	printf("dat->x = %f\n", data->x);
 	mlx_hook(data->win, 2, 1L<<0, key_hook2, data);

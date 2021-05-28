@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/21 18:15:15 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/28 15:33:59 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,14 @@ int		key_hook2(int keycode, t_data *data)
 	{
 			if(data->par.map[(int)(data->x + data->planeX * moveSpeed)][(int)(data->y)] == '0')
         data->x += data->planeX * moveSpeed;
-      if(data->par.map[(int)(data->x)][(int)(data->y + data->dy * moveSpeed)] == '0')
+      if(data->par.map[(int)(data->x)][(int)(data->y + data->planeY * moveSpeed)] == '0')
         data->y += data->planeY * moveSpeed;
 	}
 	if (keycode == 'a')
 	{
 			if(data->par.map[(int)(data->x - data->planeX * moveSpeed)][(int)(data->y)] == '0')
         data->x -= data->planeX * moveSpeed;
-      if(data->par.map[(int)(data->x)][(int)(data->y - data->dy * moveSpeed)] == '0')
+      if(data->par.map[(int)(data->x)][(int)(data->y - data->planeY * moveSpeed)] == '0')
         data->y -= data->planeY * moveSpeed;
 	}
 	if (keycode == 65361)
@@ -218,28 +218,70 @@ void    raycaster(t_data *data)
       if(drawStart < 0)drawStart = 0;
       int drawEnd = lineHeight / 2 + h / 2;
       if(drawEnd >= h)drawEnd = h - 1;
-
-      //choose wall color
-      int color;
-      // switch(data->par.map[mapX][mapY])
-      // {
-      //   case 1:  color = create_trgb(125, 139,69,19);    break; //red
-      //   case 2:  color = create_trgb(125, 160,82,45); break;//green
-      //   case 3:  color = create_trgb(125, 210,105,30); break;//blue
-      //   case 4:  color = create_trgb(125, 205,133,63); break;//white
-      //   default: color = create_trgb(125, 244,164,96); break;//yellow
-      // }
-      if (data->par.map[mapX][mapY] == '1')
+      
+      //texturing calculations
+      //int texNum = data->par.map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
+          //calculate value of wallX
+      double wallX; //where exactly the wall was hit
+      if(side == 0)
+          wallX = data->y + perpWallDist * rayDirY;
+      else
+          wallX = data->x + perpWallDist * rayDirX;
+      wallX -= floor((wallX));
+      double step = 1.0 * data->par.textNO.heigthtex / lineHeight;
+      int texX = (int)(wallX * (double)data->par.textNO.widthtex);
+      if(side == 0 && rayDirX > 0)
+          texX = data->par.textNO.widthtex - texX - 1;
+      if(side == 1 && rayDirY < 0)
+          texX = data->par.textNO.widthtex - texX - 1;
+      // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
+      // How much to increase the texture coordinate per screen pixel
+      // Starting texture coordinate
+      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
+      for(int y = drawStart ; y <= drawEnd; y++)
       {
-        color = create_trgb(125, 139,69,19);
+          int texY = (int)texPos & (data->par.textNO.heigthtex - 1);
+          texPos += step;
+          int i = texY * data->par.textNO.line_lengthtex + texX * 4;
+          // data->background.addr[y * data->background.line_length + x * 4] = data->par.textNO.addrtex[texY * data->par.textNO.line_lengthtex / 4 + texX];
+          if (y < h && x < w)
+          {
+              // printf("raydirY = %f\n", rayDirY);
+              // printf("raydirX= %f\n", rayDirX);
+              // printf("side = %d\n", side);
+    
+              int color = create_trgb(0, (int)(unsigned char)data->par.textNO.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textNO.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textNO.addrtex[i]);
+              if(side == 1)
+              {
+                color = (color >> 1) & 8355711;
+              }
+              my_mlx_pixel_put(&data->background, x, y, color);
+          }
+          //data->background.addr[y * data->background.line_length / 4 + x] = data->par.textNO.addrtex[texY * data->par.textNO.line_lengthtex / 4 + texX];
       }
+      //choose wall color
+      // int color;
+      // // switch(data->par.map[mapX][mapY])
+      // // {
+      // //   case 1:  color = create_trgb(125, 139,69,19);    break; //red
+      // //   case 2:  color = create_trgb(125, 160,82,45); break;//green
+      // //   case 3:  color = create_trgb(125, 210,105,30); break;//blue
+      // //   case 4:  color = create_trgb(125, 205,133,63); break;//white
+      // //   default: color = create_trgb(125, 244,164,96); break;//yellow
+      // // }
+      // if (data->par.map[mapX][mapY] == '1')
+      // {
+      //   color = create_trgb(125, 139,69,19);
+      // }
 
-      //give x and y sides different brightness
-      if(side == 1) {color = color / 2;}
+      // // //give x and y sides different brightness
+      // if(side == 1) {color = color / 2;}
 
-      //draw the pixels of the stripe as a vertical line
-      //verLine(x, drawStart, drawEnd, color);
-      drawverticalline(data, x, drawStart, drawEnd, color);
+      // //draw the pixels of the stripe as a vertical line
+      // //verLine(x, drawStart, drawEnd, color);
+      // drawverticalline(data, x, drawStart, drawEnd, color);
       x++;
     }
     

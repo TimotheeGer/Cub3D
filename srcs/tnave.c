@@ -6,9 +6,45 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/25 16:00:15 by tnave             #+#    #+#             */
-/*   Updated: 2021/05/21 18:17:25 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/28 14:37:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+void	draw_text(t_data *data, t_text *texture, int x, int y)
+{
+	t_text tex;
+	int i;
+	y = y -1;
+	choose_ray(data, texture);
+	tex = texture[data->texdir];
+	tex.step = 1.0 * tex.height / data->ray->line_height;
+	tex.tex_x = (int)(tex.wallx * (double)tex.width);
+	if (data->ray->side == 0 && data->ray->ray_dir_x > 0)
+		tex.tex_x = tex.width - tex.tex_x - 1;
+	if (data->ray->side == 1 && data->ray->ray_dir_y < 0)
+		tex.tex_x = tex.width - tex.tex_x - 1;
+	tex.texpos = (y - data->ray->h / 2 + data->ray->line_height / 2) * tex.step;
+	while (++y <= data->ray->draw_end)
+	{
+		tex.texpos += tex.step;			// increment tex.step with loot of 8.6 sprites
+		tex.tex_y = (int)tex.texpos & (tex.height - 1);
+		i = tex.tex_y * tex.line_length + tex.tex_x * (tex.bits_per_pixel / 8);
+		if (y < data->ray->h && x < data->ray->w)
+		{
+			my_mlx_pixel_put(data, x, y, create_trgb(0, (int)(unsigned char)tex.addr[i + 2], (int)(unsigned char)tex.addr[i + 1], (int)(unsigned char)tex.addr[i]));
+			//printf("rgb (r = %d, g = %d, b = %d\n", (int)(unsigned char)tex.addr[i], (int)(unsigned char)tex.addr[i + 1], (int)(unsigned char)tex.addr[i + 2]);
+			// data->addr[y * data->line_length + x * (data->bits_per_pixel / 8)] = tex.addr[i];
+		}
+	}
+}
+void	ft_verline(int x, t_data *data, t_text *texture) // ray->x ???? too much parameters
+{
+	if (data->ray->draw_start < data->ray->draw_end)
+	{
+		draw_text(data, texture, x, data->ray->draw_start);
+		data->ray->draw_start++;
+	}
+}
 
 void	add_texture(t_text *texture)
 {
@@ -50,117 +86,4 @@ void	ft_texture(t_data *data, t_text *texture)
 			&(texture[4].width), &(texture[4].height));
 	if (!texture[4].img)
 		ft_error(0, "Error Sprites\n", data);
-}
-void	ft_screen(t_data *data)
-{
-	int		x;
-	int		y;
-	int		floor;
-	int		ceiling;
-	x = 0;
-	y = 0;
-	floor = my_create_trgb(data->floor);
-	ceiling = my_create_trgb(data->ceilling);
-	while (y < data->res_two)
-	{
-		x = 0;
-		while (x < data->res_one)
-		{
-			my_mlx_pixel_put(data, x, y, floor);
-			if (y <= data->res_two / 2)
-				my_mlx_pixel_put(data, x, y, ceiling);
-			x++;
-		}
-		y++;
-	}
-}
-void	ray_casting_first(t_ray *ray)
-{
-	ray->ray_dir_x = ray->dir_x + ray->plane_x * ray->camera_x;
-	ray->ray_dir_y = ray->dir_y + ray->plane_y * ray->camera_x;
-	ray->map_x = (int)ray->pos_x;
-	ray->map_y = (int)ray->pos_y;
-	ray->side_dist_x = 0;
-	ray->side_dist_y = 0;
-	ray->delta_dist_x = fabs(1 / ray->ray_dir_x);
-	ray->delta_dist_y = fabs(1 / ray->ray_dir_y);
-	ray->perp_wall_dist = 0;
-	ray->step_x = 0;
-	ray->step_y = 0;
-	ray->hit = 0;
-	ray->side = 0;
-}
-void	ray_casting_two(t_ray *ray)
-{
-	if (ray->ray_dir_x < 0)
-	{
-		ray->step_x = -1;
-		ray->side_dist_x = (ray->pos_x - ray->map_x) * ray->delta_dist_x;
-	}
-	else
-	{
-		ray->step_x = 1;
-		ray->side_dist_x = (ray->map_x + 1.0 - ray->pos_x) * ray->delta_dist_x;
-	}
-	if (ray->ray_dir_y < 0)
-	{
-		ray->step_y = -1;
-		ray->side_dist_y = (ray->pos_y - ray->map_y) * ray->delta_dist_y;
-	}
-	else
-	{
-		ray->step_y = 1;
-		ray->side_dist_y = (ray->map_y + 1.0 - ray->pos_y) * ray->delta_dist_y;
-	}
-}
-void	dda_calcul(t_ray *ray, t_data *data)
-{
-	while (ray->hit == 0)
-	{
-		if (ray->side_dist_x < ray->side_dist_y)
-		{
-			ray->side_dist_x += ray->delta_dist_x;
-			ray->map_x += ray->step_x;
-			ray->side = 0;
-		}
-		else
-		{
-			ray->side_dist_y += ray->delta_dist_y;
-			ray->map_y += ray->step_y;
-			ray->side = 1;
-		}
-		if (data->map[ray->map_x][ray->map_y] == '1')
-			ray->hit = 1;
-	}
-}
-void	ray_casting_last(t_ray *ray)
-{
-	if (ray->side == 0)
-		ray->perp_wall_dist = (ray->map_x - ray->pos_x + (1 - ray->step_x) / 2)
-			/ ray->ray_dir_x;
-	else
-		ray->perp_wall_dist = (ray->map_y - ray->pos_y + (1 - ray->step_y) / 2)
-			/ ray->ray_dir_y;
-	ray->line_height = (int)(ray->h / ray->perp_wall_dist);
-	ray->draw_start = -ray->line_height / 2 + ray->h / 2;
-	if (ray->draw_start < 0)
-		ray->draw_start = 0;
-	ray->draw_end = ray->line_height / 2 + ray->h / 2;
-	if (ray->draw_end >= ray->h)
-		ray->draw_end = ray->h - 1;
-}
-void	ray_lodev(t_data *data, t_text *texture)
-{
-	int		x;
-	x = 0;
-	while (x < data->ray->w)
-	{
-		data->ray->camera_x = 2.0 * x / (double)data->ray->w - 1.0;
-		ray_casting_first(data->ray);
-		ray_casting_two(data->ray);
-		dda_calcul(data->ray, data);
-		ray_casting_last(data->ray);
-		ft_verline(x, data, texture);
-		x++;
-	}
 }

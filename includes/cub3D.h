@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/21 17:41:15 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/27 15:56:22 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,13 @@ typedef struct      s_index
 typedef struct      s_texture
 {
 	char    *path; // ./path_to_the_texture 
+	int		widthtex;
+	int		heigthtex;
+	void	*imgtex;
+	char	*addrtex;
+	int		bits_per_pixeltex;
+	int		line_lengthtex;
+	int		endiantex;
 }                   t_tex;
 
 typedef struct      s_player
@@ -90,7 +97,6 @@ typedef struct	s_img
 	int		endian;
 	int		color;
 	int		color2;
-	int		colormap1;
 
 }				t_img;
 
@@ -115,10 +121,11 @@ typedef struct	s_data
 	int		color3;
 	int		colorF;
 	int		colorC;
+	int		colormap1;
 	int		colormap2;
 	void	*mlx;
 	void	*win;
-	
+	int		mapS;
 }				t_data;
 // autoure dun 0 N S E W 2 pas despace sinon map ouverte
 int			ft_line_av_one(char *line, char c);
@@ -155,12 +162,14 @@ t_list	    *ft_lstnew(void *content);
 void	    ft_lstiter(t_list *lst, void (*f)(void *));
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 int			create_trgb(int t, int r, int g, int b);
-void	drawverticalline(t_data *data, int x, int drawstart, int drawend, int color);
+void		drawverticalline(t_data *data, int x, int drawstart, int drawend, int color);
 void    	raycaster(t_data *img);
 int			key_hook2(int keycode, t_data *img);
 void		ft_ray(t_data *data);
 void		full_screen_grey(t_data *data);
 void		ft_init(t_data *data);
-int     add_shade(double distance, int color);
+int     	add_shade(double distance, int color);
+void		drawMap(t_data *data);
+void		drawPlayer2d(t_data *data, int size);
 
 # endif
