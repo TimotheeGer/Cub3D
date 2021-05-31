@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/27 15:56:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/31 16:04:50 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ typedef struct      s_par
 	t_tex     textSO; // structure des textures SOUTH
 	t_tex     textWE; // structure des textures WEST
 	t_tex     textSp; // structure des textures SPRITE
+	t_tex     textsol; // structure des textures SPRITE
 	int       F[3]; //[0]R [1]G [2]B
 	int       C[3]; //[0]R [1]G [2]B //255 max
 	char      **map;

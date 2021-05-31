@@ -6,13 +6,13 @@
 #    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/05/27 12:57:54 by tigerber         ###   ########.fr        #
+#    Updated: 2021/05/31 11:25:57 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
 
-SRC =	./srcs/test.c \
+SRC =	./srcs/cub3d.c \
 		./srcs/parse.c \
 		./srcs/parse_utils.c \
 		./srcs/lst_utils.c \
@@ -21,8 +21,7 @@ SRC =	./srcs/test.c \
 		./srcs/checkmap.c \
 		./srcs/checkmap_utils.c \
 		./srcs/checkmap_utils2.c \
-		./srcs/cub3d2.c \
-		./srcs/drawRay3D.c \
+		./srcs/raycast.c \
 		./srcs/mini_map.c
 
 OBJS=		${SRC:.c=.o}

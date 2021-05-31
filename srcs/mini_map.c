@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:36:19 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/27 15:20:23 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/31 11:32:13 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	put_quad_map(t_data *data, int x, int y, int max)
 
 void	drawPlayer2d(t_data *data, int size)
 {
-    //int mapS = 10;
 	int x2 =  -size;
 	int y2 =  -size;
 	

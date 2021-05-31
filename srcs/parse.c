@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/27 15:30:12 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/31 11:39:12 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,48 +96,11 @@ void	ft_print_test(t_para *par, t_perso *perso)
 
 //###############################################################################
 
-// void	ft_init(t_data *data)
-// {
-// 	if (data->refresh == 0)
-// 	{
-// 		data->dx = -1, data->dy = 0;
-// 		data->x = 11, data->y = 26;
-// 		data->color = create_trgb(0, 255, 255, 0);
-// 		data->planeX = 0, data->planeY = 0.66;
-// 	}
-// 	//drawPlayer(img);
-// }
-
-// //###############################################################################
-
-// int		render_next_frame(t_data *data)
-// {
-// 	if (data->refresh)
-// 	{
-// 		data->background.img = mlx_new_image(data->mlx, 1080, 920);
-// 		data->background.addr = mlx_get_data_addr(data->background.img, &data->background.bits_per_pixel, &data->background.line_length, &data->background.endian);
-// 		full_screen_grey(&data->background);
-// 		raycaster(data);
-// 		mlx_put_image_to_window(data->mlx, data->win, data->background.img, 0, 0);
-// 		mlx_destroy_image(data->mlx, data->background.img);
-// 	}
-// 	data->refresh = 0;
-// 	return (0);
-// }
-
-//###############################################################################
-
-// void			ft_get_text(t_data *data)
-// {
-// 	mlx_xpm_file_to_image();
-//     mlx_get_data_addr
-// }
-
 int				main(int ac, char **av)
 {
 	(void)ac;
 	t_data		data;
-	//t_perso		perso;
+	//t_perso		perso; 
 	t_list		*lst;
 	char		*line;
 	

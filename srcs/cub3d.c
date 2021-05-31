@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/28 15:18:21 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/31 16:05:15 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,35 +25,6 @@
 #define P2 PI/2
 #define P3 3*PI/2
 #define DR 0.0174533
-
-// int mapX = 24, mapY = 24, mapS = 10;
-// int map[] =
-// {
-// 	    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,1,1,1,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1,
-//   	1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,
-//   	1,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,1,1,0,1,1,0,0,0,0,1,0,1,0,1,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-//   	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-// };
 
 //##############################################################################
 
@@ -134,7 +105,7 @@ void	ft_init(t_data *data)
 {
 		printf("data posx = %d\n", data->perso.pos_x);
 		ft_vue(data);
-		data->mapS = 5;
+		data->mapS = 3;
 		//data->dx = -1, data->dy = 0;
 		data->x = data->perso.pos_x + 0.5, data->y = data->perso.pos_y + 0.5;
 		data->colorF = create_trgb(0, data->par.F[0], data->par.F[1], data->par.F[2]);
@@ -151,7 +122,7 @@ int		render_next_frame(t_data *data)
 		full_screen_grey(data);
 		raycaster(data);
 		drawMap(data);
-		drawPlayer2d(data, 1);
+		drawPlayer2d(data, 1 / 2);
 		mlx_put_image_to_window(data->mlx, data->win, data->background.img, 0, 0);
 	}
 	data->refresh = 0;
@@ -162,12 +133,31 @@ int		render_next_frame(t_data *data)
 
 void			ft_get_text(t_data *data)
 {
-	data->par.textNO.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textNO.path, 
+	data->par.textNO.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textNO.path,
 								&data->par.textNO.widthtex, &data->par.textNO.heigthtex);
     data->par.textNO.addrtex = mlx_get_data_addr(data->par.textNO.imgtex, 
 								&data->par.textNO.bits_per_pixeltex, &data->par.textNO.line_lengthtex,
-								&data->par.textNO.endiantex);
-
+								&data->par.textNO.endiantex);							
+	data->par.textSO.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textSO.path, 
+								&data->par.textSO.widthtex, &data->par.textSO.heigthtex);
+    data->par.textSO.addrtex = mlx_get_data_addr(data->par.textSO.imgtex, 
+								&data->par.textSO.bits_per_pixeltex, &data->par.textSO.line_lengthtex,
+								&data->par.textSO.endiantex);
+	data->par.textWE.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textWE.path, 
+								&data->par.textWE.widthtex, &data->par.textWE.heigthtex);
+    data->par.textWE.addrtex = mlx_get_data_addr(data->par.textWE.imgtex, 
+								&data->par.textWE.bits_per_pixeltex, &data->par.textWE.line_lengthtex,
+								&data->par.textWE.endiantex);
+	data->par.textEA.imgtex = mlx_xpm_file_to_image(data->mlx, data->par.textEA.path, 
+								&data->par.textEA.widthtex, &data->par.textEA.heigthtex);
+    data->par.textEA.addrtex = mlx_get_data_addr(data->par.textEA.imgtex, 
+								&data->par.textEA.bits_per_pixeltex, &data->par.textEA.line_lengthtex,
+								&data->par.textEA.endiantex);
+	data->par.textsol.imgtex = mlx_xpm_file_to_image(data->mlx, "./srcs/herbe.xpm", 
+								&data->par.textsol.widthtex, &data->par.textsol.heigthtex);
+    data->par.textsol.addrtex = mlx_get_data_addr(data->par.textsol.imgtex, 
+								&data->par.textsol.bits_per_pixeltex, &data->par.textsol.line_lengthtex,
+								&data->par.textsol.endiantex);		
 }
 
 //###############################################################################

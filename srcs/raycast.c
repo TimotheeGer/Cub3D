@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3d2.c                                           :+:      :+:    :+:   */
+/*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/28 15:33:59 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/05/31 16:08:49 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,34 +21,6 @@
 #define screenHeight 920
 #define mapWidth 24
 #define mapHeight 24
-
-// int worldMap[mapWidth][mapHeight]=
-// {
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,0,0,0,0,4,0,0,0,5,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-//   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-// };
 
 //###############################################################################
 
@@ -67,9 +39,9 @@ void	drawverticalline(t_data *data, int x, int drawstart, int drawend, int color
 
 int		key_hook2(int keycode, t_data *data)
 {
-	double moveSpeed =  0.2; //the constant value is in squares/second
-  double rotSpeed = 0.05; //the constant value is in radians/second
-	printf("keycode = %d\n", keycode);
+	double moveSpeed =  0.5; //the constant value is in squares/second
+  double rotSpeed = 0.08; //the constant value is in radians/second
+
 	data->refresh = 1;
 	if (keycode == 'w')
 	{
@@ -117,28 +89,65 @@ int		key_hook2(int keycode, t_data *data)
       		data->planeX = data->planeX * cos(-rotSpeed) - data->planeY * sin(-rotSpeed);
       		data->planeY = oldPlaneX * sin(-rotSpeed) + data->planeY * cos(-rotSpeed);
 	}
-
 	return (0);
 }
 
 void    raycaster(t_data *data)
 {
-    // t_img *data;
     int x = 0;
     int w = data->par.Rx;
     int h = data->par.Ry;
-    // data->x = 7, data->y = 8;  //x and y start position
-    // data->dx = -1, data->dy = 0; //initial direction vector
-    // data->planeX = 0, data->planeY = 0.66; //the 2d raycaster version of camera plane
     
-    	printf("datax = %f\n", data->x);
-    	printf("datay = %f\n", data->y);
-    	printf("datadx = %f\n", data->dx);
-    	printf("datady = %f\n", data->dy);
-
-    while (x < w)
-    {
         //calculate ray position and direction
+      
+
+    for(int y = h / 2 + 1; y < h; ++y)
+    {
+      // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
+      float rayDirX0 = data->dx - data->planeX;
+      float rayDirY0 = data->dy - data->planeY;
+      float rayDirX1 = data->dx + data->planeX;
+      float rayDirY1 = data->dy + data->planeY;
+      // Current y position compared to the center of the screen (the horizon)
+      int p = y - h / 2;
+
+      float posZ = 0.5 * h;
+
+      float rowDistance = posZ / p;
+
+      // calculate the real world step vector we have to add for each x (parallel to camera plane)
+      // adding step by step avoids multiplications with a weight in the inner loop
+      float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / w;
+      float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / w;
+
+      // real world coordinates of the leftmost column. This will be updated as we step to the right.
+      float floorX = data->x + rowDistance * rayDirX0;
+      float floorY = data->y + rowDistance * rayDirY0;
+
+      for(int x = 0; x < w; ++x)
+      {
+        // the cell coord is simply got from the integer parts of floorX and floorY
+        int cellX = (int)(floorX);
+        int cellY = (int)(floorY);
+
+        // get the texture coordinate from the fractional part
+        int tx = (int)( data->par.textsol.widthtex * (floorX - cellX)) & (data->par.textsol.widthtex - 1);
+        int ty = (int)(data->par.textsol.heigthtex * (floorY - cellY)) & (data->par.textsol.heigthtex - 1);
+
+        floorX += floorStepX;
+        floorY += floorStepY;
+
+        int i = ty * data->par.textsol.line_lengthtex + tx * 4;
+        int color;
+        color = create_trgb(0, (int)(unsigned char)data->par.textsol.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textsol.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textsol.addrtex[i]); 
+        my_mlx_pixel_put(&data->background, x, y, color);
+      }
+    }
+    // x = 0;
+    while (x<w)
+    {
       double cameraX = 2.0 * x / (double)w - 1.0; //x-coordinate in camera space
       double rayDirX = data->dx + data->planeX * cameraX;
       double rayDirY = data->dy + data->planeY * cameraX;
@@ -161,6 +170,7 @@ void    raycaster(t_data *data)
 
       int hit = 0; //was there a wall hit?
       int side = 0; //was a NS or a EW wall hit?
+
       //calculate step and initial sideDist
       if(rayDirX < 0)
       {
@@ -220,69 +230,60 @@ void    raycaster(t_data *data)
       if(drawEnd >= h)drawEnd = h - 1;
       
       //texturing calculations
-      //int texNum = data->par.map[mapX][mapY] - 1; //1 subtracted from it so that texture 0 can be used!
           //calculate value of wallX
       double wallX; //where exactly the wall was hit
+      double step = 1.0 * 512 / lineHeight;
+      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
       if(side == 0)
           wallX = data->y + perpWallDist * rayDirY;
       else
           wallX = data->x + perpWallDist * rayDirX;
       wallX -= floor((wallX));
-      double step = 1.0 * data->par.textNO.heigthtex / lineHeight;
-      int texX = (int)(wallX * (double)data->par.textNO.widthtex);
+      
+      int texX = (int)(wallX * (double)512);
       if(side == 0 && rayDirX > 0)
-          texX = data->par.textNO.widthtex - texX - 1;
+          texX = 512 - texX - 1;
       if(side == 1 && rayDirY < 0)
-          texX = data->par.textNO.widthtex - texX - 1;
+          texX = 512 - texX - 1;
       // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
       // How much to increase the texture coordinate per screen pixel
       // Starting texture coordinate
-      double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
       for(int y = drawStart ; y <= drawEnd; y++)
       {
-          int texY = (int)texPos & (data->par.textNO.heigthtex - 1);
+          int texY = (int)texPos & (512 - 1);
           texPos += step;
-          int i = texY * data->par.textNO.line_lengthtex + texX * 4;
-          // data->background.addr[y * data->background.line_length + x * 4] = data->par.textNO.addrtex[texY * data->par.textNO.line_lengthtex / 4 + texX];
+          int i = texY * 2048 + texX * 4;
+          int color = 0;
           if (y < h && x < w)
           {
-              // printf("raydirY = %f\n", rayDirY);
-              // printf("raydirX= %f\n", rayDirX);
-              // printf("side = %d\n", side);
-    
-              int color = create_trgb(0, (int)(unsigned char)data->par.textNO.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textNO.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textNO.addrtex[i]);
-              if(side == 1)
+              if (side == 0 && rayDirX < 0) // nord
               {
-                color = (color >> 1) & 8355711;
+                color = create_trgb(0, (int)(unsigned char)data->par.textNO.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textNO.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textNO.addrtex[i]); 
+              }
+              if (side == 0 && rayDirX > 0) // sud
+              {
+                 color = create_trgb(0, (int)(unsigned char)data->par.textSO.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textSO.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textSO.addrtex[i]); 
+              }
+              if (side == 1 && rayDirY > 0) // east
+              {
+                color = create_trgb(0, (int)(unsigned char)data->par.textEA.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textEA.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textEA.addrtex[i]); 
+              }
+              if (side == 1 && rayDirY < 0) //west
+              {
+                color = create_trgb(0, (int)(unsigned char)data->par.textWE.addrtex[i + 2],
+                                    (int)(unsigned char)data->par.textWE.addrtex[i + 1],
+                                    (int)(unsigned char)data->par.textWE.addrtex[i]); 
               }
               my_mlx_pixel_put(&data->background, x, y, color);
           }
-          //data->background.addr[y * data->background.line_length / 4 + x] = data->par.textNO.addrtex[texY * data->par.textNO.line_lengthtex / 4 + texX];
       }
-      //choose wall color
-      // int color;
-      // // switch(data->par.map[mapX][mapY])
-      // // {
-      // //   case 1:  color = create_trgb(125, 139,69,19);    break; //red
-      // //   case 2:  color = create_trgb(125, 160,82,45); break;//green
-      // //   case 3:  color = create_trgb(125, 210,105,30); break;//blue
-      // //   case 4:  color = create_trgb(125, 205,133,63); break;//white
-      // //   default: color = create_trgb(125, 244,164,96); break;//yellow
-      // // }
-      // if (data->par.map[mapX][mapY] == '1')
-      // {
-      //   color = create_trgb(125, 139,69,19);
-      // }
-
-      // // //give x and y sides different brightness
-      // if(side == 1) {color = color / 2;}
-
-      // //draw the pixels of the stripe as a vertical line
-      // //verLine(x, drawStart, drawEnd, color);
-      // drawverticalline(data, x, drawStart, drawEnd, color);
       x++;
     }
-    
+      
 }
