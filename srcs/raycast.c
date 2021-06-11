@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/31 16:08:49 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/11 15:14:24 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,67 +30,65 @@ void	drawverticalline(t_data *data, int x, int drawstart, int drawend, int color
 {
 	while (drawstart < drawend)
 	{
-		my_mlx_pixel_put(&data->background, x, drawstart, color);
+		my_mlx_pixel_put(&data->screen, x, drawstart, color);
 		drawstart++;
 	}
 }
 
 //###############################################################################
-
-int		key_hook2(int keycode, t_data *data)
+void    init_floor_one(t_data *d)
 {
-	double moveSpeed =  0.5; //the constant value is in squares/second
-  double rotSpeed = 0.08; //the constant value is in radians/second
-
-	data->refresh = 1;
-	if (keycode == 'w')
-	{
-			if(data->par.map[(int)(data->x + data->dx * moveSpeed)][(int)(data->y)] == '0')
-        data->x += data->dx * moveSpeed;
-      if(data->par.map[(int)data->x][(int)(data->y + data->dy * moveSpeed)] == '0')
-       data->y += data->dy * moveSpeed;
-	}
-	if (keycode == 's')
-	{
-			if(data->par.map[(int)(data->x - data->dx * moveSpeed)][(int)(data->y)] == '0')
-        data->x -= data->dx * moveSpeed;
-      if(data->par.map[(int)(data->x)][(int)(data->y - data->dy * moveSpeed)] == '0')
-        data->y -= data->dy * moveSpeed;
-	}
-  if (keycode == 'd')
-	{
-			if(data->par.map[(int)(data->x + data->planeX * moveSpeed)][(int)(data->y)] == '0')
-        data->x += data->planeX * moveSpeed;
-      if(data->par.map[(int)(data->x)][(int)(data->y + data->planeY * moveSpeed)] == '0')
-        data->y += data->planeY * moveSpeed;
-	}
-	if (keycode == 'a')
-	{
-			if(data->par.map[(int)(data->x - data->planeX * moveSpeed)][(int)(data->y)] == '0')
-        data->x -= data->planeX * moveSpeed;
-      if(data->par.map[(int)(data->x)][(int)(data->y - data->planeY * moveSpeed)] == '0')
-        data->y -= data->planeY * moveSpeed;
-	}
-	if (keycode == 65361)
-	{
-      		double oldDirX = data->dx;
-      		data->dx = data->dx * cos(rotSpeed) - data->dy * sin(rotSpeed);
-      		data->dy = oldDirX * sin(rotSpeed) + data->dy * cos(rotSpeed);
-      		double oldPlaneX = data->planeX;
-      		data->planeX = data->planeX * cos(rotSpeed) - data->planeY * sin(rotSpeed);
-      		data->planeY = oldPlaneX * sin(rotSpeed) + data->planeY * cos(rotSpeed);
-	}
-	if (keycode == 65363)
-	{
-			double oldDirX = data->dx;
-      		data->dx = data->dx * cos(-rotSpeed) - data->dy * sin(-rotSpeed);
-      		data->dy = oldDirX * sin(-rotSpeed) + data->dy * cos(-rotSpeed);
-      		double oldPlaneX = data->planeX;
-      		data->planeX = data->planeX * cos(-rotSpeed) - data->planeY * sin(-rotSpeed);
-      		data->planeY = oldPlaneX * sin(-rotSpeed) + data->planeY * cos(-rotSpeed);
-	}
-	return (0);
+    d->f.x = 0;
+    d->f.raydirx0 = d->dx - d->planeX;
+    d->f.raydiry0 = d->dy - d->planeY;
+    d->f.raydirx1 = d->dx + d->planeX;
+    d->f.raydiry1 = d->dy + d->planeY;
+    d->f.p = d->f.y - d->par.Ry / 2;
+    d->f.posz = 0.5 * d->par.Ry;
+    d->f.rowdistance = d->f.posz / d->f.p;
+    d->f.floorstepx = d->f.rowdistance * (d->f.raydirx1 - d->f.raydirx0) / d->par.Rx;
+    d->f.floorstepy = d->f.rowdistance * (d->f.raydiry1 - d->f.raydiry0) / d->par.Rx;
+    d->f.floorx = d->x + d->f.rowdistance * d->f.raydirx0;
+    d->f.floory = d->y + d->f.rowdistance * d->f.raydiry0;
 }
+
+// void    init_floor_two(t_data *d)
+// {
+  
+// }
+
+void    ft_floor(t_data *d)
+{
+    d->f.y = d->f.h / 2 + 1;
+    while (d->f.y < d->par.Ry)
+    {
+      d->f.y++;
+      init_floor_one(d);
+      while( d->f.x < d->par.Rx)
+      { 
+        d->f.x++;
+        int cellX = (int)(d->f.floorx);
+        int cellY = (int)(d->f.floory);
+        
+        int tx = (int)( d->par.t_sol.width * (d->f.floorx - cellX)) & (d->par.t_sol.width - 1);
+        int ty = (int)(d->par.t_sol.heigth * (d->f.floory - cellY)) & (d->par.t_sol.heigth - 1);
+
+        d->f.floorx += d->f.floorstepx;
+        d->f.floory += d->f.floorstepy;
+
+        int i = ty * d->par.t_sol.line_len + tx * 4;
+        int color;
+        color = create_trgb(0, (int)(unsigned char)d->par.t_sol.addr[i + 2],
+                                    (int)(unsigned char)d->par.t_sol.addr[i + 1],
+                                    (int)(unsigned char)d->par.t_sol.addr[i]); 
+        my_mlx_pixel_put(&d->screen, d->f.x, d->f.y, color);
+         
+      }
+      
+    }
+}
+
+
 
 void    raycaster(t_data *data)
 {
@@ -100,52 +98,9 @@ void    raycaster(t_data *data)
     
         //calculate ray position and direction
       
+    
+    ft_floor(data);
 
-    for(int y = h / 2 + 1; y < h; ++y)
-    {
-      // rayDir for leftmost ray (x = 0) and rightmost ray (x = w)
-      float rayDirX0 = data->dx - data->planeX;
-      float rayDirY0 = data->dy - data->planeY;
-      float rayDirX1 = data->dx + data->planeX;
-      float rayDirY1 = data->dy + data->planeY;
-      // Current y position compared to the center of the screen (the horizon)
-      int p = y - h / 2;
-
-      float posZ = 0.5 * h;
-
-      float rowDistance = posZ / p;
-
-      // calculate the real world step vector we have to add for each x (parallel to camera plane)
-      // adding step by step avoids multiplications with a weight in the inner loop
-      float floorStepX = rowDistance * (rayDirX1 - rayDirX0) / w;
-      float floorStepY = rowDistance * (rayDirY1 - rayDirY0) / w;
-
-      // real world coordinates of the leftmost column. This will be updated as we step to the right.
-      float floorX = data->x + rowDistance * rayDirX0;
-      float floorY = data->y + rowDistance * rayDirY0;
-
-      for(int x = 0; x < w; ++x)
-      {
-        // the cell coord is simply got from the integer parts of floorX and floorY
-        int cellX = (int)(floorX);
-        int cellY = (int)(floorY);
-
-        // get the texture coordinate from the fractional part
-        int tx = (int)( data->par.textsol.widthtex * (floorX - cellX)) & (data->par.textsol.widthtex - 1);
-        int ty = (int)(data->par.textsol.heigthtex * (floorY - cellY)) & (data->par.textsol.heigthtex - 1);
-
-        floorX += floorStepX;
-        floorY += floorStepY;
-
-        int i = ty * data->par.textsol.line_lengthtex + tx * 4;
-        int color;
-        color = create_trgb(0, (int)(unsigned char)data->par.textsol.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textsol.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textsol.addrtex[i]); 
-        my_mlx_pixel_put(&data->background, x, y, color);
-      }
-    }
-    // x = 0;
     while (x<w)
     {
       double cameraX = 2.0 * x / (double)w - 1.0; //x-coordinate in camera space
@@ -245,9 +200,8 @@ void    raycaster(t_data *data)
           texX = 512 - texX - 1;
       if(side == 1 && rayDirY < 0)
           texX = 512 - texX - 1;
-      // TODO: an integer-only bresenham or DDA like algorithm could make the texture coordinate stepping faster
-      // How much to increase the texture coordinate per screen pixel
-      // Starting texture coordinate
+
+
       for(int y = drawStart ; y <= drawEnd; y++)
       {
           int texY = (int)texPos & (512 - 1);
@@ -258,32 +212,108 @@ void    raycaster(t_data *data)
           {
               if (side == 0 && rayDirX < 0) // nord
               {
-                color = create_trgb(0, (int)(unsigned char)data->par.textNO.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textNO.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textNO.addrtex[i]); 
+                color = create_trgb(0, (int)(unsigned char)data->par.t_no.addr[i + 2],
+                                    (int)(unsigned char)data->par.t_no.addr[i + 1],
+                                    (int)(unsigned char)data->par.t_no.addr[i]); 
               }
               if (side == 0 && rayDirX > 0) // sud
               {
-                 color = create_trgb(0, (int)(unsigned char)data->par.textSO.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textSO.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textSO.addrtex[i]); 
+                 color = create_trgb(0, (int)(unsigned char)data->par.t_so.addr[i + 2],
+                                    (int)(unsigned char)data->par.t_so.addr[i + 1],
+                                    (int)(unsigned char)data->par.t_so.addr[i]); 
               }
               if (side == 1 && rayDirY > 0) // east
               {
-                color = create_trgb(0, (int)(unsigned char)data->par.textEA.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textEA.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textEA.addrtex[i]); 
+                color = create_trgb(0, (int)(unsigned char)data->par.t_ea.addr[i + 2],
+                                    (int)(unsigned char)data->par.t_ea.addr[i + 1],
+                                    (int)(unsigned char)data->par.t_ea.addr[i]); 
               }
               if (side == 1 && rayDirY < 0) //west
               {
-                color = create_trgb(0, (int)(unsigned char)data->par.textWE.addrtex[i + 2],
-                                    (int)(unsigned char)data->par.textWE.addrtex[i + 1],
-                                    (int)(unsigned char)data->par.textWE.addrtex[i]); 
+                color = create_trgb(0, (int)(unsigned char)data->par.t_we.addr[i + 2],
+                                    (int)(unsigned char)data->par.t_we.addr[i + 1],
+                                    (int)(unsigned char)data->par.t_we.addr[i]); 
               }
-              my_mlx_pixel_put(&data->background, x, y, color);
+              my_mlx_pixel_put(&data->screen, x, y, color);
           }
       }
       x++;
     }
-      
+    
+    #define numSprites 1
+    // int spriteOrder[numSprites];
+    // double spriteDistance[numSprites];
+    
+    for(int i = 0; i < numSprites; i++)
+    { 
+
+      //translate sprite position to relative to camera
+      double spriteX = data->par.sprite->sp_x - data->x;
+      double spriteY = data->par.sprite->sp_y - data->y;
+
+      //transform sprite with the inverse camera matrix
+      // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
+      // [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
+      // [ planeY   dirY ]                                          [ -planeY  planeX ]
+
+      double invDet = 1.0 / (data->planeX * data->dy - data->dx * data->planeY); //required for correct matrix multiplication
+
+      double transformX = invDet * (data->dy * spriteX - data->dx * spriteY);
+      double transformY = invDet * (-data->planeY * spriteX + data->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
+
+      int spriteScreenX = (int)((data->par.Rx / 2) * (1 + transformX / transformY));
+
+      //parameters for scaling and moving the sprites
+      #define uDiv 1
+      #define vDiv 1
+      #define vMove 0.0
+      int vMoveScreen = (int)(vMove / transformY);
+
+      //calculate height of the sprite on screen
+      int spriteHeight = abs((int)(data->par.Ry / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
+      //calculate lowest and highest pixel to fill in current stripe
+      int drawStartY = -spriteHeight / 2 + data->par.Ry / 2 + vMoveScreen;
+      if(drawStartY < 0) drawStartY = 0;
+      int drawEndY = spriteHeight / 2 + data->par.Ry / 2 + vMoveScreen;
+      if(drawEndY >= data->par.Ry) drawEndY = data->par.Ry - 1;
+
+      //calculate width of the sprite
+      int spriteWidth = abs((int)(data->par.Ry / (transformY))) / uDiv;
+      int drawStartX = -spriteWidth / 2 + spriteScreenX;
+      if(drawStartX < 0) drawStartX = 0;
+      int drawEndX = spriteWidth / 2 + spriteScreenX;
+      if(drawEndX >= data->par.Rx) drawEndX = data->par.Rx - 1;
+
+      //loop through every vertical stripe of the sprite on screen
+      for(int stripe = drawStartX; stripe < drawEndX; stripe++)
+      {
+
+        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->par.t_sp.width / spriteWidth) / 256;
+        //the conditions in the if are:
+        //1) it's in front of camera plane so you don't see things behind you
+        //2) it's on the screen (left)
+        //3) it's on the screen (right)
+        //4) ZBuffer, with perpendicular distance
+        if(transformY > 0 && stripe > 0 && stripe < data->par.Rx)
+        {
+          for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
+          {
+
+            int c = (y-vMoveScreen) * 256 - data->par.Ry * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
+            int texY = ((c * data->par.t_sp.heigth) / spriteHeight) / 256;
+            if (data->par.t_sp.addr[texY * data->par.t_sp.line_len + texX * (data->par.t_sp.b_p_pix / 8)])
+            {  
+              int j = texY * data->par.t_sp.line_len + texX * 4; 
+              int color = create_trgb(0, (int)(unsigned char)data->par.t_sp.addr[j + 2],
+                                    (int)(unsigned char)data->par.t_sp.addr[j + 1],
+                                    (int)(unsigned char)data->par.t_sp.addr[j]); 
+              my_mlx_pixel_put(&data->screen, stripe, y, color);
+            }
+          }
+        //   Uint32 color = texture[sprite[spriteOrder[i]].texture][d->par.t_sp.width * texY + texX]; //get current color from the texture
+        //   if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
+        }
+      }
+    }
+    
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checkpath.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:44:00 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/16 13:52:04 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/09 12:59:44 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void		ft_get_no(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_NO.\n", par);
 	}
 	else
-		par->textNO.path = ft_strdup(strs[1]);
+		par->t_no.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }
 
@@ -64,7 +64,7 @@ void		ft_get_so(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_SO.\n", par);
 	}
 	else
-		par->textSO.path = ft_strdup(strs[1]);
+		par->t_so.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }
 
@@ -91,7 +91,7 @@ void		ft_get_we(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_WE.\n", par);
 	}
 	else
-		par->textWE.path = ft_strdup(strs[1]);
+		par->t_we.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }
 
@@ -118,7 +118,7 @@ void		ft_get_ea(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_EA.\n", par);
 	}
 	else
-		par->textEA.path = ft_strdup(strs[1]);
+		par->t_ea.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }
 
@@ -145,6 +145,6 @@ void		ft_get_s(t_para *par, char *line)
 		ft_quit(0, "Error too much ./path_S.\n", par);
 	}
 	else
-		par->textSp.path = ft_strdup(strs[1]);
+		par->t_sp.path = ft_strdup(strs[1]);
 	ft_free_tab(strs);
 }

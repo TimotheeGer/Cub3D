@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tigerber <tigerber@studemt.42.fr>          +#+  +:+       +#+        */
+/*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:12:01 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/15 15:59:54 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/11 15:01:03 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,30 @@
 
 void	free_struct(t_para *par)
 {
-	if (par->textNO.path != NULL)
+	if (par->t_no.path != NULL)
 	{
-		free(par->textNO.path);
-		par->textNO.path = NULL;
+		free(par->t_no.path);
+		par->t_no.path = NULL;
 	}
-	if (par->textEA.path != NULL)
+	if (par->t_ea.path != NULL)
 	{
-		free(par->textEA.path);
-		par->textEA.path = NULL;
+		free(par->t_ea.path);
+		par->t_ea.path = NULL;
 	}
-	if (par->textSO.path != NULL)
+	if (par->t_so.path != NULL)
 	{
-		free(par->textSO.path);
-		par->textSO.path = NULL;
+		free(par->t_so.path);
+		par->t_so.path = NULL;
 	}
-	if (par->textWE.path != NULL)
+	if (par->t_we.path != NULL)
 	{
-		free(par->textWE.path);
-		par->textWE.path = NULL;
+		free(par->t_we.path);
+		par->t_we.path = NULL;
 	}
-	if (par->textSp.path != NULL)
+	if (par->t_sp.path != NULL)
 	{
-		free(par->textSp.path);
-		par->textSp.path = NULL;
+		free(par->t_sp.path);
+		par->t_sp.path = NULL;
 	}
 	if (par->map != NULL)
 	{

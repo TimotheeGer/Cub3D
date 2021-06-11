@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/31 16:04:50 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/11 14:59:46 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,32 @@ typedef struct       s_lstsprite
 	struct s_lstsprite  *next;
 }                   t_lstsp; // liste sprite
 
+typedef struct		s_floor
+{
+	int		w;
+	int		h;
+	int		x;
+	int		y;
+	float	raydirx0;
+    float	raydiry0;
+    float	raydirx1;
+    float	raydiry1;
+	int		p;
+	float	posz;
+	float	rowdistance;
+	float	floorstepx;
+	float	floorstepy;
+	float	floorx;
+	float	floory;
+	int		cellx;
+	int		celly;
+	int		tx;
+	int		ty;
+	int		i;
+	int		color;
+}					t_floor;
+
+
 typedef struct      s_index
 {
 	int     R;
@@ -45,13 +71,13 @@ typedef struct      s_index
 typedef struct      s_texture
 {
 	char    *path; // ./path_to_the_texture 
-	int		widthtex;
-	int		heigthtex;
-	void	*imgtex;
-	char	*addrtex;
-	int		bits_per_pixeltex;
-	int		line_lengthtex;
-	int		endiantex;
+	int		width;
+	int		heigth;
+	void	*img;
+	char	*addr;
+	int		b_p_pix;
+	int		line_len;
+	int		endian;
 }                   t_tex;
 
 typedef struct      s_player
@@ -71,12 +97,12 @@ typedef struct      s_par
 {
 	int       Rx; //Resoution [0]axe x [1]axe y
 	int       Ry; //Resoution [0]axe x [1]axe y
-	t_tex     textEA; // structure des textures EAST
-	t_tex     textNO; // structure des textures NORD
-	t_tex     textSO; // structure des textures SOUTH
-	t_tex     textWE; // structure des textures WEST
-	t_tex     textSp; // structure des textures SPRITE
-	t_tex     textsol; // structure des textures SPRITE
+	t_tex     t_ea; // structure des textures EAST
+	t_tex     t_no; // structure des textures NORD
+	t_tex     t_so; // structure des textures SOUTH
+	t_tex     t_we; // structure des textures WEST
+	t_tex     t_sp; // structure des textures SPRITE
+	t_tex     t_sol; // structure des textures SPRITE
 	int       F[3]; //[0]R [1]G [2]B
 	int       C[3]; //[0]R [1]G [2]B //255 max
 	char      **map;
@@ -106,7 +132,8 @@ typedef struct	s_data
 	t_perso perso;
 	t_para	par;
 	t_img   player;
-	t_img   background;
+	t_img   screen;
+	t_floor	f;
 	int 	i;
 	int		j;
 	float	y;
@@ -117,6 +144,8 @@ typedef struct	s_data
 	float	planeY;
 	float	a;
 	int     refresh;
+	double	move;
+	double	rota;
 	int		color;
 	int		color2;
 	int		color3;
@@ -172,5 +201,5 @@ void		ft_init(t_data *data);
 int     	add_shade(double distance, int color);
 void		drawMap(t_data *data);
 void		drawPlayer2d(t_data *data, int size);
-
+void		ft_sprite(t_data *d);
 # endif

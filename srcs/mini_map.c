@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:36:19 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/31 11:32:13 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/09 13:02:31 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	put_quad_map(t_data *data, int x, int y, int max)
 {
     while (y < max)
     {
-		    my_mlx_pixel_put(&data->background, x, y, data->colormap1);
+		    my_mlx_pixel_put(&data->screen, x, y, data->colormap1);
             y++;
     }
 }
@@ -36,7 +36,7 @@ void	drawPlayer2d(t_data *data, int size)
 	{
 		while (x2 <= size)
 		{
-			my_mlx_pixel_put(&data->background, (data->y * data->mapS) + x2, (data->x * data->mapS) + y2, 0XFFFF00);
+			my_mlx_pixel_put(&data->screen, (data->y * data->mapS) + x2, (data->x * data->mapS) + y2, 0XFFFF00);
 			x2++;
 		}
 		x2 =  -size;

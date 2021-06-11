@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/05/31 11:39:12 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/11 14:55:41 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,11 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	printf("R = [%d] [%d]\n", par->Rx, par->Ry);
 	printf("F = [%d] [%d] [%d]\n", par->F[0], par->F[1], par->F[2]);
 	printf("C = [%d] [%d] [%d]\n", par->C[0], par->C[1], par->C[2]);
-	printf("textno = [%s]\n", par->textNO.path);
-	printf("textSO = [%s]\n", par->textSO.path);
-	printf("textWE = [%s]\n", par->textWE.path);
-	printf("textEA = [%s]\n", par->textSO.path);
-	printf("textSP = [%s]\n", par->textSp.path);
+	printf("textno = [%s]\n", par->t_no.path);
+	printf("textSO = [%s]\n", par->t_so.path);
+	printf("textWE = [%s]\n", par->t_we.path);
+	printf("textEA = [%s]\n", par->t_ea.path);
+	printf("textSP = [%s]\n", par->t_sp.path);
 	while (par->map[i] != NULL)
 	{
 		printf("map = %s\n", par->map[i]);
@@ -86,12 +86,12 @@ void	ft_print_test(t_para *par, t_perso *perso)
 	printf("Vue = %c\n", perso->vue);
 	printf("pos_y = %d\n", perso->pos_y);
 	printf("pos_x = %d\n", perso->pos_x);
-	while (par->sprite)
-	{
-		printf("sprite sp_y = %d\n", par->sprite->sp_y);
-		printf("sprite sp_x = %d\n", par->sprite->sp_x);
-		par->sprite = par->sprite->next;
-	}
+	// while (par->sprite)
+	// {
+	// 	printf("sprite sp_y = %d\n", par->sprite.sp_y);
+	// 	printf("sprite sp_x = %d\n", par->sprite.sp_x);
+	// 	par->sprite = par->sprite.next;
+	// }
 }
 
 //###############################################################################
@@ -100,7 +100,6 @@ int				main(int ac, char **av)
 {
 	(void)ac;
 	t_data		data;
-	//t_perso		perso; 
 	t_list		*lst;
 	char		*line;
 	
@@ -132,6 +131,6 @@ int				main(int ac, char **av)
 	ft_print_test(&data.par, &data.perso);
 	ft_ray(&data);
 	free_struct(&data.par);
-	ft_lstclear_sp(data.par.sp_begin);
+	//ft_lstclear_sp(data.par.sp_begin);
 	return (0);
 }
