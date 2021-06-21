@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/11 15:14:24 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/16 12:33:01 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,80 +240,6 @@ void    raycaster(t_data *data)
       x++;
     }
     
-    #define numSprites 1
-    // int spriteOrder[numSprites];
-    // double spriteDistance[numSprites];
-    
-    for(int i = 0; i < numSprites; i++)
-    { 
-
-      //translate sprite position to relative to camera
-      double spriteX = data->par.sprite->sp_x - data->x;
-      double spriteY = data->par.sprite->sp_y - data->y;
-
-      //transform sprite with the inverse camera matrix
-      // [ planeX   dirX ] -1                                       [ dirY      -dirX ]
-      // [               ]       =  1/(planeX*dirY-dirX*planeY) *   [                 ]
-      // [ planeY   dirY ]                                          [ -planeY  planeX ]
-
-      double invDet = 1.0 / (data->planeX * data->dy - data->dx * data->planeY); //required for correct matrix multiplication
-
-      double transformX = invDet * (data->dy * spriteX - data->dx * spriteY);
-      double transformY = invDet * (-data->planeY * spriteX + data->planeX * spriteY); //this is actually the depth inside the screen, that what Z is in 3D, the distance of sprite to player, matching sqrt(spriteDistance[i])
-
-      int spriteScreenX = (int)((data->par.Rx / 2) * (1 + transformX / transformY));
-
-      //parameters for scaling and moving the sprites
-      #define uDiv 1
-      #define vDiv 1
-      #define vMove 0.0
-      int vMoveScreen = (int)(vMove / transformY);
-
-      //calculate height of the sprite on screen
-      int spriteHeight = abs((int)(data->par.Ry / (transformY))) / vDiv; //using "transformY" instead of the real distance prevents fisheye
-      //calculate lowest and highest pixel to fill in current stripe
-      int drawStartY = -spriteHeight / 2 + data->par.Ry / 2 + vMoveScreen;
-      if(drawStartY < 0) drawStartY = 0;
-      int drawEndY = spriteHeight / 2 + data->par.Ry / 2 + vMoveScreen;
-      if(drawEndY >= data->par.Ry) drawEndY = data->par.Ry - 1;
-
-      //calculate width of the sprite
-      int spriteWidth = abs((int)(data->par.Ry / (transformY))) / uDiv;
-      int drawStartX = -spriteWidth / 2 + spriteScreenX;
-      if(drawStartX < 0) drawStartX = 0;
-      int drawEndX = spriteWidth / 2 + spriteScreenX;
-      if(drawEndX >= data->par.Rx) drawEndX = data->par.Rx - 1;
-
-      //loop through every vertical stripe of the sprite on screen
-      for(int stripe = drawStartX; stripe < drawEndX; stripe++)
-      {
-
-        int texX = (int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * data->par.t_sp.width / spriteWidth) / 256;
-        //the conditions in the if are:
-        //1) it's in front of camera plane so you don't see things behind you
-        //2) it's on the screen (left)
-        //3) it's on the screen (right)
-        //4) ZBuffer, with perpendicular distance
-        if(transformY > 0 && stripe > 0 && stripe < data->par.Rx)
-        {
-          for(int y = drawStartY; y < drawEndY; y++) //for every pixel of the current stripe
-          {
-
-            int c = (y-vMoveScreen) * 256 - data->par.Ry * 128 + spriteHeight * 128; //256 and 128 factors to avoid floats
-            int texY = ((c * data->par.t_sp.heigth) / spriteHeight) / 256;
-            if (data->par.t_sp.addr[texY * data->par.t_sp.line_len + texX * (data->par.t_sp.b_p_pix / 8)])
-            {  
-              int j = texY * data->par.t_sp.line_len + texX * 4; 
-              int color = create_trgb(0, (int)(unsigned char)data->par.t_sp.addr[j + 2],
-                                    (int)(unsigned char)data->par.t_sp.addr[j + 1],
-                                    (int)(unsigned char)data->par.t_sp.addr[j]); 
-              my_mlx_pixel_put(&data->screen, stripe, y, color);
-            }
-          }
-        //   Uint32 color = texture[sprite[spriteOrder[i]].texture][d->par.t_sp.width * texY + texX]; //get current color from the texture
-        //   if((color & 0x00FFFFFF) != 0) buffer[y][stripe] = color; //paint pixel if it isn't black, black is the invisible color
-        }
-      }
-    }
+    ft_sprite(data);
     
 }

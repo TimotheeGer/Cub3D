@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/11 14:59:46 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/21 16:06:26 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include "../mlx/mlx.h"
-
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 50
 # endif
@@ -202,4 +201,5 @@ int     	add_shade(double distance, int color);
 void		drawMap(t_data *data);
 void		drawPlayer2d(t_data *data, int size);
 void		ft_sprite(t_data *d);
+int			ft_cross(int keycode, t_data *d);
 # endif
