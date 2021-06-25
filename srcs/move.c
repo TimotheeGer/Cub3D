@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:10:05 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 12:35:55 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 17:23:52 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int	ft_escape(int keycode, t_data *d)
 		}
 		free_struct(&d->par);
 		ft_lstclear_sp(d->par.sp_begin);
+		printf("error structur\n");
 		exit(0);
 	}
 	return (0);
@@ -109,7 +110,7 @@ int	ft_escape(int keycode, t_data *d)
 
 
 
-int		key_hook2(int keycode, t_data *d)
+int		key_hook(int keycode, t_data *d)
 {
 	ft_escape(keycode, d);
     move_front_back(keycode, d);

@@ -1,6 +1,6 @@
-R 1400 1050
+R 1400 720
 NO ./srcs/wall.xpm
-SO ./srcs/bois.xpm
+SO ./srcs/bois.xp
 WE ./srcs/brick1.xpm
 EA ./srcs/brick.xpm 
 S ./srcs/barrel.xpm    

@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 11:44:05 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 17:10:13 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,19 @@
 
 int		ft_quit(int a, char *str, t_para *par)
 {
+	if (a == 1)
+	{
+		write(2, str, ft_strlen(str));
+		exit(0);
+	}
 	if (a == 0)
 		write(2, str, ft_strlen(str));
-	ft_lstclear(&par->lst_begin, free);
-	free_struct(par);
-	ft_lstclear_sp(par->sp_begin);
+	if (&par->lst_begin)	
+		ft_lstclear(&par->lst_begin, free);
+	if (par)
+		free_struct(par);
+	if (par->sp_begin)
+		ft_lstclear_sp(par->sp_begin);
 	exit(0);
 }
 
@@ -96,27 +104,30 @@ void	ft_print_test(t_para *par, t_perso *perso)
 
 //###############################################################################
 
+void	ft_argu(t_data *d, int ac, char **av)
+{
+	if ((ft_checkargu(av[1])) == 1 && ac == 2)
+		d->fd = open(av[1], O_RDONLY);
+	else
+		ft_quit(1, "error argument.\n", NULL);
+	if (d->fd == -1)
+		ft_quit(1, "error argument.\n", NULL);
+}
+
+//###############################################################################
+
 int				main(int ac, char **av)
 {
-	(void)ac;
 	t_data		data;
 	t_list		*lst;
 	char		*line;
-	
-	(void)av;
-	int fd = 0;
-	// if ((ft_checkargu(av[1])) == 1)
-	// 	fd = open(av[1], O_RDONLY);
-	// else
-	// 	ft_quit(1, NULL, NULL);
-	// if (fd == -1)
-	// 	ft_quit(0, NULL, NULL);
-	fd = open("srcs/map.cub", O_RDONLY);
+
 	line = NULL;
-	lst = NULL;;
+	lst = NULL;
 	data.par.map = NULL;
 	ft_memset(&data, 0, sizeof(t_data));
-	while (get_next_line(fd, &line))
+	ft_argu(&data, ac, av);
+	while (get_next_line(data.fd, &line))
 	{
 		ft_lstadd_back(&lst, ft_lstnew(ft_strdup(line)));
 		free(line);
@@ -129,7 +140,6 @@ int				main(int ac, char **av)
 	ft_checkpara_isok(&data.par);
 	ft_mapisok(&data.par, &data.perso);
 	ft_print_test(&data.par, &data.perso);
-	
 	ft_ray(&data);
 	// free_struct(&data.par);
 	// ft_lstclear_sp(data.par.sp_begin);

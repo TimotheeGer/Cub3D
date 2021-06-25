@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 12:36:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 17:22:52 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 }
 
 //###############################################################################
-
-//peint le ciel et floor ful screen//
 
 void	full_screen_bicolor(t_data *data)
 {
@@ -148,8 +146,8 @@ void			ft_get_text(t_data *d)
 								&d->par.t_no.width, &d->par.t_no.heigth);
     d->par.t_no.addr = mlx_get_data_addr(d->par.t_no.img, &d->par.t_no.b_p_pix,
 								&d->par.t_no.line_len, &d->par.t_no.endian);							
-	d->par.t_so.img = mlx_xpm_file_to_image(d->mlx, d->par.t_so.path, 
-								&d->par.t_so.width, &d->par.t_so.heigth);
+	if (!(d->par.t_so.img = mlx_xpm_file_to_image(d->mlx, d->par.t_so.path, &d->par.t_so.width, &d->par.t_so.heigth)))
+		ft_escape(65307, d);
     d->par.t_so.addr = mlx_get_data_addr(d->par.t_so.img, &d->par.t_so.b_p_pix,
 								&d->par.t_so.line_len, &d->par.t_so.endian);
 	d->par.t_we.img = mlx_xpm_file_to_image(d->mlx, d->par.t_we.path, 
@@ -200,16 +198,18 @@ int	ft_cross(t_data *d)
 	exit(0);
 }
 
-void		ft_ray(t_data *data)
+//###############################################################################
+
+void		ft_ray(t_data *d)
 {
-	data->mlx = mlx_init();
-	data->win = mlx_new_window(data->mlx, data->par.Rx, data->par.Ry, "***Cub3D***");
-	ft_init(data);
-	ft_get_text(data);
-	mlx_hook(data->win, 33, 1L<<17, ft_cross, data);
-	mlx_hook(data->win, 2, 1L<<0, key_hook2, data);
-	mlx_hook(data->win, 3, 1L<<1, key_hook2, data);
-	mlx_hook(data->win, 9, 1L<<21, render_next_frame, data);
-	mlx_loop_hook(data->mlx, render_next_frame, data);
-	mlx_loop(data->mlx);	
+	d->mlx = mlx_init();
+	d->win = mlx_new_window(d->mlx, d->par.Rx, d->par.Ry, "***Cub3D***");
+	ft_init(d);
+	ft_get_text(d);
+	mlx_hook(d->win, 33, 1L<<17, ft_cross, d);
+	mlx_hook(d->win, 2, 1L<<0, key_hook, d);
+	mlx_hook(d->win, 3, 1L<<0, key_hook, d);
+	mlx_hook(d->win, 9, 1L<<21, render_next_frame, d);
+	mlx_loop_hook(d->mlx, render_next_frame, d);
+	mlx_loop(d->mlx);	
 }
