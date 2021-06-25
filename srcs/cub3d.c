@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/21 16:17:38 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:36:22 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ void	ft_init(t_data *d)
 
 int		render_next_frame(t_data *data)
 {
-	// if (data->refresh)
-	// {
+	// if (data->mlx) {
+	
+		// printf("test\n");
 		if (data->screen.img != NULL)
 		{
 		 	mlx_destroy_image(data->mlx, data->screen.img);
@@ -134,8 +135,7 @@ int		render_next_frame(t_data *data)
 		drawMap(data);
 		drawPlayer2d(data, 1 / 2);
 		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
-	// }
-	// data->refresh = 0;
+
 
 	return (0);
 }
@@ -172,30 +172,32 @@ void			ft_get_text(t_data *d)
 
 //###############################################################################
 
-int	ft_cross(int keycode, t_data *d)
+int	ft_cross(t_data *d)
 {
-	
-	(void)keycode;
-			mlx_destroy_image(d->mlx, d->par.t_no.img);
+	if (d->par.t_no.img)
+		mlx_destroy_image(d->mlx, d->par.t_no.img);
+	if (d->par.t_so.img)
 		mlx_destroy_image(d->mlx, d->par.t_so.img);
+	if (d->par.t_we.img)	
 		mlx_destroy_image(d->mlx, d->par.t_we.img);
+	if (d->par.t_ea.img)
 		mlx_destroy_image(d->mlx, d->par.t_ea.img);
+	if (d->par.t_sol.img)
 		mlx_destroy_image(d->mlx, d->par.t_sol.img);
+	if (d->par.t_sp.img)
 		mlx_destroy_image(d->mlx, d->par.t_sp.img);
-		
+	if (d->screen.img)
 		mlx_destroy_image(d->mlx, d->screen.img);
-
-		if (d->mlx)
-		{
-			if(d->win)
-				mlx_destroy_window(d->mlx, d->win);
-			mlx_destroy_display(d->mlx);
-			free(d->mlx);
-		}
-		free_struct(&d->par);
-		ft_lstclear_sp(d->par.sp_begin);
-		exit(0);
-		return (0);
+	if (d->win)
+	 	mlx_destroy_window(d->mlx, d->win);
+	if (d->mlx)
+	{
+	 	mlx_destroy_display(d->mlx);
+		free(d->mlx);
+	}
+	free_struct(&d->par);
+	ft_lstclear_sp(d->par.sp_begin);
+	exit(0);
 }
 
 void		ft_ray(t_data *data)
@@ -204,8 +206,9 @@ void		ft_ray(t_data *data)
 	data->win = mlx_new_window(data->mlx, data->par.Rx, data->par.Ry, "***Cub3D***");
 	ft_init(data);
 	ft_get_text(data);
+	mlx_hook(data->win, 33, 1L<<17, ft_cross, data);
 	mlx_hook(data->win, 2, 1L<<0, key_hook2, data);
-	//mlx_hook(data->win, 33, 1L<<17, ft_cross, data);
+	mlx_hook(data->win, 3, 1L<<1, key_hook2, data);
 	mlx_hook(data->win, 9, 1L<<21, render_next_frame, data);
 	mlx_loop_hook(data->mlx, render_next_frame, data);
 	mlx_loop(data->mlx);	

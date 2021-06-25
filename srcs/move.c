@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/09 13:10:05 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/21 16:17:23 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:35:55 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,32 +75,42 @@ void  move_front_back(int keycode, t_data *d)
 	}
 }
 
-void	ft_escape(int keycode, t_data *d)
+int	ft_escape(int keycode, t_data *d)
 {
 	if (keycode == 65307)
 	{
-		mlx_destroy_image(d->mlx, d->par.t_no.img);
-		mlx_destroy_image(d->mlx, d->par.t_so.img);
-		mlx_destroy_image(d->mlx, d->par.t_we.img);
-		mlx_destroy_image(d->mlx, d->par.t_ea.img);
-		mlx_destroy_image(d->mlx, d->par.t_sol.img);
-		mlx_destroy_image(d->mlx, d->par.t_sp.img);
-		
-		mlx_destroy_image(d->mlx, d->screen.img);
-		mlx_destroy_window(d->mlx, d->win);
-		mlx_destroy_display(d->mlx);
-		free(d->mlx);
+		if (d->par.t_no.img)
+			mlx_destroy_image(d->mlx, d->par.t_no.img);
+		if (d->par.t_so.img)
+			mlx_destroy_image(d->mlx, d->par.t_so.img);
+		if (d->par.t_we.img)	
+			mlx_destroy_image(d->mlx, d->par.t_we.img);
+		if (d->par.t_ea.img)
+			mlx_destroy_image(d->mlx, d->par.t_ea.img);
+		if (d->par.t_sol.img)
+			mlx_destroy_image(d->mlx, d->par.t_sol.img);
+		if (d->par.t_sp.img)
+			mlx_destroy_image(d->mlx, d->par.t_sp.img);
+		if (d->screen.img)
+			mlx_destroy_image(d->mlx, d->screen.img);
+		if (d->win)
+		 	mlx_destroy_window(d->mlx, d->win);
+		if (d->mlx)
+		{
+	 		mlx_destroy_display(d->mlx);
+			free(d->mlx);
+		}
 		free_struct(&d->par);
 		ft_lstclear_sp(d->par.sp_begin);
 		exit(0);
 	}
+	return (0);
 }
 
 
 
 int		key_hook2(int keycode, t_data *d)
 {
-    d->refresh = 1;
 	ft_escape(keycode, d);
     move_front_back(keycode, d);
     move_lateral(keycode, d);

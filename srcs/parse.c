@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/21 15:42:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 11:44:05 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ int				main(int ac, char **av)
 	ft_checkpara_isok(&data.par);
 	ft_mapisok(&data.par, &data.perso);
 	ft_print_test(&data.par, &data.perso);
+	
 	ft_ray(&data);
 	// free_struct(&data.par);
 	// ft_lstclear_sp(data.par.sp_begin);

@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/16 12:33:01 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:46:43 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,6 @@ void    init_floor_one(t_data *d)
     d->f.floory = d->y + d->f.rowdistance * d->f.raydiry0;
 }
 
-// void    init_floor_two(t_data *d)
-// {
-  
-// }
-
 void    ft_floor(t_data *d)
 {
     d->f.y = d->f.h / 2 + 1;
@@ -69,22 +64,17 @@ void    ft_floor(t_data *d)
         d->f.x++;
         int cellX = (int)(d->f.floorx);
         int cellY = (int)(d->f.floory);
-        
         int tx = (int)( d->par.t_sol.width * (d->f.floorx - cellX)) & (d->par.t_sol.width - 1);
         int ty = (int)(d->par.t_sol.heigth * (d->f.floory - cellY)) & (d->par.t_sol.heigth - 1);
-
         d->f.floorx += d->f.floorstepx;
         d->f.floory += d->f.floorstepy;
-
         int i = ty * d->par.t_sol.line_len + tx * 4;
         int color;
         color = create_trgb(0, (int)(unsigned char)d->par.t_sol.addr[i + 2],
                                     (int)(unsigned char)d->par.t_sol.addr[i + 1],
                                     (int)(unsigned char)d->par.t_sol.addr[i]); 
-        my_mlx_pixel_put(&d->screen, d->f.x, d->f.y, color);
-         
-      }
-      
+        my_mlx_pixel_put(&d->screen, d->f.x, d->f.y, color);  
+      } 
     }
 }
 
@@ -95,38 +85,26 @@ void    raycaster(t_data *data)
     int x = 0;
     int w = data->par.Rx;
     int h = data->par.Ry;
-    
-        //calculate ray position and direction
-      
-    
+
     ft_floor(data);
 
     while (x<w)
     {
-      double cameraX = 2.0 * x / (double)w - 1.0; //x-coordinate in camera space
+      double cameraX = 2.0 * x / (double)w - 1.0;
       double rayDirX = data->dx + data->planeX * cameraX;
       double rayDirY = data->dy + data->planeY * cameraX;
-      //which box of the map we're in
       int mapX = (int)data->x;
       int mapY = (int)data->y;
-
-      //length of ray from current position to next x or y-side
       double sideDistX = 0;
       double sideDistY = 0;
-
-       //length of ray from one x or y-side to next x or y-side
       double deltaDistX = fabs(1 / rayDirX);
       double deltaDistY = fabs(1 / rayDirY);
       double perpWallDist = 0;
-
-      //what direction to step in x or y-direction (either +1 or -1)
       int stepX = 0;
       int stepY = 0;
-
-      int hit = 0; //was there a wall hit?
-      int side = 0; //was a NS or a EW wall hit?
-
-      //calculate step and initial sideDist
+      int hit = 0;
+      int side = 0;
+      
       if(rayDirX < 0)
       {
         stepX = -1;
@@ -147,10 +125,9 @@ void    raycaster(t_data *data)
         stepY = 1;
         sideDistY = (mapY + 1.0 - data->y) * deltaDistY;
       }
-      //perform DDA
+  
       while (hit == 0)
-      {
-        //jump to next map square, OR in x-direction, OR in y-direction
+      { 
         if(sideDistX < sideDistY)
         {
           sideDistX += deltaDistX;
@@ -163,11 +140,9 @@ void    raycaster(t_data *data)
           mapY += stepY;
           side = 1;
         }
-        //Check if ray has hit a wall
         if (data->par.map[mapX][mapY] == '1') 
           hit = 1;
       }
-      //Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
       if(side == 0)
       {
         perpWallDist = (mapX - data->x + (1 - stepX) / 2) / rayDirX;
@@ -175,18 +150,14 @@ void    raycaster(t_data *data)
       else
         perpWallDist = (mapY - data->y + (1 - stepY) / 2) / rayDirY;
 
-      //Calculate height of line to draw on screen
       int lineHeight = (int)(h / perpWallDist);
 
-      //calculate lowest and highest pixel to fill in current stripe
       int drawStart = -lineHeight / 2 + h / 2;
       if(drawStart < 0)drawStart = 0;
       int drawEnd = lineHeight / 2 + h / 2;
       if(drawEnd >= h)drawEnd = h - 1;
       
-      //texturing calculations
-          //calculate value of wallX
-      double wallX; //where exactly the wall was hit
+      double wallX;
       double step = 1.0 * 512 / lineHeight;
       double texPos = (drawStart - h / 2 + lineHeight / 2) * step;
       if(side == 0)
@@ -200,7 +171,6 @@ void    raycaster(t_data *data)
           texX = 512 - texX - 1;
       if(side == 1 && rayDirY < 0)
           texX = 512 - texX - 1;
-
 
       for(int y = drawStart ; y <= drawEnd; y++)
       {
@@ -239,7 +209,6 @@ void    raycaster(t_data *data)
       }
       x++;
     }
-    
     ft_sprite(data);
     
 }

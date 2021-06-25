@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/21 16:06:26 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/25 12:17:12 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,5 +201,6 @@ int     	add_shade(double distance, int color);
 void		drawMap(t_data *data);
 void		drawPlayer2d(t_data *data, int size);
 void		ft_sprite(t_data *d);
-int			ft_cross(int keycode, t_data *d);
+int			ft_cross(t_data *d);
+int			ft_escape(int keycode, t_data *d);
 # endif

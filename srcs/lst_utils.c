@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/25 12:12:01 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/11 15:01:03 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/06/23 15:56:58 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ void	ft_lstclear_sp(t_lstsp *sp_begin)
 	{
 		temp.sprite = sp_begin;
 		sp_begin = temp.sprite->next;
-		free(temp.sprite);
+		if (temp.sprite)
+			free(temp.sprite);
 	}
 	sp_begin = NULL;
 }
