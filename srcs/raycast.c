@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 12:41:22 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 12:46:43 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 13:43:05 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 #define mapWidth 24
 #define mapHeight 24
 
-//###############################################################################
+//##############################################################################
 
 //dessine les lisgne vertical//
 
@@ -64,15 +64,15 @@ void    ft_floor(t_data *d)
         d->f.x++;
         int cellX = (int)(d->f.floorx);
         int cellY = (int)(d->f.floory);
-        int tx = (int)( d->par.t_sol.width * (d->f.floorx - cellX)) & (d->par.t_sol.width - 1);
-        int ty = (int)(d->par.t_sol.heigth * (d->f.floory - cellY)) & (d->par.t_sol.heigth - 1);
+        int tx = (int)( d->par.t_f.width * (d->f.floorx - cellX)) & (d->par.t_f.width - 1);
+        int ty = (int)(d->par.t_f.heigth * (d->f.floory - cellY)) & (d->par.t_f.heigth - 1);
         d->f.floorx += d->f.floorstepx;
         d->f.floory += d->f.floorstepy;
-        int i = ty * d->par.t_sol.line_len + tx * 4;
+        int i = ty * d->par.t_f.line_len + tx * 4;
         int color;
-        color = create_trgb(0, (int)(unsigned char)d->par.t_sol.addr[i + 2],
-                                    (int)(unsigned char)d->par.t_sol.addr[i + 1],
-                                    (int)(unsigned char)d->par.t_sol.addr[i]); 
+        color = create_trgb(0, (int)(unsigned char)d->par.t_f.addr[i + 2],
+                                    (int)(unsigned char)d->par.t_f.addr[i + 1],
+                                    (int)(unsigned char)d->par.t_f.addr[i]); 
         my_mlx_pixel_put(&d->screen, d->f.x, d->f.y, color);  
       } 
     }
@@ -208,7 +208,5 @@ void    raycaster(t_data *data)
           }
       }
       x++;
-    }
-    ft_sprite(data);
-    
+    }    
 }

@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 17:22:52 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 13:48:46 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,38 +116,45 @@ void	ft_init(t_data *d)
 
 int		render_next_frame(t_data *data)
 {
-	// if (data->mlx) {
-	
-		// printf("test\n");
-		if (data->screen.img != NULL)
-		{
-		 	mlx_destroy_image(data->mlx, data->screen.img);
-		}
-		data->screen.img = mlx_new_image(data->mlx, data->par.Rx, data->par.Ry);
-		data->screen.addr = mlx_get_data_addr(data->screen.img, 
-							&data->screen.bits_per_pixel,
-							&data->screen.line_length,
-							&data->screen.endian);
-		full_screen_bicolor(data);
-		raycaster(data);
-		drawMap(data);
-		drawPlayer2d(data, 1 / 2);
-		mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
-
-
+	if (data->screen.img != NULL)
+	{
+	 	mlx_destroy_image(data->mlx, data->screen.img);
+	}
+	data->screen.img = mlx_new_image(data->mlx, data->par.Rx, data->par.Ry);
+	data->screen.addr = mlx_get_data_addr(data->screen.img, 
+						&data->screen.bits_per_pixel,
+						&data->screen.line_length,
+						&data->screen.endian);
+	full_screen_bicolor(data);
+	raycaster(data);
+	drawMap(data);
+	drawPlayer2d(data, 1 / 2);
+	mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
 	return (0);
 }
 
 //###############################################################################
 
-void			ft_get_text(t_data *d)
+//gerer cas derreur sans le mettre dans le if 
+
+void			ft_get_text_floor(t_data *d)
 {
+	if (!(d->par.t_f.img = mlx_xpm_file_to_image(d->mlx, "./srcs/sol2.xpm", 
+								&d->par.t_f.width, &d->par.t_f.heigth)))
+		ft_escape(65307, d);
+    if (!(d->par.t_f.addr = mlx_get_data_addr(d->par.t_f.img, &d->par.t_f.b_p_pix,
+								&d->par.t_f.line_len, &d->par.t_f.endian)))
+		ft_escape(65307, d);
+}
+
+void			ft_get_text(t_data *d)
+{	
 	d->par.t_no.img = mlx_xpm_file_to_image(d->mlx, d->par.t_no.path,
 								&d->par.t_no.width, &d->par.t_no.heigth);
     d->par.t_no.addr = mlx_get_data_addr(d->par.t_no.img, &d->par.t_no.b_p_pix,
 								&d->par.t_no.line_len, &d->par.t_no.endian);							
-	if (!(d->par.t_so.img = mlx_xpm_file_to_image(d->mlx, d->par.t_so.path, &d->par.t_so.width, &d->par.t_so.heigth)))
-		ft_escape(65307, d);
+	d->par.t_so.img = mlx_xpm_file_to_image(d->mlx, d->par.t_so.path,
+								&d->par.t_so.width, &d->par.t_so.heigth);
     d->par.t_so.addr = mlx_get_data_addr(d->par.t_so.img, &d->par.t_so.b_p_pix,
 								&d->par.t_so.line_len, &d->par.t_so.endian);
 	d->par.t_we.img = mlx_xpm_file_to_image(d->mlx, d->par.t_we.path, 
@@ -158,44 +165,7 @@ void			ft_get_text(t_data *d)
 								&d->par.t_ea.width, &d->par.t_ea.heigth);
     d->par.t_ea.addr = mlx_get_data_addr(d->par.t_ea.img, &d->par.t_ea.b_p_pix,
 								&d->par.t_ea.line_len, &d->par.t_ea.endian);
-	d->par.t_sol.img = mlx_xpm_file_to_image(d->mlx, "./srcs/sol2.xpm", 
-								&d->par.t_sol.width, &d->par.t_sol.heigth);
-    d->par.t_sol.addr = mlx_get_data_addr(d->par.t_sol.img, &d->par.t_sol.b_p_pix,
-								&d->par.t_sol.line_len, &d->par.t_sol.endian);
-	d->par.t_sp.img = mlx_xpm_file_to_image(d->mlx, d->par.t_sp.path, 
-								&d->par.t_sp.width, &d->par.t_sp.heigth);
-    d->par.t_sp.addr = mlx_get_data_addr(d->par.t_sp.img, &d->par.t_sp.b_p_pix,
-								&d->par.t_sp.line_len, &d->par.t_sp.endian);		
-}
-
-//###############################################################################
-
-int	ft_cross(t_data *d)
-{
-	if (d->par.t_no.img)
-		mlx_destroy_image(d->mlx, d->par.t_no.img);
-	if (d->par.t_so.img)
-		mlx_destroy_image(d->mlx, d->par.t_so.img);
-	if (d->par.t_we.img)	
-		mlx_destroy_image(d->mlx, d->par.t_we.img);
-	if (d->par.t_ea.img)
-		mlx_destroy_image(d->mlx, d->par.t_ea.img);
-	if (d->par.t_sol.img)
-		mlx_destroy_image(d->mlx, d->par.t_sol.img);
-	if (d->par.t_sp.img)
-		mlx_destroy_image(d->mlx, d->par.t_sp.img);
-	if (d->screen.img)
-		mlx_destroy_image(d->mlx, d->screen.img);
-	if (d->win)
-	 	mlx_destroy_window(d->mlx, d->win);
-	if (d->mlx)
-	{
-	 	mlx_destroy_display(d->mlx);
-		free(d->mlx);
-	}
-	free_struct(&d->par);
-	ft_lstclear_sp(d->par.sp_begin);
-	exit(0);
+	ft_get_text_floor(d);
 }
 
 //###############################################################################
@@ -205,7 +175,7 @@ void		ft_ray(t_data *d)
 	d->mlx = mlx_init();
 	d->win = mlx_new_window(d->mlx, d->par.Rx, d->par.Ry, "***Cub3D***");
 	ft_init(d);
-	ft_get_text(d);
+	ft_get_text(d);	
 	mlx_hook(d->win, 33, 1L<<17, ft_cross, d);
 	mlx_hook(d->win, 2, 1L<<0, key_hook, d);
 	mlx_hook(d->win, 3, 1L<<0, key_hook, d);

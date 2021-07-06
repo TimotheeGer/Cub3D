@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/25 17:06:31 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 13:46:22 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ typedef struct      s_par
 	t_tex     t_so; // structure des textures SOUTH
 	t_tex     t_we; // structure des textures WEST
 	t_tex     t_sp; // structure des textures SPRITE
-	t_tex     t_sol; // structure des textures SPRITE
+	t_tex     t_f; // structure des textures SPRITE
 	int       F[3]; //[0]R [1]G [2]B
 	int       C[3]; //[0]R [1]G [2]B //255 max
 	char      **map;
@@ -122,7 +122,6 @@ typedef struct	s_img
 	int		line_length;
 	int		endian;
 	int		color;
-	int		color2;
 
 }				t_img;
 
@@ -147,7 +146,6 @@ typedef struct	s_data
 	double	move;
 	double	rota;
 	int		color;
-	int		color2;
 	int		color3;
 	int		colorF;
 	int		colorC;
@@ -201,7 +199,7 @@ void		ft_init(t_data *data);
 int     	add_shade(double distance, int color);
 void		drawMap(t_data *data);
 void		drawPlayer2d(t_data *data, int size);
-void		ft_sprite(t_data *d);
 int			ft_cross(t_data *d);
 int			ft_escape(int keycode, t_data *d);
+void		ft_destroy(t_data *d);
 # endif

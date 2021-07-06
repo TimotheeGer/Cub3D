@@ -6,7 +6,7 @@
 #    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/06/21 15:21:55 by tigerber         ###   ########.fr        #
+#    Updated: 2021/07/06 13:44:20 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SRC =	./srcs/cub3d.c \
 		./srcs/checkmap_utils.c \
 		./srcs/checkmap_utils2.c \
 		./srcs/raycast.c \
-		./srcs/sprite.c \
+		./srcs/quit.c \
 		./srcs/move.c \
 		./srcs/mini_map.c
 
