@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/04/20 15:49:33 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:11:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_checkisdigit(char *str, t_para *par, char **strs)
 		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ' && str[i] != '\t')
 		{
 			ft_free_tab(strs);
-			ft_quit(0, "Error there are alphabetic characters.\n", par);
+			ft_quit(0, "Error\nError there are alphabetic characters.\n", par);
 		}
 		i++;
 	}
@@ -83,8 +83,6 @@ int		check_line_valid(char *str)
 		|| (str[i] == 'S' && str[i + 1] == 'O')
 		|| (str[i] == 'W' && str[i + 1] == 'E')
 		|| (str[i] == 'E' && str[i + 1] == 'A')
-		|| (str[i] == 'R')
-		|| (str[i] == 'S')
 		|| (str[i] == 'F')
 		|| (str[i] == 'C')
 		|| (str[i] == '1'))
@@ -96,9 +94,7 @@ void	ft_get_allpara(t_para *par, t_list *lst)
 {
 	while (lst != NULL)
 	{
-		if (ft_checkpara(lst->content, 'R'))
-			ft_get_r(par, lst->content);
-		else if (ft_checkparatextu(lst->content, "NO"))
+		if (ft_checkparatextu(lst->content, "NO"))
 			ft_get_no(par, lst->content);
 		else if (ft_checkparatextu(lst->content, "SO"))
 			ft_get_so(par, lst->content);
@@ -106,8 +102,6 @@ void	ft_get_allpara(t_para *par, t_list *lst)
 			ft_get_we(par, lst->content);
 		else if (ft_checkparatextu(lst->content, "EA"))
 			ft_get_ea(par, lst->content);
-		else if (ft_checkpara(lst->content, 'S') && par->index.SP == 0)
-			ft_get_s(par, lst->content);
 		else if (ft_checkpara(lst->content, 'F'))
 			ft_get_f(par, lst->content);
 		else if (ft_checkpara(lst->content, 'C'))
@@ -115,7 +109,7 @@ void	ft_get_allpara(t_para *par, t_list *lst)
 		else if (ft_checkpara(lst->content, '1') && par->indexmap == 0)
 			ft_get_map(par, lst);
 		else if (check_line_valid(lst->content))
-			ft_quit(0, "Error invalid data.\n", par);
+			ft_quit(0, "Error\nError invalid data.\n", par);
 		lst = lst->next;
 	}
 }

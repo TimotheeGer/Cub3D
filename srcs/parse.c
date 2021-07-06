@@ -6,64 +6,11 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/22 13:12:56 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 13:20:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:22:56 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
-
-int		ft_quit(int a, char *str, t_para *par)
-{
-	if (a == 1)
-	{
-		write(2, str, ft_strlen(str));
-		exit(0);
-	}
-	if (a == 0)
-		write(2, str, ft_strlen(str));
-	if (&par->lst_begin)	
-		ft_lstclear(&par->lst_begin, free);
-	if (par)
-		free_struct(par);
-	if (par->sp_begin)
-		ft_lstclear_sp(par->sp_begin);
-	exit(0);
-}
-
-int		ft_checkargu(char *arg)
-{
-	int i;
-
-	i = ft_strlen(arg) - 4;
-	if (arg[i] == '.')
-	{
-		if ((ft_strncmp(&arg[i], ".cub", 4) == 0))
-			return (1);
-	}
-	return (0);
-}
-
-void	ft_checkpara_isok(t_para *par)
-{
-	if (par->index.R != 1)
-		ft_quit(0, "Missing resolution or too much resolution.\n", par);
-	if (par->index.NO != 1)
-		ft_quit(0, "Missing ./path_NO or too much ./path_NO.\n", par);
-	if (par->index.SO != 1)
-		ft_quit(0, "Missing ./path_SO or too much ./path_SO.\n", par);
-	if (par->index.WE != 1)
-		ft_quit(0, "Missing ./path_WE or too much ./path_WE.\n", par);
-	if (par->index.EA != 1)
-		ft_quit(0, "Missing ./path_EA or too much ./path_EA.\n", par);
-	if (par->index.SP != 1)
-		ft_quit(0, "Missing ./path_SP or too much ./path_SP.\n", par);
-	if (par->index.F != 1)
-		ft_quit(0, "Missing RGB floor or too much RGB floor.\n", par);
-	if (par->index.C != 1)
-		ft_quit(0, "Missing RGB ceil or too much RGB ceil.\n", par);
-	if (par->indexmap != 1)
-		ft_quit(0, "Missing Map.\n", par);
-}
 
 void	ft_print_test(t_para *par, t_perso *perso)
 {
@@ -104,14 +51,50 @@ void	ft_print_test(t_para *par, t_perso *perso)
 
 //###############################################################################
 
+int		ft_checkargu(char *arg)
+{
+	int i;
+
+	i = ft_strlen(arg) - 4;
+	if (arg[i] == '.')
+	{
+		if ((ft_strncmp(&arg[i], ".cub", 4) == 0))
+			return (1);
+	}
+	return (0);
+}
+
+//###############################################################################
+
+void	ft_checkpara_isok(t_para *par)
+{
+	if (par->index.NO != 1)
+		ft_quit(0, "Error\nMissing ./path_NO or too much ./path_NO.\n", par);
+	if (par->index.SO != 1)
+		ft_quit(0, "Error\nMissing ./path_SO or too much ./path_SO.\n", par);
+	if (par->index.WE != 1)
+		ft_quit(0, "Error\nMissing ./path_WE or too much ./path_WE.\n", par);
+	if (par->index.EA != 1)
+		ft_quit(0, "Error\nMissing ./path_EA or too much ./path_EA.\n", par);
+	if (par->index.F != 1)
+		ft_quit(0, "Error\nMissing RGB floor or too much RGB floor.\n", par);
+	if (par->index.C != 1)
+		ft_quit(0, "Error\nMissing RGB ceil or too much RGB ceil.\n", par);
+	if (par->indexmap != 1)
+		ft_quit(0, "Error\nMissing Map.\n", par);
+}
+
+
+//###############################################################################
+
 void	ft_argu(t_data *d, int ac, char **av)
 {
 	if ((ft_checkargu(av[1])) == 1 && ac == 2)
 		d->fd = open(av[1], O_RDONLY);
 	else
-		ft_quit(1, "error argument.\n", NULL);
+		ft_quit(1, "Error\nerror argument.\n", NULL);
 	if (d->fd == -1)
-		ft_quit(1, "error argument.\n", NULL);
+		ft_quit(1, "Error\nerror argument.\n", NULL);
 }
 
 //###############################################################################
@@ -124,7 +107,6 @@ int				main(int ac, char **av)
 
 	line = NULL;
 	lst = NULL;
-	data.par.map = NULL;
 	ft_memset(&data, 0, sizeof(t_data));
 	ft_argu(&data, ac, av);
 	while (get_next_line(data.fd, &line))
@@ -141,7 +123,5 @@ int				main(int ac, char **av)
 	ft_mapisok(&data.par, &data.perso);
 	ft_print_test(&data.par, &data.perso);
 	ft_ray(&data);
-	// free_struct(&data.par);
-	// ft_lstclear_sp(data.par.sp_begin);
 	return (0);
 }

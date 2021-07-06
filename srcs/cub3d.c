@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 13:48:46 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/06 15:23:45 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ void	ft_init(t_data *d)
 {
 		ft_vue(d);
 		d->refresh = 1;
-		d->f.w = d->par.Rx;
-		d->f.h = d->par.Ry;
+		d->f.w = 1400;
+		d->f.h = 720;
+		d->par.Rx = 1400;
+		d->par.Ry = 720;
 		d->mapS = 3;
 		d->x = d->perso.pos_x + 0.5, d->y = d->perso.pos_y + 0.5;
 		d->colorF = create_trgb(0, d->par.F[0], d->par.F[1], d->par.F[2]);
@@ -173,7 +175,7 @@ void			ft_get_text(t_data *d)
 void		ft_ray(t_data *d)
 {
 	d->mlx = mlx_init();
-	d->win = mlx_new_window(d->mlx, d->par.Rx, d->par.Ry, "***Cub3D***");
+	d->win = mlx_new_window(d->mlx, 1400, 720, "***Cub3D***");
 	ft_init(d);
 	ft_get_text(d);	
 	mlx_hook(d->win, 33, 1L<<17, ft_cross, d);

@@ -6,7 +6,7 @@
 #    By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/03/26 15:50:08 by ldrieu            #+#    #+#              #
-#    Updated: 2021/07/06 13:44:20 by tigerber         ###   ########.fr        #
+#    Updated: 2021/07/06 15:53:52 by tigerber         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRC =	./srcs/cub3d.c \
 		./srcs/parse.c \
 		./srcs/parse_utils.c \
 		./srcs/lst_utils.c \
+		./srcs/lst_utils2.c \
 		./srcs/checkvaluerfcmap.c \
 		./srcs/checkpath.c \
 		./srcs/checkmap.c \
