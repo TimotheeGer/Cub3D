@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:36:19 by tigerber          #+#    #+#             */
-/*   Updated: 2021/06/09 13:02:31 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/07 15:18:52 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,62 +17,66 @@
 #include <string.h>
 #include <math.h>
 
-void	put_quad_map(t_data *data, int x, int y, int max)
+void	pmap(t_data *data, int x, int y, int max)
 {
-    while (y < max)
-    {
-		    my_mlx_pixel_put(&data->screen, x, y, data->colormap1);
-            y++;
-    }
+	while (y < max)
+	{
+		my_mlx_pixel_put(&data->screen, x, y, data->colormap1);
+		y++;
+	}
 }
-
 
 void	drawPlayer2d(t_data *data, int size)
 {
-	int x2 =  -size;
-	int y2 =  -size;
-	
+	int	x2;
+	int	y2;
+
+	x2 = -size;
+	y2 = -size;
 	while (y2 <= size)
 	{
 		while (x2 <= size)
 		{
-			my_mlx_pixel_put(&data->screen, (data->y * data->mapS) + x2, (data->x * data->mapS) + y2, 0XFFFF00);
+			my_mlx_pixel_put(&data->screen, (data->y * data->mapS) + x2,
+				(data->x * data->mapS) + y2, 0XFFFF00);
 			x2++;
 		}
-		x2 =  -size;
+		x2 = -size;
 		y2++;
 	}
 }
 
-void	drawMap(t_data *data)
+void	init_map(t_data *d)
 {
-	int x = 0;
-	int y = 0;
-	int xo = 0;
-	int yo = 0;
-	int xa = 0;
+	d->m.x = 0;
+	d->m.y = 0;
+	d->m.xo = 0;
+	d->m.xa = 0;
+	d->colormap1 = 0x0000FF;
+}
 
-	data->colormap1 = 0x000000;
-
-	while (data->par.map[y])
+void	drawMap(t_data *d)
+{
+	init_map(d);
+	while (d->par.map[d->m.y])
 	{
-		while (data->par.map[y][x])
+		while (d->par.map[d->m.y][d->m.x])
 		{
-			if (data->par.map[y][x] == '1')
-				data->colormap1 = 0xFFFFFF;
+			if (d->par.map[d->m.y][d->m.x] == '1')
+				d->colormap1 = 0xFFFFFF;
 			else
-				data->colormap1 = 0x000000;
-			xo = x * data->mapS;
-			yo = y * data->mapS;
-			xa = 0 + xo + 1;
-			while (xa <  data->mapS + xo - 1)
+				d->colormap1 = 0x000000;
+			d->m.xo = d->m.x * d->mapS;
+			d->m.yo = d->m.y * d->mapS;
+			d->m.xa = 0 + d->m.xo + 1;
+			while (d->m.xa < d->mapS + d->m.xo - 1)
 			{
-				put_quad_map(data, xa, 0 + yo + 1, data->mapS + yo - 1);
-				xa++;
+				pmap(d, d->m.xa, 0 + d->m.yo + 1, d->mapS + d->m.yo - 1);
+				d->m.xa++;
 			}
-			x++;
+			d->m.x++;
 		}
-		x = 0;
-		y++;
+		d->m.x = 0;
+		d->m.y++;
 	}
 }

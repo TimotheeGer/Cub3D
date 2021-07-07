@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:43:57 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 16:04:45 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/07 15:46:07 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ void	ft_destroy(t_data *d)
 	}
 }
 
-int	ft_escape(int keycode, t_data *d)
+int	ft_escape(int keycode, t_data *d, int a)
 {
 	if (keycode == 65307)
 	{
+		if (a == 1)
+			write(2, "Error\nBad xpm.\n", 16);
 		ft_destroy(d);
 		free_struct(&d->par);
 		ft_lstclear_sp(d->par.sp_begin);
-		printf("error structur\n");
 		exit(0);
 	}
 	return (0);

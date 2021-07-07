@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/24 12:42:48 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 13:46:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/07 15:41:09 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,29 @@
 #  define BUFFER_SIZE 50
 # endif
 
-//liste chainer pour sprite
 typedef struct       s_lstsprite 
 {
 	int                 sp_x;
 	int                 sp_y;
 	struct s_lstsprite  *next;
-}                   t_lstsp; // liste sprite
+}                   t_lstsp;
+
+typedef struct		s_full_screen
+{
+	int	x;
+	int	y;
+	int	color;
+}					t_screen;
+
+
+typedef struct		s_mini_map
+{
+	int	x;
+	int	y;
+	int	xo;
+	int	yo;
+	int	xa;
+}					t_mini_map;
 
 typedef struct		s_floor
 {
@@ -69,7 +85,7 @@ typedef struct      s_index
 
 typedef struct      s_texture
 {
-	char    *path; // ./path_to_the_texture 
+	char    *path;
 	int		width;
 	int		heigth;
 	void	*img;
@@ -81,29 +97,28 @@ typedef struct      s_texture
 
 typedef struct      s_player
 {
-	char     vue; //vue du perso NO EA SO WE
-	int      pos_x; //axe x
-	int      pos_y; //axe y
-	int      indexNO; // index on off des vue une seul vue autoriser
-	int      indexSO; // -1 off // 1 on 
+	char     vue;
+	int      pos_x;
+	int      pos_y;
+	int      indexNO;
+	int      indexSO;
 	int      indexWE;
 	int      indexEA;
 	int      indexSP;
 }                   t_perso;
 
-
 typedef struct      s_par
 {
-	int       Rx; //Resoution [0]axe x [1]axe y
-	int       Ry; //Resoution [0]axe x [1]axe y
-	t_tex     t_ea; // structure des textures EAST
-	t_tex     t_no; // structure des textures NORD
-	t_tex     t_so; // structure des textures SOUTH
-	t_tex     t_we; // structure des textures WEST
-	t_tex     t_sp; // structure des textures SPRITE
-	t_tex     t_f; // structure des textures SPRITE
-	int       F[3]; //[0]R [1]G [2]B
-	int       C[3]; //[0]R [1]G [2]B //255 max
+	int       Rx;
+	int       Ry;
+	t_tex     t_ea;
+	t_tex     t_no;
+	t_tex     t_so;
+	t_tex     t_we;
+	t_tex     t_sp;
+	t_tex     t_f;
+	int       F[3];
+	int       C[3];
 	char      **map;
 	int       indexmap;
 	t_index   index;
@@ -127,6 +142,8 @@ typedef struct	s_img
 
 typedef struct	s_data
 {
+	t_screen	s;
+	t_mini_map	m;
 	t_perso perso;
 	t_para	par;
 	t_img   player;
@@ -139,6 +156,8 @@ typedef struct	s_data
 	float	x;
 	float	dx;
 	float	dy;
+	double	oldDirX;
+	double	oldPlaneX;
 	float	planeX;
 	float	planeY;
 	float	a;
@@ -155,7 +174,7 @@ typedef struct	s_data
 	void	*win;
 	int		mapS;
 }				t_data;
-// autoure dun 0 N S E W 2 pas despace sinon map ouverte
+
 int			ft_line_av_one(char *line, char c);
 void        free_struct(t_para *par);
 void	    ft_lstclear_sp(t_lstsp *par);
@@ -194,12 +213,14 @@ void		drawverticalline(t_data *data, int x, int drawstart, int drawend, int colo
 void    	raycaster(t_data *img);
 int			key_hook(int keycode, t_data *img);
 void		ft_ray(t_data *data);
-void		full_screen_grey(t_data *data);
+void		full_screen_bicolor(t_data *data);
 void		ft_init(t_data *data);
 int     	add_shade(double distance, int color);
 void		drawMap(t_data *data);
 void		drawPlayer2d(t_data *data, int size);
 int			ft_cross(t_data *d);
-int			ft_escape(int keycode, t_data *d);
+int			ft_escape(int keycode, t_data *d, int a);
 void		ft_destroy(t_data *d);
+int			ft_check_char(char *str, char c);
+void		ft_vue(t_data *data);
 # endif

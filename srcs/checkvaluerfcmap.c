@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/29 10:47:31 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 15:51:01 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/07 14:36:53 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,20 +92,6 @@ void	ft_get_c(t_para *par, char *line)
 			ft_quit(0, "Error\nError RGB(C).\n", par);
 		i++;
 	}
-}
-
-int	ft_check_char(char *str, char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != c && str[i] != '\t')
-			return (1);
-		i++;
-	}
-	return (0);
 }
 
 void	ft_check_rest_lst(t_para *par, t_list *lst)

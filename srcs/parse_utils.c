@@ -6,40 +6,22 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/01 14:42:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/06 15:11:08 by tigerber         ###   ########.fr       */
+/*   Updated: 2021/07/07 14:41:32 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3D.h"
 
-int		ft_countlst(t_list *lst)
+void	ft_checkisdigit(char *s, t_para *par, char **strs)
 {
 	int	i;
 
 	i = 0;
-	while (lst)
-	{
-		if (ft_checkpara(lst->content, '1'))
-		{
-			lst = lst->next;
-			i++;
-		}
-		else
-			return (i);
-	}
-	return (i);
-}
-
-void	ft_checkisdigit(char *str, t_para *par, char **strs)
-{
-	int i;
-
-	i = 0;
-	while (str[i] == ' ' || str[i] == '\t')
+	while (s[i] == ' ' || s[i] == '\t')
 		i++;
-	while (str[i])
+	while (s[i])
 	{
-		if ((!(ft_isdigit(str[i]))) && str[i] != '-' && str[i] != ' ' && str[i] != '\t')
+		if ((!(ft_isdigit(s[i]))) && s[i] != '-' && s[i] != ' ' && s[i] != '\t')
 		{
 			ft_free_tab(strs);
 			ft_quit(0, "Error\nError there are alphabetic characters.\n", par);
@@ -48,9 +30,9 @@ void	ft_checkisdigit(char *str, t_para *par, char **strs)
 	}
 }
 
-int		ft_checkpara(char *str, char c)
+int	ft_checkpara(char *str, char c)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] == ' ' || str[i] == '\t')
@@ -60,9 +42,9 @@ int		ft_checkpara(char *str, char c)
 	return (0);
 }
 
-int		ft_checkparatextu(char *str, char *indic)
+int	ft_checkparatextu(char *str, char *indic)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] == ' ' || str[i] == '\t')
@@ -72,9 +54,9 @@ int		ft_checkparatextu(char *str, char *indic)
 	return (0);
 }
 
-int		check_line_valid(char *str)
+int	check_line_valid(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] == ' ' || str[i] == '\t')
