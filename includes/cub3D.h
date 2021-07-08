@@ -70,6 +70,27 @@ typedef struct		s_floor
 	int		color;
 }					t_floor;
 
+typedef struct		s_raycast
+{
+	int x;
+	int w;
+	int h;
+	double cameraX;
+	double rayDirX;
+	double rayDirY;
+	int mapX; 
+	int mapY;
+	double sideDistX;
+	double sideDistY;
+	double deltaDistX;
+	double deltaDistY;
+	double perpWallDist;
+	int stepX;
+	int stepY;
+	int hit;
+	int side;
+
+}					t_ray
 
 typedef struct      s_index
 {
@@ -142,6 +163,7 @@ typedef struct	s_img
 
 typedef struct	s_data
 {
+	t_ray		r;
 	t_screen	s;
 	t_mini_map	m;
 	t_perso perso;

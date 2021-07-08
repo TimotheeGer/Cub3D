@@ -78,68 +78,74 @@ void    ft_floor(t_data *d)
     }
 }
 
+void	init_raycast_part_one(t_data *d)
+{
+	d->r.cameraX = 2.0 * d->r.x / (double)d->r.w - 1.0;
+	d->r.rayDirX = d->dx + d->planeX * d->r.cameraX;
+    d->r.rayDirY = d->dy + d->planeY * d->r.cameraX;
+    d->r.mapX = (int)d->x;
+    d->r.mapY = (int)d->y;
+    d->r.sideDistX = 0;
+    d->r.sideDistY = 0;
+    d->r.deltaDistX = fabs(1 / d->r.rayDirX);
+    d->r.deltaDistY = fabs(1 / d->r.rayDirY);
+    d->r.perpWallDist = 0;
+    d->r.stepX = 0;
+    d->r.stepY = 0;
+    d->r.hit = 0;
+    d->r.side = 0;
+}
 
+void	raycast_part_two(t_data *d)
+{
+	if(d->r.rayDirX < 0)
+      {
+        d->r.stepX = -1;
+        d->r.sideDistX = (d->x - d->r.mapX) * d->r.deltaDistX;
+      }
+      else
+      {
+        d->r.stepX = 1;
+        d->r.sideDistX = (d->r.mapX + 1.0 - d->x) * d->r.deltaDistX;
+      }
+      if(d->r.rayDirY < 0)
+      {
+        d->r.stepY = -1;
+        d->r.sideDistY = (d->y - d->r.mapY) * d->r.deltaDistY;
+      }
+      else
+      {
+        d->r.stepY = 1;
+        d->r.sideDistY = (d->r.mapY + 1.0 - d->y) * d->r.deltaDistY;
+      }
+}
 
 void    raycaster(t_data *data)
 {
-    int x = 0;
-    int w = data->par.Rx;
-    int h = data->par.Ry;
+    data->r.x = 0;
+    data->r.w = data->par.Rx;
+    data->r.h = data->par.Ry;
 
     ft_floor(data);
 
-    while (x<w)
+    while (data->r.x < data->r.w)
     {
-      double cameraX = 2.0 * x / (double)w - 1.0;
-      double rayDirX = data->dx + data->planeX * cameraX;
-      double rayDirY = data->dy + data->planeY * cameraX;
-      int mapX = (int)data->x;
-      int mapY = (int)data->y;
-      double sideDistX = 0;
-      double sideDistY = 0;
-      double deltaDistX = fabs(1 / rayDirX);
-      double deltaDistY = fabs(1 / rayDirY);
-      double perpWallDist = 0;
-      int stepX = 0;
-      int stepY = 0;
-      int hit = 0;
-      int side = 0;
-      
-      if(rayDirX < 0)
-      {
-        stepX = -1;
-        sideDistX = (data->x - mapX) * deltaDistX;
-      }
-      else
-      {
-        stepX = 1;
-        sideDistX = (mapX + 1.0 - data->x) * deltaDistX;
-      }
-      if(rayDirY < 0)
-      {
-        stepY = -1;
-        sideDistY = (data->y - mapY) * deltaDistY;
-      }
-      else
-      {
-        stepY = 1;
-        sideDistY = (mapY + 1.0 - data->y) * deltaDistY;
-      }
-  
-      while (hit == 0)
-      { 
-        if(sideDistX < sideDistY)
-        {
-          sideDistX += deltaDistX;
-          mapX += stepX;
-          side = 0;
-        }
-        else
-        {
-          sideDistY += deltaDistY;
-          mapY += stepY;
-          side = 1;
-        }
+		init_raycast_part_one(data);
+		raycast_part_two(data);
+    	while (hit == 0)
+      	{ 
+        	if(sideDistX < sideDistY)
+        	{
+          		sideDistX += deltaDistX;
+          		mapX += stepX;
+          		side = 0;
+        	}
+        	else
+        	{
+          		sideDistY += deltaDistY;
+          		mapY += stepY;
+          		side = 1;
+        	}
         if (data->par.map[mapX][mapY] == '1') 
           hit = 1;
       }
