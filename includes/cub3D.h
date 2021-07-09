@@ -72,9 +72,11 @@ typedef struct		s_floor
 
 typedef struct		s_raycast
 {
+	int i;
 	int x;
 	int w;
 	int h;
+	int y;
 	double cameraX;
 	double rayDirX;
 	double rayDirY;
@@ -89,8 +91,16 @@ typedef struct		s_raycast
 	int stepY;
 	int hit;
 	int side;
-
-}					t_ray
+	int lineHeight;
+	int drawStart;
+	int drawEnd;
+	double wallX;
+	double step;
+	double texPos;
+	int texX;
+	int texY;
+	int color;
+}					t_ray;
 
 typedef struct      s_index
 {
