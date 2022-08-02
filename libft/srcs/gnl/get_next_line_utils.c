@@ -6,14 +6,13 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/28 11:36:57 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:47:09 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:30:29 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/get_next_line.h"
 
-
-int			ft_tempavbs(char *temp)
+int	ft_tempavbs(char *temp)
 {
 	int	i;
 
@@ -29,7 +28,7 @@ int			ft_tempavbs(char *temp)
 	return (0);
 }
 
-char		*ft_newrest(char *str)
+char	*ft_newrest(char *str)
 {
 	char	*dest;
 	int		i;

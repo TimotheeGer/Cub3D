@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/08 12:09:29 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/07 15:41:47 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 19:06:08 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,19 @@
 #include <math.h>
 #include "../includes/cub3D.h"
 
-// #define mapWidth 24
-// #define mapHeight 24
-// #define screenWidth 1080
-// #define screenHeight 920
-// #define PI 3.1415926535
-// #define P2 PI/2
-// #define P3 3*PI/2
-// #define DR 0.0174533
-
 void	ft_init(t_data *d)
 {
 	ft_vue(d);
 	d->refresh = 1;
 	d->f.w = 1400;
 	d->f.h = 720;
-	d->par.Rx = 1400;
-	d->par.Ry = 720;
-	d->mapS = 5;
+	d->par.rx = 1400;
+	d->par.ry = 720;
+	d->maps = 5;
 	d->x = d->perso.pos_x + 0.5;
 	d->y = d->perso.pos_y + 0.5;
-	d->colorF = create_trgb(0, d->par.F[0], d->par.F[1], d->par.F[2]);
-	d->colorC = create_trgb(0, d->par.C[0], d->par.C[1], d->par.C[2]);
+	d->colorf = create_trgb(0, d->par.fl[0], d->par.fl[1], d->par.fl[2]);
+	d->colorc = create_trgb(0, d->par.ci[0], d->par.ci[1], d->par.ci[2]);
 	d->rota = 0.08;
 	d->move = 0.5;
 }
@@ -49,15 +40,13 @@ int	render_next_frame(t_data *data)
 	{
 		mlx_destroy_image(data->mlx, data->screen.img);
 	}
-	data->screen.img = mlx_new_image(data->mlx, data->par.Rx, data->par.Ry);
+	data->screen.img = mlx_new_image(data->mlx, data->par.rx, data->par.ry);
 	data->screen.addr = mlx_get_data_addr(data->screen.img,
 			&data->screen.bits_per_pixel,
 			&data->screen.line_length,
 			&data->screen.endian);
 	full_screen_bicolor(data);
 	raycaster(data);
-	drawMap(data);
-	drawPlayer2d(data, 1);
 	mlx_put_image_to_window(data->mlx, data->win, data->screen.img, 0, 0);
 	return (0);
 }
@@ -94,7 +83,7 @@ void	ft_get_text(t_data *d)
 			&d->par.t_ea.width, &d->par.t_ea.heigth);
 	if (!(d->par.t_ea.img))
 		ft_escape(65307, d, 1);
-	d->par.t_f.img = mlx_xpm_file_to_image(d->mlx, "./srcs/sol2.xpm",
+	d->par.t_f.img = mlx_xpm_file_to_image(d->mlx, "./srcs/texture/sol2.xpm",
 			&d->par.t_f.width, &d->par.t_f.heigth);
 	if (!(d->par.t_f.img))
 		ft_escape(65307, d, 1);
@@ -104,7 +93,7 @@ void	ft_get_text(t_data *d)
 void	ft_ray(t_data *d)
 {
 	d->mlx = mlx_init();
-	d->win = mlx_new_window(d->mlx, 1400, 720, "***Cub3D***");
+	d->win = mlx_new_window(d->mlx, 1400, 720, "Cub3D");
 	ft_init(d);
 	ft_get_text(d);
 	mlx_hook(d->win, 33, 1L << 17, ft_cross, d);

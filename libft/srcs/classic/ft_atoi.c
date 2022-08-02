@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 13:11:55 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:26:18 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:12:14 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 int	ft_atoi(const char *nptr)
 {
-	int i;
-	int res;
-	int neg;
+	int	i;
+	int	res;
+	int	neg;
 
 	i = 0;
 	res = 0;

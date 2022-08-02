@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/25 17:33:05 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:29:40 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:11:28 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static char	*getword(char const *s, int i, int newword)
 
 	size = i - newword;
 	index = 0;
-	if (!(ptr = malloc(sizeof(char) * ((newword) + 1))))
+	ptr = malloc(sizeof(char) * ((newword) + 1));
+	if (!(ptr))
 		return (NULL);
 	while (size < i)
 	{
@@ -82,7 +83,7 @@ static char	**getsplit(char **ptr, char const *s, char c, int count)
 	return (ptr);
 }
 
-char		**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	int		count;
 	char	**ptr;
@@ -90,7 +91,8 @@ char		**ft_split(char const *s, char c)
 	if (!s)
 		return (NULL);
 	count = countword(s, c);
-	if (!(ptr = malloc(sizeof(char*) * (count + 1))))
+	ptr = malloc(sizeof(char *) * (count + 1));
+	if (!(ptr))
 		return (NULL);
 	ptr = getsplit(ptr, s, c, count);
 	return (ptr);

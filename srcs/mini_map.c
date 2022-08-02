@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/25 12:36:19 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/07 15:18:52 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 17:15:42 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,23 @@ void	pmap(t_data *data, int x, int y, int max)
 	}
 }
 
-void	drawPlayer2d(t_data *data, int size)
+void	draw_player(t_data *data, int size)
 {
-	int	x2;
-	int	y2;
+	int	x;
+	int	y;
 
-	x2 = -size;
-	y2 = -size;
-	while (y2 <= size)
+	x = -size;
+	y = -size;
+	while (y <= size)
 	{
-		while (x2 <= size)
+		while (x <= size)
 		{
-			my_mlx_pixel_put(&data->screen, (data->y * data->mapS) + x2,
-				(data->x * data->mapS) + y2, 0XFFFF00);
-			x2++;
+			my_mlx_pixel_put(&data->screen, (data->y * data->maps) + x,
+				(data->x * data->maps) + y, 0XFFFF00);
+			x++;
 		}
-		x2 = -size;
-		y2++;
+		x = -size;
+		y++;
 	}
 }
 
@@ -55,7 +55,7 @@ void	init_map(t_data *d)
 	d->colormap1 = 0x0000FF;
 }
 
-void	drawMap(t_data *d)
+void	draw_map(t_data *d)
 {
 	init_map(d);
 	while (d->par.map[d->m.y])
@@ -64,14 +64,16 @@ void	drawMap(t_data *d)
 		{
 			if (d->par.map[d->m.y][d->m.x] == '1')
 				d->colormap1 = 0xFFFFFF;
-			else
+			else if (d->par.map[d->m.y][d->m.x] == '0')
 				d->colormap1 = 0x000000;
-			d->m.xo = d->m.x * d->mapS;
-			d->m.yo = d->m.y * d->mapS;
+			d->m.xo = d->m.x * d->maps;
+			d->m.yo = d->m.y * d->maps;
 			d->m.xa = 0 + d->m.xo + 1;
-			while (d->m.xa < d->mapS + d->m.xo - 1)
+			while (d->m.xa < d->maps + d->m.xo - 1)
 			{
-				pmap(d, d->m.xa, 0 + d->m.yo + 1, d->mapS + d->m.yo - 1);
+				if (d->par.map[d->m.y][d->m.x] == '1'
+					|| d->par.map[d->m.y][d->m.x] == '0')
+					pmap(d, d->m.xa, 0 + d->m.yo + 1, d->maps + d->m.yo - 1);
 				d->m.xa++;
 			}
 			d->m.x++;

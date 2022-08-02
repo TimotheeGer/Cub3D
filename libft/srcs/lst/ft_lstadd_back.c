@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 10:41:37 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:34:20 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:03:28 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstadd_back(t_list **alst, t_list *new)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (!alst || !new)
 		return ;

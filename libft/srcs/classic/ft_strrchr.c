@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/19 15:52:42 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:30:22 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:20:42 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strrchr(const char *s, int c)
 	char	*str;
 
 	i = 0;
-	str = (char*)s;
+	str = (char *)s;
 	while (str[i] != '\0')
 	{
 		i++;

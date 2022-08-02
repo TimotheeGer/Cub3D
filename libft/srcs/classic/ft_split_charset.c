@@ -6,16 +6,16 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/14 11:27:43 by ldrieu            #+#    #+#             */
-/*   Updated: 2021/04/14 16:22:53 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/11 13:39:34 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/libft.h"
 #include <stdlib.h>
 
-int		cmp_char(char c, char *str)
+int	cmp_char(char c, char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (str[0] == '\0')
@@ -29,11 +29,11 @@ int		cmp_char(char c, char *str)
 	return (0);
 }
 
-int		count_words(char *str, char *charset)
+int	count_words(char *str, char *charset)
 {
-	int i;
-	int count;
-	int check;
+	int	i;
+	int	count;
+	int	check;
 
 	i = 0;
 	count = 0;
@@ -54,9 +54,9 @@ int		count_words(char *str, char *charset)
 	return (count);
 }
 
-int		lengthword(char *str, int k, char *charset)
+int	lengthword(char *str, int k, char *charset)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	if (charset[0] == '\0')
@@ -65,7 +65,7 @@ int		lengthword(char *str, int k, char *charset)
 			len++;
 		return (len);
 	}
-	while (cmp_char(str[k], charset) == 0)
+	while (str[k] && cmp_char(str[k], charset) == 0)
 	{
 		k++;
 		len++;
@@ -79,7 +79,8 @@ char	*strsub(char *str, int start, int size)
 	int		i;
 
 	i = 0;
-	if (!(newstr = (char *)malloc(sizeof(char) * (size + 1))))
+	newstr = (char *)malloc(sizeof(char) * (size + 1) + 1);
+	if (!(newstr))
 		return (NULL);
 	while (i < size)
 	{
@@ -103,7 +104,8 @@ char	**ft_split_charset(char *str, char *charset)
 	if (str == NULL)
 		return (NULL);
 	words = count_words(str, charset);
-	if (!(split = (char **)malloc(sizeof(char *) * (words + 1))))
+	split = (char **)malloc(sizeof(char *) * (words + 1));
+	if (!(split))
 		return (NULL);
 	while (words > 0)
 	{

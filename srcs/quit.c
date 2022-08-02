@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/06 13:43:57 by tigerber          #+#    #+#             */
-/*   Updated: 2021/07/07 15:46:07 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/04 18:06:42 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_quit(int a, char *str, t_para *par)
 	}
 	if (a == 0)
 		write(2, str, ft_strlen(str));
-	if (&par->lst_begin)
+	if (par->lst_begin)
 		ft_lstclear(&par->lst_begin, free);
 	if (par)
 		free_struct(par);

@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/23 17:48:15 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:29:51 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:29:50 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ char	*ft_strjoin(const char *s1, const char *s2)
 	j = 0;
 	if (!s1 || !s2)
 		return (NULL);
-	if (!(str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1)))
+	str = malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!(str))
 		return (NULL);
 	while (s1[j] != '\0')
 	{

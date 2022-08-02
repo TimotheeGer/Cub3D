@@ -6,7 +6,7 @@
 /*   By: tigerber <tigerber@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 10:55:25 by tigerber          #+#    #+#             */
-/*   Updated: 2021/03/31 12:29:54 by tigerber         ###   ########.fr       */
+/*   Updated: 2022/02/10 15:20:09 by tigerber         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)
 {
-	size_t i;
-	size_t j;
-	size_t lendest;
-	size_t lensrc;
+	size_t	i;
+	size_t	j;
+	size_t	lendest;
+	size_t	lensrc;
 
 	i = 0;
 	lendest = ft_strlen(dst);
